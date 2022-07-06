@@ -62,7 +62,7 @@ author: Cristian Paoluzi <cpaoluzi@sogei.it> - DevOps Manager
 updated on: 2022-07-06
 
 [//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen. Thanks SO - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
-[jwt-generator]: <>
-[pdf-generator]: <>
+[jwt-generator]: <https://github.com/ministero-salute/it-fse-gtw-tools/tree/main/jwt-generator>
+[pdf-generator]: <https://github.com/ministero-salute/it-fse-gtw-tools/tree/main/pdf-generator>
 [jdk.zip]: <https://aka.ms/download-jdk/microsoft-jdk-17.0.3-windows-x64.zip>
 [maven]: <https://maven.apache.org/download.cgi>
