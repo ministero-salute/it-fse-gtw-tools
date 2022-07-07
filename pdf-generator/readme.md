@@ -42,7 +42,7 @@ Navigate to the root folder of the application and execute the command:
 
 `mvn clean package`
 
-If the build succeeds, a file <em> fpm.jar </em> will be generated in the target folder.
+If the build succeeds, a file <em> pdf-generator.jar </em> will be generated in the target folder.
 
 ---
 
@@ -50,7 +50,7 @@ If the build succeeds, a file <em> fpm.jar </em> will be generated in the target
 
 To execute the jar use the command:
 
-`java -jar fpm.jar`
+`java -jar pdf-generator.jar`
 
 Use help argument to check it's syntax:
 `java -jar pdf-generator.jar -h`
@@ -70,4 +70,4 @@ The above command will show a help that explain how to use the application, argu
 
 The following command will inject a CDA.xml file into a sample.pdf, the file can be used to call FSE2.0-Gateway validator service:
 
-`java -jar fpm.jar -c CDA_OK.xml -x`
+`java -jar pdf-generator.jar -c CDA_OK.xml -x`
