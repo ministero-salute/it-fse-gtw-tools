@@ -44,7 +44,7 @@ Navigate to the root folder of the application and execute the command:
 
 `mvn clean package`
 
-If the build succeeds, a file <em> fjm.jar </em> will be generated in the target folder.
+If the build succeeds, a file <em> jwt-generator.jar </em> will be generated in the target folder.
 
 ---
 
@@ -52,11 +52,11 @@ If the build succeeds, a file <em> fjm.jar </em> will be generated in the target
 
 To execute the jar use the command:
 
-`java -jar fjm.jar`
+`java -jar jwt-generator.jar`
 
 Use help argument to check it's syntax:
 
-`java -jar fjm.jar -h`
+`java -jar jwt-generator.jar -h`
 
 The above command will show a help that explain how to use the application, arguments accepted are defined as following:
 
