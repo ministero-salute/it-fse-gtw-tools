@@ -53,7 +53,7 @@ To execute the jar use the command:
 `java -jar fpm.jar`
 
 Use help argument to check it's syntax:
-`java -jar fpm.jar -h`
+`java -jar pdf-generator.jar -h`
 
 The above command will show a help that explain how to use the application, arguments accepted are defined as following:
 
