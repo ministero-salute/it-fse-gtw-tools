@@ -55,7 +55,7 @@ enum ArgumentEnum {
 	/**
 	 * Flag mode or argument.
 	 */
-	private Boolean flagHasValue;
+	private boolean flagHasValue;
 	
 	/**
 	 * Key description (for help page).
@@ -70,7 +70,7 @@ enum ArgumentEnum {
 	 * @param inFlagHasValue	flag mode or argument
 	 * @param inDescription		description
 	 */
-	private ArgumentEnum(String inKey, Boolean inFlagHasValue, String inDescription) {
+	private ArgumentEnum(String inKey, boolean inFlagHasValue, String inDescription) {
 		key = inKey;
 		flagHasValue = inFlagHasValue;
 		description = inDescription;
@@ -90,7 +90,7 @@ enum ArgumentEnum {
 	 * 
 	 * @return	flag attribute or mode
 	 */
-	public Boolean getFlagHasValue() {
+	public boolean getFlagHasValue() {
 		return flagHasValue;
 	}
 
@@ -109,7 +109,7 @@ enum ArgumentEnum {
 	 * @param key	key	
 	 * @return		argument
 	 */
-	static public ArgumentEnum getByKey(String key) {
+	public static ArgumentEnum getByKey(String key) {
 		ArgumentEnum out = null;
 		for (ArgumentEnum a:ArgumentEnum.values()) {
 			if (a.getKey().equals(key)) {

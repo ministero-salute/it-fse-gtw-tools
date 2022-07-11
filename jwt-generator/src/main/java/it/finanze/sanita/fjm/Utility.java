@@ -67,7 +67,7 @@ public class Utility {
 	    try (ByteArrayInputStream bais = new ByteArrayInputStream(p12)) {
 	        java.security.KeyStore keyStore = KeyStore.getInstance("PKCS12", "BC");
 	        keyStore.load(bais, password);
-	        return (Key) keyStore.getKey(alias, password);
+	        return keyStore.getKey(alias, password);
 	    } catch (Exception e) {
 			LOGGER.info(String.format("Error while extracting key by alais from p12: %s", 
 					ExceptionUtils.getStackTrace(e)));
@@ -109,7 +109,7 @@ public class Utility {
 	 * @param hours	hours to add
 	 * @return		updated date
 	 */
-	static public Date addHoursToJavaUtilDate(Date date, int hours) {
+	public static Date addHoursToJavaUtilDate(Date date, int hours) {
 	    Calendar calendar = Calendar.getInstance();
 	    calendar.setTime(date);
 	    calendar.add(Calendar.HOUR_OF_DAY, hours);
@@ -150,12 +150,12 @@ public class Utility {
 	 * @param str	string to check
 	 * @return		flag
 	 */
-	public static Boolean nullOrEmpty(String str) {
+	public static boolean nullOrEmpty(String str) {
 		return (str == null) || str.length() == 0;
 	}
 	
 	public static Logger getLogger(String className) {
-		final Logger LOGGER = Logger.getLogger(className);
+		final Logger logger = Logger.getLogger(className);
 		final ConsoleHandler consoleHandler = new ConsoleHandler();
 	
 		final Formatter f = new Formatter() {
@@ -166,8 +166,8 @@ public class Utility {
 		};
 	
 		consoleHandler.setFormatter(f);
-		LOGGER.addHandler(consoleHandler);
-		LOGGER.setUseParentHandlers(false);
-		return LOGGER;
+		logger.addHandler(consoleHandler);
+		logger.setUseParentHandlers(false);
+		return logger;
 	}
 }

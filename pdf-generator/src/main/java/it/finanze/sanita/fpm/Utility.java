@@ -84,12 +84,12 @@ public class Utility {
 	 * @param str	string to check
 	 * @return		flag
 	 */
-	public static Boolean nullOrEmpty(String str) {
+	public static boolean nullOrEmpty(String str) {
 		return (str == null) || str.length() == 0;
 	}
 	
 	public static Logger getLogger(String className) {
-		final Logger LOGGER = Logger.getLogger(className);
+		final Logger logger = Logger.getLogger(className);
 		final ConsoleHandler consoleHandler = new ConsoleHandler();
 	
 		final Formatter f = new Formatter() {
@@ -100,9 +100,9 @@ public class Utility {
 		};
 	
 		consoleHandler.setFormatter(f);
-		LOGGER.addHandler(consoleHandler);
-		LOGGER.setUseParentHandlers(false);
-		return LOGGER;
+		logger.addHandler(consoleHandler);
+		logger.setUseParentHandlers(false);
+		return logger;
 	}
 
 	public static byte[] getByteFromInputStream(final InputStream is) throws Exception {

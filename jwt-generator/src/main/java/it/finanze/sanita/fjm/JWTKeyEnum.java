@@ -127,7 +127,7 @@ enum JWTKeyEnum {
 	/**
 	 * Flag claim retrive from json data.
 	 */
-	private Boolean flagAutoPayloadClaim;
+	private boolean flagAutoPayloadClaim;
 
 	/**
 	 * Constructor.
@@ -135,7 +135,7 @@ enum JWTKeyEnum {
 	 * @param inKey						key
 	 * @param inFlagAutoPayloadClaim	flag claim retrive from json data
 	 */
-	private JWTKeyEnum(String inKey, Boolean inFlagAutoPayloadClaim) {
+	private JWTKeyEnum(String inKey, boolean inFlagAutoPayloadClaim) {
 		key = inKey;
 		flagAutoPayloadClaim = inFlagAutoPayloadClaim;
 	}
@@ -153,7 +153,7 @@ enum JWTKeyEnum {
 	 * Getter flag claim retrive from json data
 	 * @return	claim retrive from json data
 	 */
-	public Boolean getAutoFlagPayloadClaim() {
+	public boolean getAutoFlagPayloadClaim() {
 		return flagAutoPayloadClaim;
 	}
 

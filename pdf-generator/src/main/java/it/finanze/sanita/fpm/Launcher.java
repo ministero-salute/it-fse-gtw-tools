@@ -29,6 +29,14 @@ public class Launcher {
 
 	static final Logger LOGGER = Utility.getLogger(Launcher.class.getName());
 
+	static String pathFilePDF = null;
+	static String pathFileCDA = null;
+	static boolean flagMalformedInput = false;
+	static boolean flagNeedHelp = false;
+	static boolean flagVerbose = false;
+	static boolean flagValidation = false;
+	static String pathOutput = null;
+
 	/**
 	 * Main method.
 	 * 
@@ -41,102 +49,114 @@ public class Launcher {
 		LOGGER.info("|__|  |_____|___|  |__|  |____/|__|     |_|_|_|__,|_,_|___|_|  \n");
 
 		try {
-			String pathFilePDF = null;
-			String pathFileCDA = null;
-			Boolean flagMalformedInput = false;
-			Boolean flagNeedHelp = false;
-			Boolean flagVerbose = false;
-			Boolean flagValidation = false;
-			String pathOutput = null;
 
-			for (int i = 0; i < args.length;) {
-				String key = args[i].toLowerCase();
-				ArgumentEnum arg = ArgumentEnum.getByKey(key);
-
-				if (arg == null) {
-					flagMalformedInput = true;
-					break;
-				} else {
-					if (arg.getFlagHasValue()) {
-						String value = null;
-						if (i + 1 < args.length) {
-							value = args[i + 1];
-						} else {
-							flagMalformedInput = true;
-							break;
-						}
-
-						if (ArgumentEnum.FILE_PDF.equals(arg)) {
-							pathFilePDF = value;
-						} else if (ArgumentEnum.FILE_CDA.equals(arg)) {
-							pathFileCDA = value;
-						} else if(ArgumentEnum.FILE_OUTPUT.equals(arg)) {
-							pathOutput = value;
-						}
-
-						i += 2;
-					} else {
-						i++;
-						if (ArgumentEnum.HELP_MODE.equals(arg)) {
-							flagNeedHelp = true;
-							break;
-						} else if (ArgumentEnum.VERBOSE_MODE.equals(arg)) {
-							flagVerbose = true;
-						} else if (ArgumentEnum.VALIDATION_MODE.equals(arg)) {
-							flagValidation = true;
-						}
-					}
-				}
-			}
+			checkArgs(args);
 
 			if (flagNeedHelp) {
 				showHelp();
 			} else if (flagMalformedInput) {
 				LOGGER.info("Please check for malformed input; please remember that CDA path file is mandatory.");
 			} else {
-
-				byte[] filePDF = null;
-				if (pathFilePDF == null || pathFilePDF.length()==0) {
-					filePDF = createSample(); 
-					pathFilePDF = "USING INTERNAL RESOURCE";
-					String l = filePDF!=null ? ""+filePDF.length : null;
-					dumpVerboseMsg(flagVerbose, "l : " + l);
-				} else {
-					filePDF = Utility.getFileFromFS(pathFilePDF);
-				}
-				byte[] fileCDA = Utility.getFileFromFS(pathFileCDA);
-
-				dumpVerboseMsg(flagVerbose, "Analyzing data\n");
-				dumpVerboseMsg(flagVerbose, "Path file CDA: " + pathFileCDA);
-				dumpVerboseMsg(flagVerbose, "Path file PDF: " + pathFilePDF);
-
-				dumpVerboseMsg(flagVerbose, "\nGenerating File\n");
-
-				byte[] output = inject(filePDF, fileCDA);
-
-				if(Utility.nullOrEmpty(pathOutput) ) {
-					pathOutput = "output.pdf";
-				}
-				
-				Utility.saveToFile(output, pathOutput);
-
-				dumpVerboseMsg(flagVerbose, "File generated.\n");
-
-				if (flagValidation) {
-					LOGGER.info("Extracting CDA\n");
-					String cda = extract(output);
-					if (Utility.nullOrEmpty(cda)) {
-						cda = "EMPTY CDA!";
-					}
-					LOGGER.info("CDA: " + cda);
-				}
-
+				buildPdf();
 			}
 		} catch (Exception e) {
 			LOGGER.info("An error occur while trying to inject PDF, hope this can help:");
 			LOGGER.info(String.format("EXCEPTION: ", ExceptionUtils.getStackTrace(e)));
 		}
 	}
+
+
+	private static void checkArgs(String[] args) {
+		for (int i = 0; i < args.length;) {
+			String key = args[i].toLowerCase();
+			ArgumentEnum arg = ArgumentEnum.getByKey(key);
+
+			if (arg == null) {
+				flagMalformedInput = true;
+				break;
+			} else {
+				if (arg.getFlagHasValue()) {
+					String value = null;
+					if (i + 1 < args.length) {
+						value = args[i + 1];
+					} else {
+						flagMalformedInput = true;
+						break;
+					}
+
+					checkValueArg(arg, value);
+
+					i += 2;
+				} else {
+					i++;
+
+					checkNoValueArg(arg);
+					
+				}
+			}
+		}
+	}
+
+	private static void checkValueArg(ArgumentEnum arg, String value) {
+
+		if (ArgumentEnum.FILE_PDF.equals(arg)) {
+			pathFilePDF = value;
+		} else if (ArgumentEnum.FILE_CDA.equals(arg)) {
+			pathFileCDA = value;
+		} else if(ArgumentEnum.FILE_OUTPUT.equals(arg)) {
+			pathOutput = value;
+		}
+
+	}
+
+	private static void checkNoValueArg(ArgumentEnum arg) {
+		if (ArgumentEnum.HELP_MODE.equals(arg)) {
+			flagNeedHelp = true;
+		} else if (ArgumentEnum.VERBOSE_MODE.equals(arg)) {
+			flagVerbose = true;
+		} else if (ArgumentEnum.VALIDATION_MODE.equals(arg)) {
+			flagValidation = true;
+		}
+	}
+
+	private static void buildPdf() throws Exception {
+		byte[] filePDF = null;
+		if (pathFilePDF == null || pathFilePDF.length() == 0) {
+			filePDF = createSample();
+			pathFilePDF = "USING INTERNAL RESOURCE";
+			String l = filePDF != null ? "" + filePDF.length : null;
+			dumpVerboseMsg(flagVerbose, "l : " + l);
+		} else {
+			filePDF = Utility.getFileFromFS(pathFilePDF);
+		}
+		byte[] fileCDA = Utility.getFileFromFS(pathFileCDA);
+
+		dumpVerboseMsg(flagVerbose, "Analyzing data\n");
+		dumpVerboseMsg(flagVerbose, "Path file CDA: " + pathFileCDA);
+		dumpVerboseMsg(flagVerbose, "Path file PDF: " + pathFilePDF);
+
+		dumpVerboseMsg(flagVerbose, "\nGenerating File\n");
+
+		byte[] output = inject(filePDF, fileCDA);
+
+		if (Utility.nullOrEmpty(pathOutput)) {
+			pathOutput = "output.pdf";
+		}
+
+		Utility.saveToFile(output, pathOutput);
+
+		dumpVerboseMsg(flagVerbose, "File generated.\n");
+
+		if (flagValidation) {
+			LOGGER.info("Extracting CDA\n");
+			String cda = extract(output);
+			if (Utility.nullOrEmpty(cda)) {
+				cda = "EMPTY CDA!";
+			}
+			LOGGER.info("CDA: " + cda);
+		}
+	}
+
 
 	/**
 	 * Show help info.
@@ -165,7 +185,7 @@ public class Launcher {
 	 * @param flagVerbose flag verbose mode
 	 * @param msg         messagge
 	 */
-	private static void dumpVerboseMsg(Boolean flagVerbose, String msg) {
+	private static void dumpVerboseMsg(boolean flagVerbose, String msg) {
 		if (flagVerbose) {
 			LOGGER.info(msg);
 		}

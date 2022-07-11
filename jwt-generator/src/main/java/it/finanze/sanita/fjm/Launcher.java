@@ -34,6 +34,16 @@ public class Launcher {
 
 	static final Logger LOGGER = Utility.getLogger(Launcher.class.getName());
 
+	static String jsonData = null;
+	static String pathFileToPublish = null;
+	static String aliasP12 = null;
+	static char[] pwdP12 = null;
+	static Integer nHour = 24;
+	static boolean flagMalformedInput = false;
+	static boolean flagNeedHelp = false;
+	static boolean flagVerbose = false;
+	static boolean flagValidation = false;
+
 	/**
 	 * Main method.
 	 * 
@@ -47,59 +57,8 @@ public class Launcher {
 		LOGGER.info("|__|   |_____||___|  |_____||_____|  |_|    |_|_|_||__,||_,_||___||_|  \n");
 
 		try {
-			String jsonData = null;
-			String pathFileToPublish = null;
-			String aliasP12 = null;
-			char[] pwdP12 = null;
-			Integer nHour = 24;
-			Boolean flagMalformedInput = false;
-			Boolean flagNeedHelp = false;
-			Boolean flagVerbose = false;
-			Boolean flagValidation = false;
 
-			for (int i = 0; i < args.length;) {
-				String key = args[i].toLowerCase();
-				ArgumentEnum arg = ArgumentEnum.getByKey(key);
-
-				if (arg == null) {
-					flagMalformedInput = true;
-					break;
-				} else {
-					if (arg.getFlagHasValue()) {
-						String value = null;
-						if (i + 1 < args.length) {
-							value = args[i + 1];
-						} else {
-							flagMalformedInput = true;
-							break;
-						}
-
-						if (ArgumentEnum.JSON_DATA.equals(arg)) {
-							jsonData = value;
-						} else if (ArgumentEnum.DURATION_JWT.equals(arg)) {
-							nHour = Integer.valueOf(value);
-						} else if (ArgumentEnum.FILE_TO_PUBLISH.equals(arg)) {
-							pathFileToPublish = value;
-						} else if (ArgumentEnum.P12_ALIAS.equals(arg)) {
-							aliasP12 = value;
-						} else if (ArgumentEnum.P12_PWD.equals(arg)) {
-							pwdP12 = value.toCharArray();
-						}
-
-						i += 2;
-					} else {
-						i++;
-						if (ArgumentEnum.HELP_MODE.equals(arg)) {
-							flagNeedHelp = true;
-							break;
-						} else if (ArgumentEnum.VERBOSE_MODE.equals(arg)) {
-							flagVerbose = true;
-						} else if (ArgumentEnum.VALIDATION_MODE.equals(arg)) {
-							flagValidation = true;
-						}
-					}
-				}
-			}
+			checkArgs(args);
 
 			if (flagNeedHelp) {
 				showHelp(LOGGER);
@@ -108,69 +67,7 @@ public class Launcher {
 				LOGGER.info(
 						"Please check for malformed input; please remember that alias p12, password p12 and json data are mandatory.");
 			} else {
-
-				Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
-
-				Map mapJD = new Gson().fromJson(new String(Utility.getFileFromFS(jsonData)), Map.class);
-
-				byte[] privateKeyP12 = Utility.getFileFromFS(get(mapJD, JWTKeyEnum.P12_PATH));
-				Key privateKey = Utility.extractKeyByAliasFromP12(pwdP12, aliasP12, privateKeyP12);
-
-				byte[] pem = Utility.getFileFromFS(get(mapJD, JWTKeyEnum.PEM_PATH));
-
-				String cleanedPEM = new String(pem)
-						.replace("-----BEGIN PUBLIC KEY-----", "")
-						.replaceAll(System.lineSeparator(), "")
-						.replace("-----END PUBLIC KEY-----", "")
-						.replace("-----BEGIN CERTIFICATE-----", "")
-						.replaceAll(System.lineSeparator(), "")
-						.replace("-----END CERTIFICATE-----", "")
-						.replace("\n", "");
-
-				String publicKey = cleanedPEM;
-
-				dumpVerboseMsg(flagVerbose, "Analyzing data\n");
-				Date iat = new Date();
-				Date exp = Utility.addHoursToJavaUtilDate(iat, nHour);
-
-				dumpVerboseMsg(flagVerbose, "Issued At Time: " + iat);
-				dumpVerboseMsg(flagVerbose, "EXPiration time: " + exp);
-				if (privateKey != null) {
-					dumpVerboseMsg(flagVerbose, "Private key founded.");
-				} else {
-					dumpVerboseMsg(flagVerbose, "Private key NOT FOUNDED!");
-				}
-				if (!Utility.nullOrEmpty(publicKey)) {
-					dumpVerboseMsg(flagVerbose, "Public key founded.");
-				} else {
-					dumpVerboseMsg(flagVerbose, "Public key NOT FOUNDED!");
-				}
-				Integer nDataItems = 0;
-				if (mapJD != null && mapJD.size() > 0) {
-					nDataItems = mapJD.size();
-				}
-				dumpVerboseMsg(flagVerbose, "Json data items founded: " + nDataItems + ".\n");
-
-				String jwt = generateJWT(mapJD, privateKey, publicKey, iat, exp, pathFileToPublish);
-
-				dumpVerboseMsg(flagVerbose, "Generating token\n");
-				dumpVerboseMsg(flagVerbose, "JWT START HERE");
-				LOGGER.info(jwt);
-				dumpVerboseMsg(flagVerbose, "JWT END HERE\n");
-
-				if (flagValidation) {
-					LOGGER.info("Validating Token\n");
-					Jwt token = Jwts.parser().setSigningKey(privateKey).parse(jwt);
-					LOGGER.info("HEADER: " + token.getHeader());
-					LOGGER.info("BODY: " + token.getBody());
-					Boolean outValidation = validate(jwt, pem);
-					String signatureStatus = "VALID";
-					if (!outValidation) {
-						signatureStatus = "NOT VALID";
-					}
-					LOGGER.info("SIGNATURE: " + signatureStatus);
-
-				}
+				buildToken();
 			}
 		} catch (Exception e) {
 			LOGGER.info("An error occur while trying to generate JWT, hope this can help:");
@@ -178,24 +75,151 @@ public class Launcher {
 		}
 	}
 
+	private static void checkArgs(String[] args) {
+
+		for (int i = 0; i < args.length;) {
+			String key = args[i].toLowerCase();
+			ArgumentEnum arg = ArgumentEnum.getByKey(key);
+
+			if (arg == null) {
+				flagMalformedInput = true;
+				break;
+			} else {
+				if (arg.getFlagHasValue()) {
+					String value = null;
+					if (i + 1 < args.length) {
+						value = args[i + 1];
+					} else {
+						flagMalformedInput = true;
+						break;
+					}
+
+					checkValueArg(arg, value);
+
+					i += 2;
+				} else {
+					i++;
+					checkNoValueArg(arg);
+				}
+			}
+		}
+
+	}
+
+	private static void checkValueArg(ArgumentEnum arg, String value) {
+
+		if (ArgumentEnum.JSON_DATA.equals(arg)) {
+			jsonData = value;
+		} else if (ArgumentEnum.DURATION_JWT.equals(arg)) {
+			nHour = Integer.valueOf(value);
+		} else if (ArgumentEnum.FILE_TO_PUBLISH.equals(arg)) {
+			pathFileToPublish = value;
+		} else if (ArgumentEnum.P12_ALIAS.equals(arg)) {
+			aliasP12 = value;
+		} else if (ArgumentEnum.P12_PWD.equals(arg)) {
+			pwdP12 = value.toCharArray();
+		}
+		
+	}
+
+
+	private static void checkNoValueArg(ArgumentEnum arg) {
+		if (ArgumentEnum.HELP_MODE.equals(arg)) {
+			flagNeedHelp = true;
+		} else if (ArgumentEnum.VERBOSE_MODE.equals(arg)) {
+			flagVerbose = true;
+		} else if (ArgumentEnum.VALIDATION_MODE.equals(arg)) {
+			flagValidation = true;
+		}
+	}
+
+
+
+	private static void buildToken() throws Exception {
+
+		Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
+
+		Map mapJD = new Gson().fromJson(new String(Utility.getFileFromFS(jsonData)), Map.class);
+
+		byte[] privateKeyP12 = Utility.getFileFromFS(get(mapJD, JWTKeyEnum.P12_PATH));
+		Key privateKey = Utility.extractKeyByAliasFromP12(pwdP12, aliasP12, privateKeyP12);
+
+		byte[] pem = Utility.getFileFromFS(get(mapJD, JWTKeyEnum.PEM_PATH));
+
+		String cleanedPEM = new String(pem)
+				.replace("-----BEGIN PUBLIC KEY-----", "")
+				.replaceAll(System.lineSeparator(), "")
+				.replace("-----END PUBLIC KEY-----", "")
+				.replace("-----BEGIN CERTIFICATE-----", "")
+				.replaceAll(System.lineSeparator(), "")
+				.replace("-----END CERTIFICATE-----", "")
+				.replace("\n", "");
+
+		String publicKey = cleanedPEM;
+
+		dumpVerboseMsg(flagVerbose, "Analyzing data\n");
+		Date iat = new Date();
+		Date exp = Utility.addHoursToJavaUtilDate(iat, nHour);
+
+		dumpVerboseMsg(flagVerbose, "Issued At Time: " + iat);
+		dumpVerboseMsg(flagVerbose, "EXPiration time: " + exp);
+		if (privateKey != null) {
+			dumpVerboseMsg(flagVerbose, "Private key founded.");
+		} else {
+			dumpVerboseMsg(flagVerbose, "Private key NOT FOUNDED!");
+		}
+		if (!Utility.nullOrEmpty(publicKey)) {
+			dumpVerboseMsg(flagVerbose, "Public key founded.");
+		} else {
+			dumpVerboseMsg(flagVerbose, "Public key NOT FOUNDED!");
+		}
+		Integer nDataItems = 0;
+		if (mapJD.size() > 0) {
+			nDataItems = mapJD.size();
+		}
+		dumpVerboseMsg(flagVerbose, "Json data items founded: " + nDataItems + ".\n");
+
+		String jwt = generateJWT(mapJD, privateKey, publicKey, iat, exp, pathFileToPublish);
+
+		dumpVerboseMsg(flagVerbose, "Generating token\n");
+		dumpVerboseMsg(flagVerbose, "JWT START HERE");
+		LOGGER.info(jwt);
+		dumpVerboseMsg(flagVerbose, "JWT END HERE\n");
+
+		if (flagValidation) {
+			LOGGER.info("Validating Token\n");
+			Jwt token = Jwts.parser().setSigningKey(privateKey).parse(jwt);
+			LOGGER.info("HEADER: " + token.getHeader());
+			LOGGER.info("BODY: " + token.getBody());
+			boolean outValidation = validate(jwt, pem);
+			String signatureStatus = "VALID";
+			if (!outValidation) {
+				signatureStatus = "NOT VALID";
+			}
+			LOGGER.info("SIGNATURE: " + signatureStatus);
+
+		}
+
+	}
+
 	/**
 	 * Show help info.
 	 */
-	private static void showHelp(final Logger LOGGER) {
+	private static void showHelp(final Logger logger) {
 
-		LOGGER.info("NAME");
-		LOGGER.info("\t\tFS2 JWT Maker (fjm) - JWT generator for FS2 Gateway\n");
-		LOGGER.info("SYNOPSIS");
-		LOGGER.info(
+		logger.info("NAME");
+		logger.info("\t\tFS2 JWT Maker (fjm) - JWT generator for FS2 Gateway\n");
+		logger.info("SYNOPSIS");
+		logger.info(
 				"\t\tjava -jar fjm -d JSON_DATA_FILE -a ALIAS_P12 -p PASSWORD_P12 [-f PDF_FILE_TO_PUBLISH] [-t TOKEN_DURATION] [-v] [-x] [-h]");
-		LOGGER.info("");
-		LOGGER.info("DESCRIPTION");
-		LOGGER.info("\t\tGenerate JWT for FS2 Gateway");
-		LOGGER.info("");
-		LOGGER.info("\t\tArguments:");
+		logger.info("");
+		logger.info("DESCRIPTION");
+		logger.info("\t\tGenerate JWT for FS2 Gateway");
+		logger.info("");
+		logger.info("\t\tArguments:");
 		for (ArgumentEnum ae : ArgumentEnum.values()) {
-			LOGGER.info("");
-			LOGGER.info("\t\t" + ae.getKey() + "\t" + ae.getDescription());
+			logger.info("");
+			logger.info("\t\t" + ae.getKey() + "\t" + ae.getDescription());
 		}
 	}
 
@@ -258,8 +282,8 @@ public class Launcher {
 	 * @param pem perm certificate
 	 * @return flag
 	 */
-	private static Boolean validate(String jwt, byte[] pem) {
-		Boolean out = true;
+	private static boolean validate(String jwt, byte[] pem) {
+		boolean out = true;
 		try {
 			final RSAPublicKey key = getPublicKey(pem);
 			final Algorithm algorithm = Algorithm.RSA256(key, null);
@@ -292,7 +316,7 @@ public class Launcher {
 	 * @param flagVerbose flag verbose mode
 	 * @param msg         messagge
 	 */
-	private static void dumpVerboseMsg(Boolean flagVerbose, String msg) {
+	private static void dumpVerboseMsg(boolean flagVerbose, String msg) {
 		if (flagVerbose) {
 			LOGGER.info(msg);
 		}
