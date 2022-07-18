@@ -1,8 +1,7 @@
 package it.finanze.sanita.fjm;
 
 /**
- * 
- * @author CPIERASC
+ * Copyright (c) 2022, Ministero della Salute
  *
  * JWT key.
  */

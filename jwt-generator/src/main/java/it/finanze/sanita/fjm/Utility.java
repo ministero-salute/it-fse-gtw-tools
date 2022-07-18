@@ -22,8 +22,7 @@ import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
 /**
- * 
- * @author CPIERASC
+ * Copyright (c) 2022, Ministero della Salute
  *
  * Utility class.
  * 

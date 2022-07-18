@@ -20,10 +20,9 @@ import org.apache.pdfbox.pdmodel.common.filespecification.PDEmbeddedFile;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
 /**
- * 
- * @author CPIERASC
+ * Copyright (c) 2022, Ministero della Salute
  *
- *         Launcher class.
+ * Launcher class.
  */
 public class Launcher {
 

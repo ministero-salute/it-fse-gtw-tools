@@ -13,8 +13,7 @@ import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
 /**
- * 
- * @author CPIERASC
+ * Copyright (c) 2022, Ministero della Salute
  *
  * Utility class.
  * 

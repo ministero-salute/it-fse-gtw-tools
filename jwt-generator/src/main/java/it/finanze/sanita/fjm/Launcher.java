@@ -25,10 +25,9 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 /**
- * 
- * @author CPIERASC
+ * Copyright (c) 2022, Ministero della Salute
  *
- *         Launcher class.
+ * Launcher class.
  */
 public class Launcher {
 

@@ -1,8 +1,8 @@
 package it.finanze.sanita.fpm;
 
 /**
- * @author CPIERASC
- * 
+ * Copyright (c) 2022, Ministero della Salute
+ *
  * Arguments enum.
  */
 enum ArgumentEnum {
