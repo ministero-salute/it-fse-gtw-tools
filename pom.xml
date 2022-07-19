@@ -9,6 +9,11 @@
   <packaging>pom</packaging>
   <description>Gateway Tools Parent POM</description>
 
+  <properties>
+    <sonar.organization>ministero-salute</sonar.organization>
+    <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+  </properties>
+
   <modules>
     <module>./jwt-generator</module>
     <module>./pdf-generator</module>
