@@ -1,3 +1,32 @@
+[![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-black.svg)](https://sonarcloud.io/summary/new_code?id=it.finanze.sanita.fse2%3Agtw-tools)
+<br/>
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=it.finanze.sanita.fse2%3Agtw-tools&metric=bugs)](https://sonarcloud.io/summary/new_code?id=it.finanze.sanita.fse2%3Agtw-tools)
+<br/>
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=it.finanze.sanita.fse2%3Agtw-tools&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=it.finanze.sanita.fse2%3Agtw-tools)
+<br/>
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=it.finanze.sanita.fse2%3Agtw-tools&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=it.finanze.sanita.fse2%3Agtw-tools)
+<br/>
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=it.finanze.sanita.fse2%3Agtw-tools&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=it.finanze.sanita.fse2%3Agtw-tools)
+<br/>
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=it.finanze.sanita.fse2%3Agtw-tools&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=it.finanze.sanita.fse2%3Agtw-tools)
+<br/>
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=it.finanze.sanita.fse2%3Agtw-tools&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=it.finanze.sanita.fse2%3Agtw-tools)
+<br/>
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=it.finanze.sanita.fse2%3Agtw-tools&metric=coverage)](https://sonarcloud.io/summary/new_code?id=it.finanze.sanita.fse2%3Agtw-tools)
+<br/>
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=it.finanze.sanita.fse2%3Agtw-tools&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=it.finanze.sanita.fse2%3Agtw-tools)
+<br/>
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=it.finanze.sanita.fse2%3Agtw-tools&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=it.finanze.sanita.fse2%3Agtw-tools)
+<br/>
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=it.finanze.sanita.fse2%3Agtw-tools&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=it.finanze.sanita.fse2%3Agtw-tools)
+<br/>
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=it.finanze.sanita.fse2%3Agtw-tools&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=it.finanze.sanita.fse2%3Agtw-tools)
+<br/>
+[![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=it.finanze.sanita.fse2%3Agtw-tools)](https://sonarcloud.io/summary/new_code?id=it.finanze.sanita.fse2%3Agtw-tools)
+<br/>
+
+---
+
 [![N|Solid](https://www.sogei.it/content/dam/sogei/loghi/Sogei_logo_304.svg)](https://www.sogei.it/it/sogei-homepage.html)
 
 # it-fse-gtw-tools
@@ -55,11 +84,10 @@ If the build is successful, the tools will be generated. Checkout each <em>readm
 
 <!--## License-->
 
-
 ----
 author: Cristian Paoluzi <cpaoluzi@sogei.it> - DevOps Manager
 
-updated on: 2022-07-06
+updated on: 2022-07-28
 
 [//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen. Thanks SO - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
 [jwt-generator]: <https://github.com/ministero-salute/it-fse-gtw-tools/tree/main/jwt-generator>
