@@ -63,9 +63,10 @@ The above command will show a help that explain how to use the application, argu
 | ARGUMENT | MANDATORY | TYPE | DESCRIPTION |
 | :------------: | :------------: | :------------: | ------------ |
 | -h | false | MODAL | Shows help screen with argument description. |
-| -x | false | MODAL | Set verbose mode that consent to gain more information about the result of operations.  |
-| -v | false | MODAL | Execute validation of the JWT token generated giving information about its signature validity. |
-| -t | false | VALUE | Consent to assign a number of hours of validity of the created token (default is 24 hours).  |
+| -x | false | MODAL | Sets verbose mode that consent to gain more information about the result of operations.  |
+| -v | false | MODAL | Executes validation of the JWT token generated giving information about its signature validity. |
+| -t | false | VALUE | Allows to assign a number of hours of validity of the created token (default is 24 hours).  |
+| -f | false | VALUE | Allows to specify a PDF file path (if given, the tool will calculate hash and use it as value in custom claim field: attachment_hash) |
 | -d | true  | VALUE | Complete path of data.json file where JWTToken parameters are located. |
 | -a | true  | VALUE | Alias of p12 cert used to execute the JWT signature |
 | -p | true  | VALUE | Password of p12 cert used to execute the JWT signature |
@@ -115,7 +116,7 @@ An example of data.json file is the following:
 
 ### Example
 
-The following command will generate a valid JWT Token that can be used to call FSE2.0-Gateway:
+The following command will generate two JWT Tokens that can be used to call FSE2.0-Gateway: the first (called Authorization Bearer Token) is a token containing all the claims used for authorization (ex. iss, iat, exp), while the second (FSE-JWT-Signature Token) contains all the custom claims.
 
 `java -jar jwt-generator.jar -d data.json -a {alias} -p {password} -t 1`
 

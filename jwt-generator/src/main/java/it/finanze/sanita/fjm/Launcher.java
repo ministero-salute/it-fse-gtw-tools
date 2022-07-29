@@ -20,6 +20,8 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.google.gson.Gson;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -133,17 +135,17 @@ public class Launcher {
 	}
 
 
-
+	@SuppressWarnings("unchecked")
 	private static void buildToken() throws Exception {
 
 		Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
 
-		Map mapJD = new Gson().fromJson(new String(Utility.getFileFromFS(jsonData)), Map.class);
+		Map<String, String> mapJD = new Gson().fromJson(new String(Utility.getFileFromFS(jsonData)), Map.class);
 
-		byte[] privateKeyP12 = Utility.getFileFromFS(get(mapJD, JWTKeyEnum.P12_PATH));
+		byte[] privateKeyP12 = Utility.getFileFromFS(get(mapJD, JWTAuthEnum.P12_PATH));
 		Key privateKey = Utility.extractKeyByAliasFromP12(pwdP12, aliasP12, privateKeyP12);
 
-		byte[] pem = Utility.getFileFromFS(get(mapJD, JWTKeyEnum.PEM_PATH));
+		byte[] pem = Utility.getFileFromFS(get(mapJD, JWTAuthEnum.PEM_PATH));
 
 		String cleanedPEM = new String(pem)
 				.replace("-----BEGIN PUBLIC KEY-----", "")
@@ -157,6 +159,7 @@ public class Launcher {
 		String publicKey = cleanedPEM;
 
 		dumpVerboseMsg(flagVerbose, "Analyzing data\n");
+		String iss = get(mapJD, JWTAuthEnum.ISS);
 		Date iat = new Date();
 		Date exp = Utility.addHoursToJavaUtilDate(iat, nHour);
 
@@ -178,16 +181,26 @@ public class Launcher {
 		}
 		dumpVerboseMsg(flagVerbose, "Json data items founded: " + nDataItems + ".\n");
 
-		String jwt = generateJWT(mapJD, privateKey, publicKey, iat, exp, pathFileToPublish);
+		String jwt = generateAuthJWT(mapJD, privateKey, publicKey, iat, exp, iss); 
+		String claimsJwt = generateClaimsJWT(mapJD, privateKey, publicKey, iat, exp, iss, pathFileToPublish); 
 
-		dumpVerboseMsg(flagVerbose, "Generating token\n");
-		dumpVerboseMsg(flagVerbose, "JWT START HERE");
+		dumpVerboseMsg(flagVerbose, "Generating Authorization Bearer Token\n");
+		dumpVerboseMsg(flagVerbose, "AUTHORIZATION BEARER TOKEN START HERE");
+		LOGGER.info("------------- Authorization Bearer Token ---------------\n"); 
 		LOGGER.info(jwt);
-		dumpVerboseMsg(flagVerbose, "JWT END HERE\n");
+		dumpVerboseMsg(flagVerbose, "AUTHORIZATION BEARER TOKEN END HERE\n"); 
+		
+		dumpVerboseMsg(flagVerbose, "Generating FSE-JWT-Signature\n");
+		dumpVerboseMsg(flagVerbose, "FSE-JWT-SIGNATURE START HERE");
+		LOGGER.info("\n------------- FSE-JWT-Signature ---------------\n"); 
+		LOGGER.info(claimsJwt);
+		LOGGER.info("\n"); 
+		dumpVerboseMsg(flagVerbose, "FSE-JWT-SIGNATURE END HERE\n");
 
 		if (flagValidation) {
-			LOGGER.info("Validating Token\n");
-			Jwt token = Jwts.parser().setSigningKey(privateKey).parse(jwt);
+			// Authorization Token Validation
+			LOGGER.info("Validating Authorization Token\n");
+			Jwt<?, Claims> token = parse(jwt, privateKey);
 			LOGGER.info("HEADER: " + token.getHeader());
 			LOGGER.info("BODY: " + token.getBody());
 			boolean outValidation = validate(jwt, pem);
@@ -195,9 +208,21 @@ public class Launcher {
 			if (!outValidation) {
 				signatureStatus = "NOT VALID";
 			}
-			LOGGER.info("SIGNATURE: " + signatureStatus);
+			LOGGER.info("SIGNATURE: " + signatureStatus + "\n"); 
+			
+			// Claims Token Validation 
+			LOGGER.info("Validating Claims Token\n");
+			Jwt<?, Claims> claimsToken = parse(claimsJwt, privateKey);
+			LOGGER.info("HEADER: " + claimsToken.getHeader());
+			LOGGER.info("BODY: " + claimsToken.getBody());
+			boolean outValidationClaimsToken = validate(claimsJwt, pem);
+			String signatureStatusClaimsToken = "VALID";
+			if (!outValidationClaimsToken) {
+				signatureStatusClaimsToken = "NOT VALID";
+			}
+			LOGGER.info("SIGNATURE: " + signatureStatusClaimsToken + "\n"); 		
 
-		}
+		} 
 
 	}
 
@@ -229,7 +254,7 @@ public class Launcher {
 	 * @param jdk   argument
 	 * @return value
 	 */
-	private static String get(Map<String, String> mapJD, JWTKeyEnum jdk) {
+	private static String get(Map<String, String> mapJD, JWTAuthEnum jdk) {
 		return mapJD.get(jdk.getKey());
 	}
 
@@ -245,34 +270,67 @@ public class Launcher {
 	 * @return jwt
 	 * @throws Exception
 	 */
-	private static String generateJWT(Map<String, String> mapJD, Key privateKey, String x5c, Date iat, Date exp,
-			String pathFileToPublish) throws Exception {
+	private static String generateAuthJWT(Map<String, String> mapJD, Key privateKey, String x5c, Date iat, Date exp, String iss) throws Exception {
 		Map<String, Object> headerParams = new HashMap<>();
-		headerParams.put(JWTKeyEnum.ALG.getKey(), SignatureAlgorithm.RS256);
-		headerParams.put(JWTKeyEnum.TYP.getKey(), JWTKeyEnum.JWT.getKey());
-		headerParams.put(JWTKeyEnum.X5C.getKey(), Arrays.asList(x5c).toArray());
+		headerParams.put(JWTAuthEnum.ALG.getKey(), SignatureAlgorithm.RS256);
+		headerParams.put(JWTAuthEnum.TYP.getKey(), JWTAuthEnum.JWT.getKey());
+		headerParams.put(JWTAuthEnum.X5C.getKey(), Arrays.asList(x5c).toArray());
 
 		Map<String, Object> claims = new HashMap<>();
-		for (JWTKeyEnum k : JWTKeyEnum.values()) {
+		for (JWTAuthEnum k : JWTAuthEnum.values()) {
 			if (k.getAutoFlagPayloadClaim()) {
 				claims.put(k.getKey(), mapJD.get(k.getKey()));
 			}
 		}
-		claims.put(JWTKeyEnum.PATIENT_CONSENT.getKey(), true);
-		claims.put(JWTKeyEnum.IAT.getKey(), iat.getTime()/1000);
-		claims.put(JWTKeyEnum.EXP.getKey(), exp.getTime()/1000);
+		claims.put(JWTAuthEnum.IAT.getKey(), iat.getTime()/1000);
+		claims.put(JWTAuthEnum.EXP.getKey(), exp.getTime()/1000);
+		claims.put(JWTAuthEnum.ISS.getKey(), "auth:" + iss);
 
+		return Jwts.builder().setHeaderParams(headerParams).setClaims(claims)
+				.signWith(SignatureAlgorithm.RS256, privateKey).compact();
+	} 
+	
+	/**
+	 * Generate Claims JWT.
+	 * 
+	 * @param mapJD             arguments map
+	 * @param privateKey        private key
+	 * @param x5c               public key
+	 * @param iat               issuing time
+	 * @param exp               expiring time
+	 * @param pathFileToPublish file to hash
+	 * @return jwt
+	 * @throws Exception
+	 */
+	private static String generateClaimsJWT(Map<String, String> mapJD, Key privateKey, String x5c, Date iat, Date exp, String iss, String pathFileToPublish) throws Exception {
+		Map<String, Object> headerParams = new HashMap<>();
+		headerParams.put(JWTClaimsEnum.ALG.getKey(), SignatureAlgorithm.RS256);
+		headerParams.put(JWTClaimsEnum.TYP.getKey(), JWTClaimsEnum.JWT.getKey());
+		headerParams.put(JWTClaimsEnum.X5C.getKey(), Arrays.asList(x5c).toArray());
+
+		Map<String, Object> claims = new HashMap<>();
+		for (JWTClaimsEnum k : JWTClaimsEnum.values()) {
+			if (k.getAutoFlagPayloadClaim()) {
+				claims.put(k.getKey(), mapJD.get(k.getKey()));
+			}
+		}
+		claims.put(JWTClaimsEnum.PATIENT_CONSENT.getKey(), true);
+		claims.put(JWTClaimsEnum.IAT.getKey(), iat.getTime()/1000);
+		claims.put(JWTClaimsEnum.EXP.getKey(), exp.getTime()/1000);
+		claims.put(JWTAuthEnum.ISS.getKey(), "integrity:" + iss);
+		
 		if (!Utility.nullOrEmpty(pathFileToPublish)) {
 			byte[] fileToHash = Utility.getFileFromFS(pathFileToPublish);
 			if (Utility.isPdf(fileToHash)) {
 				String hash = Utility.encodeSHA256(fileToHash);
-				claims.put(JWTKeyEnum.ATTACHMENT_HASH.getKey(), hash);
+				claims.put(JWTClaimsEnum.ATTACHMENT_HASH.getKey(), hash);
 			}
 		}
 
 		return Jwts.builder().setHeaderParams(headerParams).setClaims(claims)
 				.signWith(SignatureAlgorithm.RS256, privateKey).compact();
 	}
+
 
 	/**
 	 * Validate JWT.
@@ -321,4 +379,16 @@ public class Launcher {
 		}
 	}
 
-}
+	/**
+	 * Parse JWT Token.
+	 * 
+	 * @param token String
+	 * @param private key
+	 * @return token JWT
+	 */
+	private static Jwt<Header, Claims> parse(String token, Key privateKey) {
+		Jwts.builder().signWith(SignatureAlgorithm.HS256, privateKey).compact();
+		return Jwts.parser().setSigningKey(privateKey).parseClaimsJwt(token);
+	}
+	
+} 
