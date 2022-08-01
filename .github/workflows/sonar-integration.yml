@@ -48,5 +48,5 @@ jobs:
       - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: e82de76acfaf2ffd86318ba5391b07fc0088a8bf
+          SONAR_TOKEN: f9aca10d8d2cf0e41203944b0a074f3bc0f5740c
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=it.finanze.sanita.fse2:gtw-tools
