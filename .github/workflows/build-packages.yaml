@@ -1,4 +1,4 @@
-name: Java CI
+name: Java Build
 
 on: [push]
 
@@ -20,7 +20,7 @@ jobs:
       - name: Build pdf-generator with Maven
         working-directory: ./pdf-generator
         run: mvn --batch-mode --update-snapshots package
-      - run: mkdir staging && cp {jwt-generator,pdf-generator}target/*.jar staging
+      - run: mkdir staging && cp {jwt-generator,pdf-generator}/target/*.jar staging
       - uses: actions/upload-artifact@v3
         with:
           name: Package
