@@ -1,7 +1,7 @@
 name: Java Build
-
-on: [push]
-
+on:
+  push:
+    branches: ['main']
 jobs:
   build:
     runs-on: ubuntu-latest
