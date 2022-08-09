@@ -22,11 +22,6 @@ jobs:
         run: mvn --batch-mode --update-snapshots package
       - name: collecting jars
         run: mkdir staging && cp {jwt-generator,pdf-generator}/target/*.jar staging
-      - name: uploading artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: Package
-          path: staging
       - name: create release
         uses: ncipollo/release-action@v1
         with:
