@@ -33,5 +33,6 @@ jobs:
           artifacts: "staging/*.jar"
           tag: "latest"
           commit: "main"
+          allowUpdates: true
          
           
