@@ -10,32 +10,32 @@ jobs:
 
     steps:
     - name: Checkout code
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 1  # Shallow clones should be disabled for a better relevancy of analysis
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 1  # Shallow clones should be disabled for a better relevancy of analysis
 
     - name: Set up JDK 17
-        uses: actions/setup-java@v3
-        with:
-          java-version: '17'
-          distribution: 'adopt'
-          cache: maven
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'adopt'
+        cache: maven
 
     - name: Build package jwt-generator with Maven
-        working-directory: ./jwt-generator
-        run: mvn --batch-mode --update-snapshots package
+      working-directory: ./jwt-generator
+      run: mvn --batch-mode --update-snapshots package
 
     - name: Build package pdf-generator with Maven
-        working-directory: ./pdf-generator
-        run: mvn --batch-mode --update-snapshots package
+      working-directory: ./pdf-generator
+      run: mvn --batch-mode --update-snapshots package
 
     - name: Staging packages and source-code
-        run: mkdir staging && cp {jwt-generator,pdf-generator}/target/*.jar staging
+      run: mkdir staging && cp {jwt-generator,pdf-generator}/target/*.jar staging
 
     - name: Create release by ncipollo
-        uses: ncipollo/release-action@v1
-        with:
-          artifacts: "staging/*.jar"
-          tag: ${{ github.ref_name }}
-          commit: ${{ github.ref_name }}
-          allowUpdates: true
+      uses: ncipollo/release-action@v1
+      with:
+        artifacts: "staging/*.jar"
+        tag: ${{ github.ref_name }}
+        commit: ${{ github.ref_name }}
+        allowUpdates: true
