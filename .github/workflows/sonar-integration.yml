@@ -1,4 +1,4 @@
-name: Build
+name: Maven build/verify by SonarCloud
 on:
   push:
     branches:
@@ -9,44 +9,46 @@ on:
   workflow_dispatch:
     inputs:
       logLevel:
-        description: 'Log level'     
+        description: 'Log level'
         required: true
-        default: 'warning' 
+        default: 'warning'
         type: choice
         options:
-        - info
-        - warning
-        - debug 
+          - info
+          - warning
+          - debug
       tags:
         description: 'Sonar Integration'
-        required: false 
+        required: false
         type: boolean
 jobs:
   build:
-    name: Build
+    name: Maven build/verify by SonarCloud
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      - name: Set up JDK 11
-        uses: actions/setup-java@v1
-        with:
-          java-version: 11
-      - name: Cache SonarCloud packages
-        uses: actions/cache@v1
-        with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
-      - name: Cache Maven packages
-        uses: actions/cache@v1
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
-      - name: Build and analyze
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: f9aca10d8d2cf0e41203944b0a074f3bc0f5740c
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=it.finanze.sanita.fse2:gtw-tools
+    distribution: 'adopt'
+    cache: maven
+             - name: Set up JDK 17
+             uses: actions/setup-java@v1
+             with:
+               java-version: 17
+             - name: Cache SonarCloud packages
+               uses: actions/cache@v1
+               with:
+                 path: ~/.sonar/cache
+                 key: ${{ runner.os }}-sonar
+                 restore-keys: ${{ runner.os }}-sonar
+             - name: Cache Maven packages
+               uses: actions/cache@v1
+               with:
+                 path: ~/.m2
+                 key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+                 restore-keys: ${{ runner.os }}-m2
+             - name: Maven build/verify by SonarCloud
+               env:
+                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+                 SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+               run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=it.finanze.sanita.fse2:gtw-tools
