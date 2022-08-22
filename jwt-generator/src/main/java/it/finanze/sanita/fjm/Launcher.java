@@ -13,18 +13,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import io.jsonwebtoken.*;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.google.gson.Gson;
-
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Header;
-import io.jsonwebtoken.Jwt;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 
 /**
  * Copyright (c) 2022, Ministero della Salute
@@ -72,7 +67,8 @@ public class Launcher {
 			}
 		} catch (Exception e) {
 			LOGGER.info("An error occur while trying to generate JWT, hope this can help:");
-			LOGGER.info(String.format("EXCEPTION: ", ExceptionUtils.getStackTrace(e)));
+			LOGGER.info(String.format("EXCEPTION: ", e.getMessage()));
+			LOGGER.info(ExceptionUtils.getStackTrace(e));
 		}
 	}
 
@@ -200,7 +196,7 @@ public class Launcher {
 		if (flagValidation) {
 			// Authorization Token Validation
 			LOGGER.info("Validating Authorization Token\n");
-			Jwt<?, Claims> token = parse(jwt, privateKey);
+			Jws<Claims> token = parse(jwt, privateKey);
 			LOGGER.info("HEADER: " + token.getHeader());
 			LOGGER.info("BODY: " + token.getBody());
 			boolean outValidation = validate(jwt, pem);
@@ -212,7 +208,7 @@ public class Launcher {
 			
 			// Claims Token Validation 
 			LOGGER.info("Validating Claims Token\n");
-			Jwt<?, Claims> claimsToken = parse(claimsJwt, privateKey);
+			Jws<Claims> claimsToken = parse(claimsJwt, privateKey);
 			LOGGER.info("HEADER: " + claimsToken.getHeader());
 			LOGGER.info("BODY: " + claimsToken.getBody());
 			boolean outValidationClaimsToken = validate(claimsJwt, pem);
@@ -286,8 +282,7 @@ public class Launcher {
 		claims.put(JWTAuthEnum.EXP.getKey(), exp.getTime()/1000);
 		claims.put(JWTAuthEnum.ISS.getKey(), "auth:" + iss);
 
-		return Jwts.builder().setHeaderParams(headerParams).setClaims(claims)
-				.signWith(SignatureAlgorithm.RS256, privateKey).compact();
+		return Jwts.builder().setHeaderParams(headerParams).setClaims(claims).signWith(SignatureAlgorithm.RS256, privateKey).compact();
 	} 
 	
 	/**
@@ -386,9 +381,8 @@ public class Launcher {
 	 * @param private key
 	 * @return token JWT
 	 */
-	private static Jwt<Header, Claims> parse(String token, Key privateKey) {
-		Jwts.builder().signWith(SignatureAlgorithm.HS256, privateKey).compact();
-		return Jwts.parser().setSigningKey(privateKey).parseClaimsJwt(token);
+	private static Jws<Claims> parse(String token, Key privateKey) {
+		return Jwts.parser().setSigningKey(privateKey).parseClaimsJws(token);
 	}
 	
 } 

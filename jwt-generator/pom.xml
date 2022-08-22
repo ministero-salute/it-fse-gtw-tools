@@ -6,13 +6,12 @@
   <parent>
     <groupId>it.finanze.sanita.fse2</groupId>
     <artifactId>gtw-tools</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.3-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
   <artifactId>gtw-tools-jwt-generator</artifactId>
   <name>gtw-tools-jwt-generator</name>
-  <version>0.0.2-SNAPSHOT</version>
   <description>Gateway Tools JWT Generator</description>
 
   <properties>
@@ -115,7 +114,7 @@
               <descriptorRefs>
                 <descriptorRef>jar-with-dependencies</descriptorRef>
               </descriptorRefs>
-              <finalName>jwt-generator</finalName>
+              <finalName>jwt-generator-${project.version}</finalName>
               <appendAssemblyId>false</appendAssemblyId>
             </configuration>
           </execution>
