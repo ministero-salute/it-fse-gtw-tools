@@ -37,5 +37,5 @@ jobs:
       with:
         artifacts: "staging/*.jar"
         tag: ${{ github.ref_name }}
-        commit: ${{ github.ref_name }}
+        commit: "main"
         allowUpdates: true
