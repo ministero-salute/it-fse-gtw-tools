@@ -81,6 +81,9 @@ The execution of this application require to defines JWT parameters and certific
 | subject_role | STRING | Role of the operator |
 | purpose_of_use | STRING | Purpose of use of the generated JWT token |
 | iss | STRING | Issuer of the token as ISTAT code of the organization concatenated with HSP.11 - HSP.11bis - STS.11 - RIA.11 code |
+| subject_application_id | STRING | Id of the user's application |
+| subject_application_vendor | STRING | Vendor of the user's application |
+| subject_application_version | STRING | Version of the user's application |
 | locality | STRING | Locality where the token is being generated |
 | subject_organization_id | STRING | Unique identifier of the organization that is being generating the JWT token |
 | subject_organization | STRING | Description of the organization that is being generating the JWT token |
@@ -96,10 +99,13 @@ The execution of this application require to defines JWT parameters and certific
 An example of data.json file is the following:
 ```javascript
 {
-	"sub": "PROVAX00X00X000Y",    
+	"sub": "PROVAX00X00X000Y^^^&2.16.840.1.113883.2.9.4.3.2&ISO",    
 	"subject_role": "AAS",
 	"purpose_of_use": "TREATMENT",
 	"iss": "jwt-issuer",
+	"subject_application_id": "subject-application-id",
+	"subject_application_vendor": "subject-application-vendor",
+	"subject_application_version": "subject-application-version",
 	"locality": "jwt-location",
 	"subject_organization_id": "120",
 	"subject_organization": "Regione Lazio",

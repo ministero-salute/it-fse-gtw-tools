@@ -44,6 +44,21 @@ enum JWTClaimsEnum {
 	ISS("iss", true),
 
 	/**
+	 * Subject Application ID claim.
+	 */
+	SUBJECT_APPLICATION_ID("subject_application_id", true),
+
+	/**
+	 * Subject Application Vendor claim.
+	 */
+	SUBJECT_APPLICATION_VENDOR("subject_application_vendor", true),
+
+	/**
+	 * Subject Application Version claim.
+	 */
+	SUBJECT_APPLICATION_VERSION("subject_application_version", true),
+
+	/**
 	 * Locality claim.
 	 */
 	LOCALITY("locality", true),
