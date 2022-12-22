@@ -64,7 +64,12 @@ public class Launcher {
 		}
 	}
 
-
+	public static byte[] getPdf(byte[] cda) throws Exception {
+		byte[] filePDF = createSample();
+		byte[] output = inject(filePDF, cda);
+		return output;
+	}
+	
 	private static void checkArgs(String[] args) {
 		for (int i = 0; i < args.length;) {
 			String key = args[i].toLowerCase();
