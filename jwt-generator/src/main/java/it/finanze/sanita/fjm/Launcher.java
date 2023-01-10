@@ -296,7 +296,7 @@ public class Launcher {
 		}
 		claims.put(JWTAuthEnum.IAT.getKey(), iat.getTime()/1000);
 		claims.put(JWTAuthEnum.EXP.getKey(), exp.getTime()/1000);
-		claims.put(JWTAuthEnum.ISS.getKey(), "auth:" + iss);
+		claims.put(JWTAuthEnum.ISS.getKey(), "auth:" + cleanIss(iss));
 
 		return Jwts.builder().setHeaderParams(headerParams).setClaims(claims).signWith(SignatureAlgorithm.RS256, privateKey).compact();
 	} 
@@ -328,7 +328,7 @@ public class Launcher {
 		claims.put(JWTClaimsEnum.PATIENT_CONSENT.getKey(), true);
 		claims.put(JWTClaimsEnum.IAT.getKey(), iat.getTime()/1000);
 		claims.put(JWTClaimsEnum.EXP.getKey(), exp.getTime()/1000);
-		claims.put(JWTAuthEnum.ISS.getKey(), "integrity:" + iss);
+		claims.put(JWTAuthEnum.ISS.getKey(), "integrity:" + cleanIss(iss));
 
 		if (Utility.isPdf(fileToHash)) {
 			String hash = Utility.encodeSHA256(fileToHash);
@@ -339,6 +339,18 @@ public class Launcher {
 				.signWith(SignatureAlgorithm.RS256, privateKey).compact();
 	}
 
+
+	/**
+	 * Clean ISS.
+	 * 
+	 * @param iss
+	 * @return iss cleaned
+	 */
+	private static String cleanIss(String iss) {
+		return iss
+				.replaceFirst("integrity:", "")
+				.replaceFirst("auth:", "");
+	}
 
 	/**
 	 * Validate JWT.

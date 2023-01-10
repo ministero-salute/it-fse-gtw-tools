@@ -23,8 +23,10 @@ public class TokenResponseDTO {
 	
 	public Map<String, String> toMap() {
 		Map<String, String> result = new HashMap<>();
-		result.put("Authorization", 	"Bearer " + getAuthorizationBearer());
-		result.put("FSE-JWT-Signature", getFseJwtSignature());
+		String authBearer = getAuthorizationBearer();
+		String fseJwt = getFseJwtSignature();
+		if (authBearer != null) result.put("Authorization", "Bearer " + authBearer);
+		if (fseJwt != null) result.put("FSE-JWT-Signature", fseJwt);
 		return result;
 	}
 	
