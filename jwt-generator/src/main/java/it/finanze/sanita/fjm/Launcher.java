@@ -347,6 +347,7 @@ public class Launcher {
 	 * @return iss cleaned
 	 */
 	private static String cleanIss(String iss) {
+		if (iss == null) return null;
 		return iss
 				.replaceFirst("integrity:", "")
 				.replaceFirst("auth:", "");
