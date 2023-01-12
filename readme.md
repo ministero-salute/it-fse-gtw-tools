@@ -27,9 +27,9 @@
 
 ---
 
-[![N|Solid](https://www.sogei.it/content/dam/sogei/loghi/Sogei_logo_304.svg)](https://www.sogei.it/it/sogei-homepage.html)
+# Fascicolo Sanitario 2.0
 
-# it-fse-gtw-tools
+# _it-fse-gtw-dispatcher_
 
 The repository contains all the tools that helps execute FSE2.0 Gateway Validator Web service to validate CDA injected in Pdf files.
 
@@ -82,15 +82,21 @@ Navigate to the root folder of the application and execute the command:
 
 If the build is successful, the tools will be generated. Checkout each <em>readme.md</em> file for a guide on how to use them.
 
-<!--## License-->
-
-----
-author: Cristian Paoluzi <cpaoluzi@sogei.it> - DevOps Manager
-
-updated on: 2022-07-28
-
 [//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen. Thanks SO - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
 [jwt-generator]: <https://github.com/ministero-salute/it-fse-gtw-tools/tree/main/jwt-generator>
 [pdf-generator]: <https://github.com/ministero-salute/it-fse-gtw-tools/tree/main/pdf-generator>
 [jdk.zip]: <https://aka.ms/download-jdk/microsoft-jdk-17.0.3-windows-x64.zip>
 [maven]: <https://maven.apache.org/download.cgi>
+---
+
+<br/>
+
+## Repos
+- [*it-fse-support*](https://github.com/ministero-salute/it-fse-support) - Pagina di supporto FSE 2.0
+- [*it-fse-landing*](https://github.com/ministero-salute/it-fse-landing) - Landing page dei repository FSE 2.0
+
+<br/>
+
+## License
+
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
