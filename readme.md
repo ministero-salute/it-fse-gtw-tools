@@ -31,42 +31,44 @@
 
 # _it-fse-gtw-tools_
 
-The repository contains all the tools that helps execute FSE2.0 Gateway Validator Web service to validate CDA injected in Pdf files.
+Il repository contiene tutti gli strumenti che consentono di eseguire il servizio Web FSE2.0 Gateway Validator per convalidare il CDA iniettato nei file Pdf.
 
-| TOOL | LINK | DESCRIPTION |
+| TOOL | LINK | DESCRIZIONE |
 | :------------: | :------------: | ------------ |
-| JWTGenerator | [jwt-generator] | Generates a Json Web Token (JWT) for the invocation of the FSE2.0 Gateway Validator Web service. |
-| PDFGenerator | [pdf-generator] | Injects a CDA.xml file into a PDF file for the invocation of the FSE2.0 Gateway Validator Web service. |
+| JWTGenerator | [jwt-generator] | Genera un Json Web Token (JWT) per la chiamata del servizio Web FSE2.0 Gateway Validator. |
+| PDFGenerator | [pdf-generator] | Inserisce un file CDA.xml in un file PDF per la chiamata del servizio Web FSE2.0 Gateway Validator. |
 
 <br/>
 
 ## Getting started
-### Requirements
+### Requisiti
 <ul>
-	<li> Download a JDK from https://aka.ms/download-jdk/microsoft-jdk-17.0.3-windows-x64.zip to execute the build of the application </li>
-	<li> Gain maven from https://maven.apache.org/download.cgi to build the application </li>
+	<li> Scarica la JDK da https://aka.ms/download-jdk/microsoft-jdk-17.0.3-windows-x64.zip per eseguire la build dell'applicazione </li>
+	<li> Scarica Maven da https://maven.apache.org/download.cgi per buildare l'applicazione </li>
 </ul>
 
 ---
 
-### Setup environment
+### Setup ambiente
 
-Set JAVA_HOME path as enviromental variable than check the installation of the correct JDK version with:
+Impostare JAVA_HOME path come variabile d'ambiente, quindi controllare l'installazione della versione corretta di JDK version con:
 
 `java -version`
 
-If the jdk is correctly installed, the output of the above command should be:
+Se la jdk è stata installata correttamente, l'output del comando precedente dovrebbe essere:
+
 ```console
   openjdk version "17.0.3" 2022-04-19 LTS
   OpenJDK Runtime Environment Microsoft-32931 (build 17.0.3+7-LTS)
   OpenJDK 64-Bit Server VM Microsoft-32931 (build 17.0.3+7-LTS, mixed mode, sharing)
 ```
 
-Set MAVEN_HOME path as enviromental variable than check the installation of the correct maven version with:
+Impostare MAVEN_HOME path come variabile d'ambiente, quindi controllare l'installazione della versione corretta di Maven con:
 
 `mvn -version`
 
-If maven is correctly installed, the output of the above command should be:
+Se maven è stato installato correttamente, l'output del comando precedente dovrebbe essere:
+
 ```console
 	Apache Maven 3.8.4 (9b656c72d54e5bacbed989b64718c159fe39b537)
 	Maven home: C:\Program Files\apache-maven-3.8.4
@@ -76,13 +78,13 @@ If maven is correctly installed, the output of the above command should be:
 
 ### Build
 
-Navigate to the root folder of the application and execute the command:
+Passare alla cartella principale dell'applicazione ed eseguire il comando:
 
 `mvn clean package`
 
 If the build is successful, the tools will be generated. Checkout each <em>readme.md</em> file for a guide on how to use them.
 
-[//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen. Thanks SO - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
+[//]: # (Questi sono collegamenti di riferimento utilizzati nel body di questa nota e vengono rimossi quando il processore di markdown fa il suo lavoro. Non è necessario formattare bene perché non dovrebbe essere visto. Grazie - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
 [jwt-generator]: <https://github.com/ministero-salute/it-fse-gtw-tools/tree/main/jwt-generator>
 [pdf-generator]: <https://github.com/ministero-salute/it-fse-gtw-tools/tree/main/pdf-generator>
 [jdk.zip]: <https://aka.ms/download-jdk/microsoft-jdk-17.0.3-windows-x64.zip>
@@ -97,6 +99,6 @@ If the build is successful, the tools will be generated. Checkout each <em>readm
 
 <br/>
 
-## License
+## Licenza
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)

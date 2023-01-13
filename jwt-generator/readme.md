@@ -1,34 +1,35 @@
 # JWTGenerator
-JWT generator allows to generate the Json Web Token (JWT) for the invocation of the FSE2.0 Gateway Validator Web service.
-The JWT can be customized with payload and signature required by the Web service.
+Il generatore JWT consente di generare il Json Web Token (JWT) per l'invocazione del servizio Web FSE2.0 Gateway Validator.
+Il JWT può essere personalizzato con il payload e la firma richiesti dal servizio Web.
 
-### Requirements
+### Requisiti
 <ul>
-	<li> Download a JDK from https://aka.ms/download-jdk/microsoft-jdk-17.0.3-windows-x64.zip to execute the build of the application </li>
-	<li> Gain maven from https://maven.apache.org/download.cgi to build the application </li>
-	<li> Provide signature certificates to use to sign the JWT tokens </li>
+	<li> Scaricare la JDK da https://aka.ms/download-jdk/microsoft-jdk-17.0.3-windows-x64.zip per eseguire la build dell'applicazione </li>
+	<li> Scaricare Maven da https://maven.apache.org/download.cgi per buildare l'applicazione </li>
+	<li> Fornire i certificati di firma da utilizzare per firmare i token JWT </li>
 </ul>
 
 ---
 
-### SETUP ENVIRONMENT
+### SETUP AMBIENTE
 
-Set JAVA_HOME path as enviromental variable than check the installation of the correct JDK version with:
+Impostare il percorso JAVA_HOME come variabile d'ambiente, poi controllare l'installazione della versione JDK corretta con:
 
 `java -version`
 
-If the jdk is correctly installed, the output of the above command should be:
+Se la jdk è installato correttamente, l'output del comando precedente dovrebbe essere:
 ```console
   openjdk version "17.0.3" 2022-04-19 LTS
   OpenJDK Runtime Environment Microsoft-32931 (build 17.0.3+7-LTS)
   OpenJDK 64-Bit Server VM Microsoft-32931 (build 17.0.3+7-LTS, mixed mode, sharing)
 ```
 
-Set MAVEN_HOME path as enviromental variable than check the installation of the correct maven version with:
+Impostare MAVEN_HOME path come variabile d'ambiente, poi verificare l'installazione della corretta versione Maven con: 
 
 `mvn -version`
 
-If maven is correctly installed, the output of the above command should be:
+Se Maven è installato correttamente, l'output del comando precedente dovrebbe essere:
+
 ```console
 	Apache Maven 3.8.4 (9b656c72d54e5bacbed989b64718c159fe39b537)
 	Maven home: C:\Program Files\apache-maven-3.8.4
@@ -38,25 +39,25 @@ If maven is correctly installed, the output of the above command should be:
 
 ### BUILD
 
-Navigate to the root folder of the application and execute the command:
+Passare alla cartella principale dell'applicazione ed eseguire il comando:
 
 `mvn clean package`
 
-If the build succeeds, a file <em> jwt-generator.jar </em> will be generated in the target folder.
+Se la build riesce con successo, un file <em> jwt-generator.jar </em> sarà generato nella cartella target.
 
 ---
 
 ### JAR EXECUTION
 
-To execute the jar use the command:
+Per eseguire il jar usare il comando:
 
 `java -jar jwt-generator.jar`
 
-Use help argument to check it's syntax:
+Usare l'argument help per verificare la sintassi:
 
 `java -jar jwt-generator.jar -h`
 
-The above command will show a help that explain how to use the application, arguments accepted are defined as following:
+Il comando precedente mostrerà un aiuto che spiega come utilizzare l'applicazione, gli arguments accettati sono definiti come segue:
 
 | ARGUMENT | MANDATORY | TYPE | DESCRIPTION |
 | :------------: | :------------: | :------------: | ------------ |
@@ -71,7 +72,7 @@ The above command will show a help that explain how to use the application, argu
 
 ---
 ### TOKEN CUSTOMIZATION
-The execution of this application require to defines JWT parameters and certificate paths in an external JSON object, the content of the data.json file will contain the following informations:
+L'esecuzione di questa applicazione richiede di definire i parametri JWT e i percorsi dei certificati in un oggetto JSON esterno, il contenuto del file data.json conterrà le seguenti informazioni:
 
 | NAME | TYPE | DESCRIPTION |
 | ------------ | :------------: | ------------ |
@@ -94,7 +95,7 @@ The execution of this application require to defines JWT parameters and certific
 | pem_path | STRING | pem certificate path |
 | p12_path | STRING | p12 certificate path |
 
-An example of data.json file is the following:
+Un esempio del file data.json è il seguente: 
 ```javascript
 {
 	"sub": "PROVAX00X00X000Y^^^&2.16.840.1.113883.2.9.4.3.2&ISO",    
@@ -118,13 +119,13 @@ An example of data.json file is the following:
 }
 ```
 
-### Example
+### Esempio
 
-The following command will generate two JWT Tokens that can be used to call FSE2.0-Gateway: the first (called Authorization Bearer Token) is a token containing all the claims used for authorization (ex. iss, iat, exp), while the second (FSE-JWT-Signature Token) contains all the custom claims.
+Il seguente comando genererà due JWT Token che possono essere usati per chiamare il FSE2.0-Gateway: il primo (chiamato Authorization Bearer Token) è un token contenente tutte le attestazioni utilizzate per l'autorizzazione (es. iss, iat, exp), mentre il secondo (chiamato FSE-JWT-Signature Token) contiene tutte le attestazioni personalizzate.
 
 `java -jar jwt-generator.jar -d data.json -a {alias} -p {password} -t 1`
 
 
-[//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen. Thanks SO - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
+[//]: # (Questi sono collegamenti di riferimento utilizzati nel corpo di questa nota e vengono rimossi quando il processore di markdown fa il suo lavoro. Non è necessario formattare bene perché non dovrebbe essere visto. Grazie - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
 [jdk.zip]: <https://aka.ms/download-jdk/microsoft-jdk-17.0.3-windows-x64.zip>
 [maven]: <https://maven.apache.org/download.cgi>
