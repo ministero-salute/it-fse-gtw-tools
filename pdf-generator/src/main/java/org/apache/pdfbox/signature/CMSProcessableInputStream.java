@@ -20,7 +20,7 @@ class CMSProcessableInputStream implements CMSTypedData
         this(new ASN1ObjectIdentifier(CMSObjectIdentifiers.data.getId()), is);
     }
 
-    CMSProcessableInputStream(ASN1ObjectIdentifier type, InputStream is) {
+    private CMSProcessableInputStream(ASN1ObjectIdentifier type, InputStream is) {
         contentType = type;
         in = is;
     }

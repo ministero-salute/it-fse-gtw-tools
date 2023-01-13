@@ -2,19 +2,18 @@ package it.finanze.sanita.fpm;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.security.KeyStore;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.signature.CreateSignaturePades;
 
 
 public class SignerHelper {
+	
+	private SignerHelper() {
+		//Do nothing
+	}
  
    
 	/******************************************************
@@ -45,42 +44,9 @@ public class SignerHelper {
 			signing.signDetached(document, baos);
 			out = baos.toByteArray();
 		} catch (Exception e) {
+			throw new RuntimeException(e);
 		}
         return out;
-	}
-
-	public static byte[] pades(byte[] keyStore, char[] keystorePwd, String fileName, byte[] docToSign) {
-		CreateSignaturePades signing = getSP(keyStore, keystorePwd);
-		return pades(signing, fileName, docToSign);
-	}
-
-	/******************************************************
-	*	GESTIONE PADES FILESYSTEM
-	*******************************************************/
-	private static boolean padesFS(CreateSignaturePades signing, String inFileName, String outFileName) {
-		boolean out = false;
-        try {
-			signing.signDetached(new File(inFileName), new File(outFileName));
-			out = true;
-		} catch (IOException e) {
-			out = false;
-		}
-        return out;
-	}
-
-	public static Map<String, Boolean> padesFS(byte[] keyStore, char[] keystorePwd, Map<String, String> docsToSign) {
-		Map<String, Boolean> out = new HashMap<>();
-		CreateSignaturePades signing = getSP(keyStore, keystorePwd);
-		for (Entry<String, String> docPair:docsToSign.entrySet()) {
-			Boolean result = padesFS(signing, docPair.getKey(), docPair.getValue());
-			out.put(docPair.getKey(), result);
-		}
-		return out;
-	}
-
-	public static boolean padesFS(byte[] keyStore, char[] keystorePwd, String inFileName, String outFileName) {
-		CreateSignaturePades signing = getSP(keyStore, keystorePwd);
-		return padesFS(signing, inFileName, outFileName);
 	}
  
 }

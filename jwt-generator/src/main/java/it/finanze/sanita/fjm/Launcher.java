@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.security.Key;
 import java.security.Security;
+import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.security.interfaces.RSAPublicKey;
@@ -71,7 +72,7 @@ public class Launcher {
 			}
 		} catch (Exception e) {
 			LOGGER.info("An error occur while trying to generate JWT, hope this can help:");
-			LOGGER.info(String.format("EXCEPTION: ", e.getMessage()));
+			LOGGER.info(String.format("EXCEPTION: %s", e.getMessage()));
 			LOGGER.info(ExceptionUtils.getStackTrace(e));
 		}
 	}
@@ -282,7 +283,7 @@ public class Launcher {
 	 * @return jwt
 	 * @throws Exception
 	 */
-	private static String generateAuthJWT(Map<String, String> mapJD, Key privateKey, String x5c, Date iat, Date exp, String iss) throws Exception {
+	private static String generateAuthJWT(Map<String, String> mapJD, Key privateKey, String x5c, Date iat, Date exp, String iss) {
 		Map<String, Object> headerParams = new HashMap<>();
 		headerParams.put(JWTAuthEnum.ALG.getKey(), SignatureAlgorithm.RS256);
 		headerParams.put(JWTAuthEnum.TYP.getKey(), JWTAuthEnum.JWT.getKey());
@@ -380,7 +381,7 @@ public class Launcher {
 	 * @return public key
 	 * @throws Exception
 	 */
-	public static RSAPublicKey getPublicKey(byte[] pem) throws Exception {
+	public static RSAPublicKey getPublicKey(byte[] pem) throws CertificateException {
 		CertificateFactory certFactory = CertificateFactory.getInstance("X.509");
 		InputStream in = new ByteArrayInputStream(pem);
 		X509Certificate certificate = (X509Certificate) certFactory.generateCertificate(in);

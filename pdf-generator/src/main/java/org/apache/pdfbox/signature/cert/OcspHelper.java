@@ -247,7 +247,7 @@ public class OcspHelper
         }
     }
 
-    private byte[] getKeyHashFromCertHolder(X509CertificateHolder certHolder) throws IOException
+    private byte[] getKeyHashFromCertHolder(X509CertificateHolder certHolder)
     {
         // https://tools.ietf.org/html/rfc2560#section-4.2.1
         // KeyHash ::= OCTET STRING -- SHA-1 hash of responder's public key
@@ -500,7 +500,7 @@ public class OcspHelper
      * @param resp OCSP response
      * @throws OCSPException if the response status is not ok
      */
-    public void verifyRespStatus(OCSPResp resp) throws OCSPException
+    private void verifyRespStatus(OCSPResp resp) throws OCSPException
     {
         String statusInfo = "";
         if (resp != null)

@@ -113,19 +113,19 @@ public final class CertificateVerifier
                 throw new CertificateVerificationException("The certificate is self-signed.");
             }
 
-            Set<X509Certificate> certSet = new HashSet<X509Certificate>(additionalCerts);
+            Set<X509Certificate> certSet = new HashSet<>(additionalCerts);
 
             // Download extra certificates. However, each downloaded certificate can lead to
             // more extra certificates, e.g. with the file from PDFBOX-4091, which has
             // an incomplete chain.
             // You can skip this block if you know that the certificate chain is complete
-            Set<X509Certificate> certsToTrySet = new HashSet<X509Certificate>();
+            Set<X509Certificate> certsToTrySet = new HashSet<>();
             certsToTrySet.add(cert);
             certsToTrySet.addAll(additionalCerts);
             int downloadSize = 0;
             while (!certsToTrySet.isEmpty())
             {
-                Set<X509Certificate> nextCertsToTrySet = new HashSet<X509Certificate>();
+                Set<X509Certificate> nextCertsToTrySet = new HashSet<>();
                 for (X509Certificate tryCert : certsToTrySet)
                 {
                     Set<X509Certificate> downloadedExtraCertificatesSet =
@@ -149,8 +149,8 @@ public final class CertificateVerifier
 
             // Prepare a set of trust anchors (set of root CA certificates)
             // and a set of intermediate certificates
-            Set<X509Certificate> intermediateCerts = new HashSet<X509Certificate>();
-            Set<TrustAnchor> trustAnchors = new HashSet<TrustAnchor>();
+            Set<X509Certificate> intermediateCerts = new HashSet<>();
+            Set<TrustAnchor> trustAnchors = new HashSet<>();
             for (X509Certificate additionalCert : certSet)
             {
                 if (isSelfSigned(additionalCert))
@@ -271,7 +271,7 @@ public final class CertificateVerifier
      * @return true if the certificate is self-signed, false if not.
      * @throws java.security.GeneralSecurityException 
      */
-    public static boolean isSelfSigned(X509Certificate cert) throws GeneralSecurityException
+    private static boolean isSelfSigned(X509Certificate cert) throws GeneralSecurityException
     {
         try
         {
@@ -280,19 +280,7 @@ public final class CertificateVerifier
             cert.verify(key, SecurityProvider.getProvider().getName());
             return true;
         }
-        catch (SignatureException ex)
-        {
-            // Invalid signature --> not self-signed
-            LOG.debug("Couldn't get signature information - returning false", ex);
-            return false;
-        }
-        catch (InvalidKeyException ex)
-        {
-            // Invalid signature --> not self-signed
-            LOG.debug("Couldn't get signature information - returning false", ex);
-            return false;
-        }
-        catch (IOException ex)
+        catch (SignatureException | InvalidKeyException | IOException ex)
         {
             // Invalid signature --> not self-signed
             LOG.debug("Couldn't get signature information - returning false", ex);
@@ -313,7 +301,7 @@ public final class CertificateVerifier
         // https://tools.ietf.org/html/rfc2459#section-4.2.2.1
         // https://tools.ietf.org/html/rfc3280#section-4.2.2.1
         // https://tools.ietf.org/html/rfc4325
-        Set<X509Certificate> resultSet = new HashSet<X509Certificate>();
+        Set<X509Certificate> resultSet = new HashSet<>();
         byte[] authorityExtensionValue = ext.getExtensionValue(Extension.authorityInfoAccess.getId());
         if (authorityExtensionValue == null)
         {
@@ -513,7 +501,7 @@ public final class CertificateVerifier
         }
 
         LOG.info("Check of OCSP responder certificate");
-        Set<X509Certificate> additionalCerts2 = new HashSet<X509Certificate>(additionalCerts);
+        Set<X509Certificate> additionalCerts2 = new HashSet<>(additionalCerts);
         JcaX509CertificateConverter certificateConverter = new JcaX509CertificateConverter();
         for (X509CertificateHolder certHolder : basicResponse.getCerts())
         {

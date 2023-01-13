@@ -1,7 +1,6 @@
 package org.apache.pdfbox.signature;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.MessageDigest;
@@ -9,7 +8,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.pdfbox.io.IOUtils;
 import org.bouncycastle.asn1.ASN1Encodable;
 import org.bouncycastle.asn1.ASN1EncodableVector;
 import org.bouncycastle.asn1.ASN1ObjectIdentifier;
@@ -36,13 +34,6 @@ public class ValidationTimeStamp
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             this.tsaClient = new TSAClient(new URL(tsaUrl), null, null, digest);
         }
-    }
-
-    
-    public byte[] getTimeStampToken(InputStream content) throws IOException
-    {
-        TimeStampToken timeStampToken = tsaClient.getTimeStampToken(IOUtils.toByteArray(content));
-        return timeStampToken.getEncoded();
     }
  
     public CMSSignedData addSignedTimeStamp(CMSSignedData signedData)throws IOException {

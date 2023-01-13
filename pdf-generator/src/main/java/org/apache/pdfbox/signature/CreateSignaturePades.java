@@ -1,8 +1,5 @@
 package org.apache.pdfbox.signature;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.security.KeyStore;
@@ -24,31 +21,6 @@ public class CreateSignaturePades extends CreateSignatureBasePades {
             throws KeyStoreException, UnrecoverableKeyException, NoSuchAlgorithmException, CertificateException, IOException
     {
         super(keystore, pin);
-    }
- 
-    public void signDetached(File file) throws IOException
-    {
-        signDetached(file, file, null);
-    }
-
-     
-    public void signDetached(File inFile, File outFile) throws IOException {
-        signDetached(inFile, outFile, null);
-    }
- 
-    public void signDetached(File inFile, File outFile, String tsaUrl) throws IOException {
-        if (inFile == null || !inFile.exists())
-        {
-            throw new FileNotFoundException("Document for signing does not exist");
-        }
-        
-        setTsaUrl(tsaUrl);
-
-        // sign
-        try (FileOutputStream fos = new FileOutputStream(outFile);
-                PDDocument doc = PDDocument.load(inFile)) {
-            signDetached(doc, fos);
-        }
     }
 
     public void signDetached(PDDocument document, OutputStream output) throws IOException {

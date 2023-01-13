@@ -63,14 +63,13 @@ public class Launcher {
 			}
 		} catch (Exception e) {
 			LOGGER.info("An error occur while trying to inject PDF, hope this can help:");
-			LOGGER.info(String.format("EXCEPTION: ", ExceptionUtils.getStackTrace(e)));
+			LOGGER.info(String.format("EXCEPTION: %s", ExceptionUtils.getStackTrace(e)));
 		}
 	}
 
-	public static byte[] getPdf(byte[] cda) throws Exception {
+	public static byte[] getPdf(byte[] cda) throws IOException {
 		byte[] filePDF = createSample();
-		byte[] output = inject(filePDF, cda);
-		return output;
+		return inject(filePDF, cda);
 	}
 	
 	private static void checkArgs(String[] args) {
@@ -240,7 +239,7 @@ public class Launcher {
 		return baos.toByteArray();
 	}
 
-	public static String extract(byte[] bytePDF) throws Exception {
+	public static String extract(byte[] bytePDF) throws IOException {
 		String out = null;
 		try (PDDocument pd = PDDocument.load(bytePDF)) {
 			PDDocumentCatalog catalog = pd.getDocumentCatalog();
@@ -254,7 +253,7 @@ public class Launcher {
 		return out;
 	}
 
-	private static byte[] createSample() throws Exception {
+	private static byte[] createSample() throws IOException {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		try (PDDocument doc = new PDDocument()) {
 			PDPage myPage = new PDPage();

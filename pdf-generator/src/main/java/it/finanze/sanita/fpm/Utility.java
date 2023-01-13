@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.util.Arrays;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
@@ -20,7 +19,7 @@ import java.util.logging.Logger;
  */
 public class Utility {
 
-	static final Logger LOGGER = Utility.getLogger(Utility.class.getName());
+	private static final Logger LOGGER = Utility.getLogger(Utility.class.getName());
 
 	/**
 	 * Chunk size file.
@@ -60,22 +59,6 @@ public class Utility {
 	    }
 	    return b;
 	}
-	
-	/**
-	 * Check if the magic number of the file is "%PDF".
-	 * 
-	 * @param pdf	file to check
-	 * @return		flag
-	 */
-	public static boolean isPdf(byte[] pdf) {
-		boolean out = false;
-		if (pdf!=null && pdf.length >4) {
-			byte[] magicNumber = Arrays.copyOf(pdf, 4);
-			String strMagicNumber = new String(magicNumber);
-			out = strMagicNumber.equals("%PDF");
-		}
-		return out;
-	}
 
 	/**
 	 * Check if a string is null or empty.
@@ -93,8 +76,8 @@ public class Utility {
 	
 		final Formatter f = new Formatter() {
 			@Override
-			public String format(LogRecord record) {
-				return record.getMessage() + "\n"; // Printing only message
+			public String format(LogRecord logRecord) {
+				return logRecord.getMessage() + "\n"; // Printing only message
 			}
 		};
 	
@@ -102,29 +85,6 @@ public class Utility {
 		logger.addHandler(consoleHandler);
 		logger.setUseParentHandlers(false);
 		return logger;
-	}
-
-	public static byte[] getByteFromInputStream(final InputStream is) throws Exception {
-		byte[] b;
-		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-		int nRead;
-		byte[] data = new byte[CHUNK_SIZE];
-
-		while ((nRead = is.read(data, 0, data.length)) != -1) {
-			buffer.write(data, 0, nRead);
-		}
-		buffer.flush();
-		b = buffer.toByteArray();
-		return b;
-	}
-
-	public static byte[] getFileFromInternalResource(String filename) throws Exception {
-		byte[] b = null;
-		InputStream is = null;
-		is = Thread.currentThread().getContextClassLoader().getResourceAsStream(filename);
-		b = getByteFromInputStream(is);
-		is.close();
-		return b;
 	}
  
 	public static void saveToFile(final byte[] content, final String fileName) {

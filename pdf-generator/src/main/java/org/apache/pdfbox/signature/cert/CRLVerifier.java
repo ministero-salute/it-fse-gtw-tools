@@ -43,10 +43,10 @@ import javax.naming.directory.Attribute;
 import javax.naming.directory.Attributes;
 import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.pdfbox.pdmodel.encryption.SecurityProvider;
-
 import org.bouncycastle.asn1.ASN1InputStream;
 import org.bouncycastle.asn1.ASN1OctetString;
 import org.bouncycastle.asn1.ASN1Primitive;
@@ -153,11 +153,7 @@ public final class CRLVerifier
                 throw firstException;
             }
         }
-        catch (CertificateVerificationException ex)
-        {
-            throw ex;
-        }
-        catch (RevokedCertificateException ex)
+        catch (CertificateVerificationException | RevokedCertificateException ex)
         {
             throw ex;
         }
@@ -170,7 +166,7 @@ public final class CRLVerifier
         }
     }
  
-    public static void checkRevocation(
+    private static void checkRevocation(
         X509CRL crl, X509Certificate cert, Date signDate, String crlDistributionPointsURL)
                 throws RevokedCertificateException
     {
@@ -222,7 +218,7 @@ public final class CRLVerifier
             NamingException, CRLException,
             CertificateVerificationException
     {
-        Hashtable<String, String> env = new Hashtable<String, String>();
+        Hashtable<String, String> env = new Hashtable<>();
         env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
         env.put(Context.PROVIDER_URL, ldapURL);
 
@@ -244,7 +240,7 @@ public final class CRLVerifier
         }
     }
  
-    public static X509CRL downloadCRLFromWeb(String crlURL)
+    private static X509CRL downloadCRLFromWeb(String crlURL)
             throws IOException, CertificateException, CRLException
     {
         InputStream crlStream = new URL(crlURL).openStream();
@@ -258,31 +254,33 @@ public final class CRLVerifier
         }
     }
  
-    public static List<String> getCrlDistributionPoints(X509Certificate cert)
+    private static List<String> getCrlDistributionPoints(X509Certificate cert)
             throws IOException
     {
         byte[] crldpExt = cert.getExtensionValue(Extension.cRLDistributionPoints.getId());
         if (crldpExt == null)
         {
-            return new ArrayList<String>();
+            return new ArrayList<>();
         }
-        ASN1InputStream oAsnInStream = new ASN1InputStream(crldpExt);
-        ASN1Primitive derObjCrlDP = oAsnInStream.readObject();
-        oAsnInStream.close();
+        ASN1Primitive derObjCrlDP;
+        try(ASN1InputStream oAsnInStream = new ASN1InputStream(crldpExt)) {
+        	derObjCrlDP = oAsnInStream.readObject();
+        }
         if (!(derObjCrlDP instanceof ASN1OctetString))
         {
             LOG.warn("CRL distribution points for certificate subject " +
                     cert.getSubjectX500Principal().getName() +
                     " should be an octet string, but is " + derObjCrlDP);
-            return new ArrayList<String>();
+            return new ArrayList<>();
         }
         ASN1OctetString dosCrlDP = (ASN1OctetString) derObjCrlDP;
         byte[] crldpExtOctets = dosCrlDP.getOctets();
-        ASN1InputStream oAsnInStream2 = new ASN1InputStream(crldpExtOctets);
-        ASN1Primitive derObj2 = oAsnInStream2.readObject();
-        oAsnInStream2.close();
+        ASN1Primitive derObj2;
+        try(ASN1InputStream oAsnInStream2 = new ASN1InputStream(crldpExtOctets)){
+        	derObj2 = oAsnInStream2.readObject();
+        }
         CRLDistPoint distPoint = CRLDistPoint.getInstance(derObj2);
-        List<String> crlUrls = new ArrayList<String>();
+        List<String> crlUrls = new ArrayList<>();
         for (DistributionPoint dp : distPoint.getDistributionPoints())
         {
             DistributionPointName dpn = dp.getDistributionPoint();

@@ -46,7 +46,7 @@ public abstract class CreateSignatureBasePades implements SignatureInterface {
     private boolean externalSigning;
 
   
-    public CreateSignatureBasePades(KeyStore keystore, char[] pin) throws KeyStoreException, UnrecoverableKeyException, NoSuchAlgorithmException, IOException, CertificateException {
+    protected CreateSignatureBasePades(KeyStore keystore, char[] pin) throws KeyStoreException, UnrecoverableKeyException, NoSuchAlgorithmException, IOException, CertificateException {
 
     	Enumeration<String> aliases = keystore.aliases();
         String alias;
@@ -88,22 +88,26 @@ public abstract class CreateSignatureBasePades implements SignatureInterface {
         this.tsaUrl = tsaUrl;
     }
 
-    public static org.bouncycastle.asn1.cms.Attribute createSigningCertificateV2Attribute(X509Certificate signingCert[],
+    private static org.bouncycastle.asn1.cms.Attribute createSigningCertificateV2Attribute(X509Certificate[] signingCert,
             String digestAlgorithm, String digestAlgorithmOID)
             throws IOException, NoSuchAlgorithmException, CertificateEncodingException {
 
-        org.bouncycastle.asn1.ess.ESSCertIDv2 esscert[] = new org.bouncycastle.asn1.ess.ESSCertIDv2[signingCert.length];
+        org.bouncycastle.asn1.ess.ESSCertIDv2[] esscert = new org.bouncycastle.asn1.ess.ESSCertIDv2[signingCert.length];
 
         for (int i = 0; i < esscert.length; i++) {
 
             java.security.MessageDigest md = java.security.MessageDigest.getInstance(digestAlgorithm);
-            byte dgst[] = md.digest(signingCert[i].getEncoded());
+            byte[] dgst = md.digest(signingCert[i].getEncoded());
 
             org.bouncycastle.asn1.x509.AlgorithmIdentifier algoID
                     = new org.bouncycastle.asn1.x509.AlgorithmIdentifier(
                             new org.bouncycastle.asn1.ASN1ObjectIdentifier(digestAlgorithmOID));
 
-            org.bouncycastle.asn1.ASN1Primitive obj = new org.bouncycastle.asn1.ASN1InputStream(signingCert[i].getIssuerX500Principal().getEncoded()).readObject();
+            org.bouncycastle.asn1.ASN1Primitive obj;
+            
+            try(org.bouncycastle.asn1.ASN1InputStream asn1InputStream = new org.bouncycastle.asn1.ASN1InputStream(signingCert[i].getIssuerX500Principal().getEncoded())) {
+            	obj = asn1InputStream.readObject();
+            }
 
             org.bouncycastle.asn1.x500.X500Name name = org.bouncycastle.asn1.x500.X500Name.getInstance(obj);
 
@@ -152,14 +156,14 @@ public abstract class CreateSignatureBasePades implements SignatureInterface {
                     new X509Certificate[]{cert}, digestAlgorithm, digestAlgorithmOID);
             dv.add(a);
             org.bouncycastle.asn1.cms.AttributeTable signedAttr = new org.bouncycastle.asn1.cms.AttributeTable(dv);
-            org.bouncycastle.cms.CMSAttributeTableGenerator atg_s;
-            atg_s = new PAdESSignedAttributeTableGenerator(signedAttr);
+            org.bouncycastle.cms.CMSAttributeTableGenerator atgS;
+            atgS = new PAdESSignedAttributeTableGenerator(signedAttr);
             
             org.bouncycastle.operator.DigestCalculatorProvider dcp
                     = new org.bouncycastle.operator.jcajce.JcaDigestCalculatorProviderBuilder().build();
             org.bouncycastle.cms.jcajce.JcaSignerInfoGeneratorBuilder sigb;
             sigb = new org.bouncycastle.cms.jcajce.JcaSignerInfoGeneratorBuilder(dcp);
-            sigb.setSignedAttributeGenerator(atg_s);
+            sigb.setSignedAttributeGenerator(atgS);
             sigb.setUnsignedAttributeGenerator(null);
             gen.addSignerInfoGenerator(sigb.build(sha1Signer, cert));
 
