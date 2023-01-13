@@ -18,6 +18,7 @@ import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.common.filespecification.PDComplexFileSpecification;
 import org.apache.pdfbox.pdmodel.common.filespecification.PDEmbeddedFile;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.signature.CreateSignaturePades;
 
 /**
  * Copyright (c) 2022, Ministero della Salute
@@ -35,6 +36,8 @@ public class Launcher {
 	static boolean flagVerbose = false;
 	static boolean flagValidation = false;
 	static String pathOutput = null;
+	
+	static boolean signPdf = false;
 
 	/**
 	 * Main method.
@@ -71,10 +74,11 @@ public class Launcher {
 	}
 	
 	private static void checkArgs(String[] args) {
+		LOGGER.info("SIZE:" + args.length);
 		for (int i = 0; i < args.length;) {
 			String key = args[i].toLowerCase();
 			ArgumentEnum arg = ArgumentEnum.getByKey(key);
-
+			LOGGER.info("KEY:" + key);
 			if (arg == null) {
 				flagMalformedInput = true;
 				break;
@@ -102,14 +106,14 @@ public class Launcher {
 	}
 
 	private static void checkValueArg(ArgumentEnum arg, String value) {
-
+		LOGGER.info(arg.getKey()); 
 		if (ArgumentEnum.FILE_PDF.equals(arg)) {
 			pathFilePDF = value;
 		} else if (ArgumentEnum.FILE_CDA.equals(arg)) {
 			pathFileCDA = value;
 		} else if(ArgumentEnum.FILE_OUTPUT.equals(arg)) {
 			pathOutput = value;
-		}
+		} 
 
 	}
 
@@ -120,6 +124,8 @@ public class Launcher {
 			flagVerbose = true;
 		} else if (ArgumentEnum.VALIDATION_MODE.equals(arg)) {
 			flagValidation = true;
+		} else if(ArgumentEnum.SIGN_PDF.equals(arg)) {
+			signPdf = true;
 		}
 	}
 
@@ -147,6 +153,13 @@ public class Launcher {
 			pathOutput = "output.pdf";
 		}
 
+		if(signPdf) {
+			byte[] keyStore = Utility.getFileFromFS("mykeystore.p12");
+			char[] pwd = "fascicolo".toCharArray();
+			CreateSignaturePades signaturePades = SignerHelper.getSP(keyStore, pwd);
+			output = SignerHelper.pades(signaturePades, pathOutput, output);
+		}
+		
 		Utility.saveToFile(output, pathOutput);
 
 		dumpVerboseMsg(flagVerbose, "File generated.\n");

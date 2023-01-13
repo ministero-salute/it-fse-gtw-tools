@@ -35,7 +35,12 @@ enum ArgumentEnum {
 	/**
 	 * File pdf to inject (optional parameter).
 	 */
-	FILE_OUTPUT("-o", true, "specify path output pdf file (optional , default is output.pdf)");
+	FILE_OUTPUT("-o", true, "specify path output pdf file (optional , default is output.pdf)"),
+	
+	/**
+	 * Pdf sign(optional parameter).
+	 */
+	SIGN_PDF("-s", false, "specify if pdf have to sign(optional , default is false)");
 	
 	/**
 	 * Key argument.
