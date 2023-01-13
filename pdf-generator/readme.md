@@ -1,12 +1,10 @@
-[![N|Solid](https://www.sogei.it/content/dam/sogei/loghi/Sogei_logo_304.svg)](https://www.sogei.it/it/sogei-homepage.html)
-
 # PDFGenerator
 PDF generator allows to inject a CDA.xml file into a PDF file for the invocation of the FSE2.0 Gateway Validator Web service.
 
 ### Requirements
 <ul>
-	<li> Download a JDK from [jdk.zip] to execute the build of the application </li>
-	<li> Gain maven from [maven] to build the application </li>
+	<li> Download a JDK from https://aka.ms/download-jdk/microsoft-jdk-17.0.3-windows-x64.zip to execute the build of the application </li>
+	<li> Gain maven from https://maven.apache.org/download.cgi to build the application </li>
 </ul>
 
 ---

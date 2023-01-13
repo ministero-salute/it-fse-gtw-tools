@@ -1,13 +1,11 @@
-[![N|Solid](https://www.sogei.it/content/dam/sogei/loghi/Sogei_logo_304.svg)](https://www.sogei.it/it/sogei-homepage.html)
-
 # JWTGenerator
 JWT generator allows to generate the Json Web Token (JWT) for the invocation of the FSE2.0 Gateway Validator Web service.
 The JWT can be customized with payload and signature required by the Web service.
 
 ### Requirements
 <ul>
-	<li> Download a JDK from [jdk.zip] to execute the build of the application </li>
-	<li> Gain maven from [maven] to build the application </li>
+	<li> Download a JDK from https://aka.ms/download-jdk/microsoft-jdk-17.0.3-windows-x64.zip to execute the build of the application </li>
+	<li> Gain maven from https://maven.apache.org/download.cgi to build the application </li>
 	<li> Provide signature certificates to use to sign the JWT tokens </li>
 </ul>
 
