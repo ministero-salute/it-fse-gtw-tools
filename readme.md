@@ -27,8 +27,6 @@
 
 ---
 
-# Fascicolo Sanitario 2.0
-
 # _it-fse-gtw-tools_
 
 The repository contains all the tools that helps execute FSE2.0 Gateway Validator Web service to validate CDA injected in Pdf files.
