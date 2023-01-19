@@ -1,4 +1,8 @@
-# JWTGenerator
+
+# Fascicolo Sanitario 2.0
+
+# _jwt-generator_
+
 Il generatore JWT consente di generare il Json Web Token (JWT) per l'invocazione del servizio Web FSE2.0 Gateway Validator.
 Il JWT può essere personalizzato con il payload e la firma richiesti dal servizio Web.
 
@@ -129,3 +133,13 @@ Il seguente comando genererà due JWT Token che possono essere usati per chiamar
 [//]: # (Questi sono collegamenti di riferimento utilizzati nel corpo di questa nota e vengono rimossi quando il processore di markdown fa il suo lavoro. Non è necessario formattare bene perché non dovrebbe essere visto. Grazie - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
 [jdk.zip]: <https://aka.ms/download-jdk/microsoft-jdk-17.0.3-windows-x64.zip>
 [maven]: <https://maven.apache.org/download.cgi>
+
+---
+
+## Repos
+- [*it-fse-support*](https://github.com/ministero-salute/it-fse-support) - Pagina di supporto FSE 2.0
+- [*it-fse-landing*](https://github.com/ministero-salute/it-fse-landing) - Landing page dei repository FSE 2.0
+
+## Licenza
+
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)

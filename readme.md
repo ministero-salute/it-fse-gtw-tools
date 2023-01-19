@@ -31,7 +31,7 @@
 
 # _it-fse-gtw-tools_
 
-Il repository contiene tutti gli strumenti che consentono di eseguire il servizio Web FSE2.0 Gateway Validator per convalidare il CDA iniettato nei file Pdf.
+Il microservizio in oggetto contiene i tools di supporto al corretto utilizzo del FSE2.0.
 
 | TOOL | LINK | DESCRIZIONE |
 | :------------: | :------------: | ------------ |
@@ -40,7 +40,7 @@ Il repository contiene tutti gli strumenti che consentono di eseguire il servizi
 
 <br/>
 
-## Getting started
+## Per cominciare
 ### Requisiti
 <ul>
 	<li> Scarica la JDK da https://aka.ms/download-jdk/microsoft-jdk-17.0.3-windows-x64.zip per eseguire la build dell'applicazione </li>
@@ -82,22 +82,19 @@ Passare alla cartella principale dell'applicazione ed eseguire il comando:
 
 `mvn clean package`
 
-If the build is successful, the tools will be generated. Checkout each <em>readme.md</em> file for a guide on how to use them.
+Se la compilazione ha esito positivo, i tools verranno generati. Guarda ogni file <em>README.md</em> per una guida su come usarli.
 
 [//]: # (Questi sono collegamenti di riferimento utilizzati nel body di questa nota e vengono rimossi quando il processore di markdown fa il suo lavoro. Non è necessario formattare bene perché non dovrebbe essere visto. Grazie - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
 [jwt-generator]: <https://github.com/ministero-salute/it-fse-gtw-tools/tree/main/jwt-generator>
 [pdf-generator]: <https://github.com/ministero-salute/it-fse-gtw-tools/tree/main/pdf-generator>
 [jdk.zip]: <https://aka.ms/download-jdk/microsoft-jdk-17.0.3-windows-x64.zip>
 [maven]: <https://maven.apache.org/download.cgi>
----
 
-<br/>
+---
 
 ## Repos
 - [*it-fse-support*](https://github.com/ministero-salute/it-fse-support) - Pagina di supporto FSE 2.0
 - [*it-fse-landing*](https://github.com/ministero-salute/it-fse-landing) - Landing page dei repository FSE 2.0
-
-<br/>
 
 ## Licenza
 

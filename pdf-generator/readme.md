@@ -1,4 +1,8 @@
-# PDFGenerator
+
+# Fascicolo Sanitario 2.0
+
+# _pdf-generator_
+
 Il generatore di PDF consente di inserire un file CDA.xml in un file PDF per l'invocazione del servizio Web FSE2.0 Gateway Validator.
 
 ### Requisiti
@@ -69,3 +73,13 @@ Il comando precedente mostrerà un aiuto che spiega come utilizzare l'applicazio
 Il seguente comando inserirà un file CDA.xml in un sample.pdf, il file può essere utilizzato per chiamare il servizio di convalida FSE2.0-Gateway:
 
 `java -jar pdf-generator.jar -c CDA_OK.xml -x`
+
+---
+
+## Repos
+- [*it-fse-support*](https://github.com/ministero-salute/it-fse-support) - Pagina di supporto FSE 2.0
+- [*it-fse-landing*](https://github.com/ministero-salute/it-fse-landing) - Landing page dei repository FSE 2.0
+
+## Licenza
+
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
