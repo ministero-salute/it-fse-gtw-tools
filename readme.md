@@ -98,4 +98,4 @@ Se la compilazione ha esito positivo, i tools verranno generati. Guarda ogni fil
 
 ## Licenza
 
-[![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+[![License: BSD_3](https://img.shields.io/badge/License-BSD_3--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
