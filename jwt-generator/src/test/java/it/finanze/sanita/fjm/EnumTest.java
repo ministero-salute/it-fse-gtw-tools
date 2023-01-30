@@ -1,12 +1,11 @@
 package it.finanze.sanita.fjm;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles(Constants.Profile.TEST)
@@ -19,58 +18,58 @@ public class EnumTest {
 		String key1 = "-h";
 		boolean flag1 = false;
 		String desc1 = "show this help page";
-        assertEquals(key1, ArgumentEnum.HELP_MODE.getKey());
-        assertEquals(flag1, ArgumentEnum.HELP_MODE.getFlagHasValue());
-        assertEquals(desc1, ArgumentEnum.HELP_MODE.getDescription());
+        assertEquals(ArgumentEnum.getByKey(key1).getKey(), key1);
+        assertEquals(ArgumentEnum.getByKey(key1).getFlagHasValue(), flag1);
+        assertEquals(ArgumentEnum.getByKey(key1).getDescription(), desc1);
 
 		String key2 = "-d";
 		boolean flag2 = true;
 		String desc2 = "specify json data file path (mandatory)";
-        assertEquals(key2, ArgumentEnum.JSON_DATA.getKey());
-        assertEquals(flag2, ArgumentEnum.JSON_DATA.getFlagHasValue());
-        assertEquals(desc2, ArgumentEnum.JSON_DATA.getDescription());
+        assertEquals(ArgumentEnum.getByKey(key2).getKey(), key2);
+        assertEquals(ArgumentEnum.getByKey(key2).getFlagHasValue(), flag2);
+        assertEquals(ArgumentEnum.getByKey(key2).getDescription(), desc2);
 
 		String key3 = "-f";
 		boolean flag3 = true;
 		String desc3 = "specify PDF file path to publish (optional, if given the tool will calculate hash)";
-        assertEquals(key3, ArgumentEnum.FILE_TO_PUBLISH.getKey());
-        assertEquals(flag3, ArgumentEnum.FILE_TO_PUBLISH.getFlagHasValue());
-        assertEquals(desc3, ArgumentEnum.FILE_TO_PUBLISH.getDescription());
+        assertEquals(ArgumentEnum.getByKey(key3).getKey(), key3);
+        assertEquals(ArgumentEnum.getByKey(key3).getFlagHasValue(), flag3);
+        assertEquals(ArgumentEnum.getByKey(key3).getDescription(), desc3);
 
 		String key4 = "-a";
 		boolean flag4 = true;
 		String desc4 = "specify alias of p12 file (mandatory)";
-        assertEquals(key4, ArgumentEnum.P12_ALIAS.getKey());
-        assertEquals(flag4, ArgumentEnum.P12_ALIAS.getFlagHasValue());
-        assertEquals(desc4, ArgumentEnum.P12_ALIAS.getDescription());
+        assertEquals(ArgumentEnum.getByKey(key4).getKey(), key4);
+        assertEquals(ArgumentEnum.getByKey(key4).getFlagHasValue(), flag4);
+        assertEquals(ArgumentEnum.getByKey(key4).getDescription(), desc4);
 
 		String key5 = "-p";
 		boolean flag5 = true;
 		String desc5 = "specify password of p12 file (mandatory)";
-        assertEquals(key5, ArgumentEnum.P12_PWD.getKey());
-        assertEquals(flag5, ArgumentEnum.P12_PWD.getFlagHasValue());
-        assertEquals(desc5, ArgumentEnum.P12_PWD.getDescription());
+        assertEquals(ArgumentEnum.getByKey(key5).getKey(), key5);
+        assertEquals(ArgumentEnum.getByKey(key5).getFlagHasValue(), flag5);
+        assertEquals(ArgumentEnum.getByKey(key5).getDescription(), desc5);
 
 		String key6 = "-t";
 		boolean flag6 = true;
 		String desc6 = "specify token duration (optional, default is 24h)";
-        assertEquals(key6, ArgumentEnum.DURATION_JWT.getKey());
-        assertEquals(flag6, ArgumentEnum.DURATION_JWT.getFlagHasValue());
-        assertEquals(desc6, ArgumentEnum.DURATION_JWT.getDescription());
+        assertEquals(ArgumentEnum.getByKey(key6).getKey(), key6);
+        assertEquals(ArgumentEnum.getByKey(key6).getFlagHasValue(), flag6);
+        assertEquals(ArgumentEnum.getByKey(key6).getDescription(), desc6);
 
 		String key7 = "-x";
 		boolean flag7 = false;
 		String desc7 = "enable verbose mode (optional, default is false)";
-        assertEquals(key7, ArgumentEnum.VERBOSE_MODE.getKey());
-        assertEquals(flag7, ArgumentEnum.VERBOSE_MODE.getFlagHasValue());
-        assertEquals(desc7, ArgumentEnum.VERBOSE_MODE.getDescription());
+        assertEquals(ArgumentEnum.getByKey(key7).getKey(), key7);
+        assertEquals(ArgumentEnum.getByKey(key7).getFlagHasValue(), flag7);
+        assertEquals(ArgumentEnum.getByKey(key7).getDescription(), desc7);
 
 		String key8 = "-v";
 		boolean flag8 = false;
 		String desc8 = "enable validation mode (optional, default is false)";
-        assertEquals(key8, ArgumentEnum.VALIDATION_MODE.getKey());
-        assertEquals(flag8, ArgumentEnum.VALIDATION_MODE.getFlagHasValue());
-        assertEquals(desc8, ArgumentEnum.VALIDATION_MODE.getDescription());
+        assertEquals(ArgumentEnum.getByKey(key8).getKey(), key8);
+        assertEquals(ArgumentEnum.getByKey(key8).getFlagHasValue(), flag8);
+        assertEquals(ArgumentEnum.getByKey(key8).getDescription(), desc8);
 
 	}
 	
