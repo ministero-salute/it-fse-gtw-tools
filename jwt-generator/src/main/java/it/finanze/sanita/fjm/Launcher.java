@@ -58,10 +58,9 @@ public class Launcher {
 
 			if (flagNeedHelp) {
 				showHelp(LOGGER);
-			} else if (flagMalformedInput || Utility.nullOrEmpty(jsonData) || Utility.nullOrEmpty(aliasP12)
-					|| pwdP12 == null) {
+			} else if (flagMalformedInput || Utility.nullOrEmpty(jsonData) || pwdP12 == null) {
 				LOGGER.info(
-						"Please check for malformed input; please remember that alias p12, password p12 and json data are mandatory.");
+						"Please check for malformed input; please remember that password p12 and json data are mandatory.");
 			} else {
 				buildToken();
 			}
@@ -231,7 +230,7 @@ public class Launcher {
 		logger.info("\t\tFS2 JWT Maker (fjm) - JWT generator for FS2 Gateway\n");
 		logger.info("SYNOPSIS");
 		logger.info(
-				"\t\tjava -jar fjm -d JSON_DATA_FILE -a ALIAS_P12 -p PASSWORD_P12 [-f PDF_FILE_TO_PUBLISH] [-t TOKEN_DURATION] [-v] [-x] [-h]");
+				"\t\tjava -jar fjm -d JSON_DATA_FILE -p PASSWORD_P12 [-a ALIAS_P12] [-f PDF_FILE_TO_PUBLISH] [-t TOKEN_DURATION] [-v] [-x] [-h]");
 		logger.info("");
 		logger.info("DESCRIPTION");
 		logger.info("\t\tGenerate JWT for FS2 Gateway");
