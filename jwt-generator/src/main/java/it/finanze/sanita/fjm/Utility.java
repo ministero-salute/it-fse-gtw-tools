@@ -73,7 +73,7 @@ public class Utility {
 				while (aliases.hasMoreElements()) {
 					String a = aliases.nextElement();
 					if (keyStore.isKeyEntry(a)) {
-						LOGGER.info(String.format("Using alias: %s",a));
+						LOGGER.info(()->String.format("Using alias: %s",a));
 						return keyStore.getKey(a, password);
 					}
 				}
