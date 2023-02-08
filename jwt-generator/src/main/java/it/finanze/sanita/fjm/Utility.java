@@ -10,7 +10,6 @@ import java.security.KeyStore;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.ConsoleHandler;
@@ -29,7 +28,7 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
  */
 public class Utility {
 
-	static final Logger LOGGER = Utility.getLogger(Utility.class.getName());
+	private static final Logger LOGGER = Utility.getLogger(Utility.class.getName());
 
 	/**
 	 * Chunk size file.
@@ -41,16 +40,6 @@ public class Utility {
      */
 	private Utility() {
 		
-	}
-	
-	/**
-	 * Encode file into base64.
-	 * 
-	 * @param input	content
-	 * @return		content encoded in base64
-	 */
-	public static String encodeBase64(final byte[] input) {
-	    return Base64.getEncoder().encodeToString(input);
 	}
 	
 	/**
@@ -159,8 +148,8 @@ public class Utility {
 	
 		final Formatter f = new Formatter() {
 			@Override
-			public String format(LogRecord record) {
-				return record.getMessage() + "\n"; // Printing only message
+			public String format(LogRecord logRecord) {
+				return logRecord.getMessage() + "\n"; // Printing only message
 			}
 		};
 	
