@@ -43,7 +43,12 @@ enum ArgumentEnum {
 	/**
 	 * Show validation info (optional mode).
 	 */
-	VALIDATION_MODE("-v", false, "enable validation mode (optional, default is false)");
+	VALIDATION_MODE("-v", false, "enable validation mode (optional, default is false)"),
+	
+	/**
+	 * Dir path csr(optional parameter).
+	 */
+	DIR_PATH_CSR("-dircsr", true, "specify CSR file path to calculate sha");
 	
 	/**
 	 * Key argument.

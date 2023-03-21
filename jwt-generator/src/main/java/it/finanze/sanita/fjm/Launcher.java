@@ -1,16 +1,21 @@
 package it.finanze.sanita.fjm;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.security.Key;
 import java.security.Security;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.security.interfaces.RSAPublicKey;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -45,6 +50,7 @@ public class Launcher {
 	static boolean flagNeedHelp = false;
 	static boolean flagVerbose = false;
 	static boolean flagValidation = false;
+	static String dirPathCsrProv = null;
 
 	/**
 	 * Main method.
@@ -52,7 +58,8 @@ public class Launcher {
 	 * @param args arguments
 	 */
 	public static void main(String[] args) {
-
+//		args = new String[]{"-dirCSR", "C:\\Users\\066008758\\Desktop\\CSRMULTI", "-d", "data.json", "-a", "190201234567XX", "-p","FSE_654321"};
+//		-d data.json -a 190201234567XX -p 
 		LOGGER.info(" _____  _____  ___       __  _ _ _  _____    _____       _             ");
 		LOGGER.info("|   __||   __||_  |   __|  || | | ||_   _|  |     | ___ | |_  ___  ___ ");
 		LOGGER.info("|   __||__   ||  _|  |  |  || | | |  | |    | | | || .'|| '_|| -_||  _|");
@@ -68,7 +75,11 @@ public class Launcher {
 				LOGGER.info(
 						"Please check for malformed input; please remember that password p12 and json data are mandatory.");
 			} else {
-				buildTokens();
+				if(dirPathCsrProv!=null) {
+					buildTokensProvisioning();
+				} else {
+					buildTokens();	
+				}
 			}
 		} catch (Exception e) {
 			LOGGER.info("An error occur while trying to generate JWT, hope this can help:");
@@ -128,6 +139,8 @@ public class Launcher {
 			aliasP12 = value;
 		} else if (ArgumentEnum.P12_PWD.equals(arg)) {
 			pwdP12 = value.toCharArray();
+		} else if (ArgumentEnum.DIR_PATH_CSR.equals(arg)) {
+			dirPathCsrProv = value;
 		}
 
 	}
@@ -141,6 +154,95 @@ public class Launcher {
 		} else if (ArgumentEnum.VALIDATION_MODE.equals(arg)) {
 			flagValidation = true;
 		}
+	}
+
+	private static void buildTokensProvisioning() throws Exception {
+		Map<String, String> mapJD = getJsonData(new String(Utility.getFileFromFS(jsonData)));
+		byte[] privateKeyP12 = Utility.getFileFromFS(get(mapJD, JWTAuthEnum.P12_PATH));
+		byte[] pem = Utility.getFileFromFS(get(mapJD, JWTAuthEnum.PEM_PATH));
+		
+		
+		
+		dumpVerboseMsg(flagVerbose, "Generating Authorization Bearer Token\\n");
+		dumpVerboseMsg(flagVerbose, "AUTHORIZATION BEARER TOKEN START HERE");
+		LOGGER.info("------------- Authorization Bearer Token ---------------\\n");
+		String authTokenProvisioning = getAuthTokenProvisioning(mapJD,privateKeyP12,pem);
+		LOGGER.info(authTokenProvisioning);
+		LOGGER.info("\n"); 
+		dumpVerboseMsg(flagVerbose, "AUTHORIZATION BEARER TOKEN END HERE\n");
+		
+		
+		dumpVerboseMsg(flagVerbose, "Generating FSE-JWT-Provisioning\n");
+		dumpVerboseMsg(flagVerbose, "FSE-JWT-Provisioning START HERE");
+		LOGGER.info("\n------------- FSE-JWT-Provisioning ---------------\n");
+		String businessTokenProvisioning = getBusinessTokenProvisioning();
+		LOGGER.info(businessTokenProvisioning);
+		LOGGER.info("\n"); 
+		dumpVerboseMsg(flagVerbose, "FSE-JWT-PROVISIONING END HERE\n");
+	}
+	
+	private static String getAuthTokenProvisioning(Map<String, String> mapJD, byte[] privateKeyP12, byte[] pem) throws Exception {
+		Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
+
+		Key privateKey = Utility.extractKeyByAliasFromP12(pwdP12, aliasP12, privateKeyP12);
+
+		String cleanedPEM = new String(pem)
+				.replace("-----BEGIN PUBLIC KEY-----", "")
+				.replaceAll(System.lineSeparator(), "")
+				.replace("-----END PUBLIC KEY-----", "")
+				.replace("-----BEGIN CERTIFICATE-----", "")
+				.replaceAll(System.lineSeparator(), "")
+				.replace("-----END CERTIFICATE-----", "")
+				.replace("\n", "");
+
+		String publicKey = cleanedPEM;
+
+		dumpVerboseMsg(flagVerbose, "Analyzing data\n");
+		String iss = get(mapJD, JWTAuthEnum.ISS);
+		Date iat = new Date();
+		Date exp = Utility.addHoursToJavaUtilDate(iat, nHour);
+
+		dumpVerboseMsg(flagVerbose, "Issued At Time: " + iat);
+		dumpVerboseMsg(flagVerbose, "EXPiration time: " + exp);
+		if (privateKey != null) {
+			dumpVerboseMsg(flagVerbose, "Private key founded.");
+		} else {
+			dumpVerboseMsg(flagVerbose, "Private key NOT FOUNDED!");
+		}
+		if (!Utility.nullOrEmpty(publicKey)) {
+			dumpVerboseMsg(flagVerbose, "Public key founded.");
+		} else {
+			dumpVerboseMsg(flagVerbose, "Public key NOT FOUNDED!");
+		}
+		Integer nDataItems = 0;
+		if (mapJD.size() > 0) {
+			nDataItems = mapJD.size();
+		}
+		dumpVerboseMsg(flagVerbose, "Json data items founded: " + nDataItems + ".\n");
+
+		return generateAuthJWT(mapJD, privateKey, publicKey, iat, exp, iss);
+	}
+	
+	private static String getBusinessTokenProvisioning() throws Exception {
+		File directory = new File(dirPathCsrProv);
+
+		if (!directory.isDirectory()) {
+			LOGGER.info("Attenzione fornire il path in cui sono presenti le csr.");
+			return null;
+		}
+
+		File[] files = directory.listFiles();
+
+		List<CsrDTO> hashCsr = new ArrayList<>();
+		for (File file : files) {
+			if (file.isFile() && file.getName().endsWith(".csr")) {
+				hashCsr.add(new CsrDTO(Utility.encodeSHA256(Files.readAllBytes(file.toPath()))));
+			} 
+		}
+
+		JWTTokenDTO provToken = new JWTTokenDTO(hashCsr);
+		String tokenJson = new Gson().toJson(provToken);
+		return new String(Base64.getEncoder().encode(tokenJson.getBytes()));
 	}
 
 	private static void buildTokens() throws Exception {
