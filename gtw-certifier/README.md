@@ -86,9 +86,10 @@ Il comando corretto da lanciare per eseguire la validazione sarà:
 ---
 
 
- 
 
-https://user-images.githubusercontent.com/54367888/229851620-f67db998-93e3-48fc-ba54-c6a84a89de18.mp4
+
+https://user-images.githubusercontent.com/54367888/229851978-335f7800-115b-4391-8f19-93fa07f45e3a.mp4
+
 
 
 
