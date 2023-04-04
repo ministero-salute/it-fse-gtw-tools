@@ -16,6 +16,7 @@
   <modules>
     <module>./jwt-generator</module>
     <module>./pdf-generator</module>
+    <module>./gtw-certifier</module>
   </modules>
 
   <dependencies>
