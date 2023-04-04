@@ -86,8 +86,10 @@ Il comando corretto da lanciare per eseguire la validazione sarà:
 ---
 
 
+ 
 
-https://media.github.ibm.com/user/377915/files/95f548ae-a354-4507-949c-1e6c991e2923
+https://user-images.githubusercontent.com/54367888/229851620-f67db998-93e3-48fc-ba54-c6a84a89de18.mp4
+
 
 
 
