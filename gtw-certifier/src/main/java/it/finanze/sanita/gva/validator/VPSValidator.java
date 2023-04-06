@@ -224,7 +224,7 @@ public final class VPSValidator extends DocumentTypeValidator {
 		ValidationXML.equalIC(errors, VPSErrorEnum.DIMISSIONE_ACT_ER_OBS_VALUE_CODE_SYSTEM_NAME, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Dimissione'] > entry > act > entryRelationship > observation > value", "codeSystemName", "ICD9-CM");
 		ValidationXML.equalIC(errors, VPSErrorEnum.DIMISSIONE_ACT_ER_OBS_CODE_CODE, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Dimissione'] > entry > act > entryRelationship > observation > statusCode", "code", "Completed");
 		ValidationXML.containsIC(errors, VPSErrorEnum.DIMISSIONE_ACT_ER_OBS_CODE_CODE_SYSTEM_NAME, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Dimissione'] > entry > act > entryRelationship > observation > value", "codeSystem", "2.16.840.1.113883.2.9.6.1.54.5");
-		ValidationXML.containsIC(errors, VPSErrorEnum.DIMISSIONE_ACT_ER_OBS_CODE_DISPLAY_NAME, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Dimissione'] > entry > act > entryRelationship > observation > value", "codeSystemName", "EsitoTrattamento_VPS");
+		ValidationXML.containsIC(errors, VPSErrorEnum.DIMISSIONE_ACT_ER_OBS_CODE_DISPLAY_NAME, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Dimissione'] > entry > act > entryRelationship > observation > value", "codeSystemName","ICD9-CM","EsitoTrattamento_VPS");
 		ValidationXML.equalIC(errors, VPSErrorEnum.DIMISSIONE_OBS_CLASS_CODE, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Dimissione'] > entry > observation", "classCode", "OBS");
 		ValidationXML.equalIC(errors, VPSErrorEnum.DIMISSIONE_OBS_MOOD_CODE, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Dimissione'] > entry > observation", "moodCode", "EVN");
 		ValidationXML.equalIC(errors, VPSErrorEnum.DIMISSIONE_OBS_TEMPLATE_ID, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Dimissione'] > entry > observation > templateId", "root", "2.16.840.1.113883.2.9.10.1.6.66", "2.16.840.1.113883.2.9.10.1.6.72", "2.16.840.1.113883.2.9.10.1.6.86", "2.16.840.1.113883.2.9.10.1.6.73");
@@ -596,5 +596,5 @@ public final class VPSValidator extends DocumentTypeValidator {
 		ValidationXML.equalIC(errors, VPSErrorEnum.DIMISSIONE_OBS_STATUS_CODE, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Dimissione'] > entry > observation > statusCode", "code", "Completed");
 	}
 
-
 }
+
