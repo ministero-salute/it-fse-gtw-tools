@@ -6,3 +6,12 @@
 *.prefs
 *.iml
 .DS_Store
+gtw-certifier/target/archive-tmp/gtw-certifier-1.0.jar
+gtw-certifier/target/classes/META-INF/MANIFEST.MF
+gtw-certifier/target/classes/META-INF/maven/it.finanze.sanita.fse2/gtw-certifier/pom.properties
+gtw-certifier/target/classes/META-INF/maven/it.finanze.sanita.fse2/gtw-certifier/pom.xml
+gtw-certifier/target/classes/splash-screen.txt
+gtw-certifier/target/gtw-certifier-1.0.jar
+gtw-certifier/target/maven-archiver/pom.properties
+gtw-certifier/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
+gtw-certifier/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
