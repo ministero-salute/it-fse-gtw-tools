@@ -14,6 +14,6 @@ import lombok.NoArgsConstructor;
 @Getter
 public class JWTTokenDTO {
     
-    private List<CsrDTO> vector_hash_csr;
+    private List<String> vector_hash_csr;
     
 }

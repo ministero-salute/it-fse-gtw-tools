@@ -12,7 +12,6 @@ import java.security.cert.X509Certificate;
 import java.security.interfaces.RSAPublicKey;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -159,6 +158,7 @@ public class Launcher {
 	private static void buildTokensProvisioning() throws Exception {
 		Map<String, String> mapJD = getJsonData(new String(Utility.getFileFromFS(jsonData)));
 		byte[] privateKeyP12 = Utility.getFileFromFS(get(mapJD, JWTAuthEnum.P12_PATH));
+		Key privateKey = Utility.extractKeyByAliasFromP12(pwdP12, aliasP12, privateKeyP12);
 		byte[] pem = Utility.getFileFromFS(get(mapJD, JWTAuthEnum.PEM_PATH));
 		
 		
@@ -175,7 +175,23 @@ public class Launcher {
 		dumpVerboseMsg(flagVerbose, "Generating FSE-JWT-Provisioning\n");
 		dumpVerboseMsg(flagVerbose, "FSE-JWT-Provisioning START HERE");
 		LOGGER.info("\n------------- FSE-JWT-Provisioning ---------------\n");
-		String businessTokenProvisioning = getBusinessTokenProvisioning();
+
+		Date iat = new Date();
+		Date exp = Utility.addHoursToJavaUtilDate(iat, nHour);
+		String iss = get(mapJD, JWTAuthEnum.ISS);
+
+		String cleanedPEM = new String(pem)
+				.replace("-----BEGIN PUBLIC KEY-----", "")
+				.replaceAll(System.lineSeparator(), "")
+				.replace("-----END PUBLIC KEY-----", "")
+				.replace("-----BEGIN CERTIFICATE-----", "")
+				.replaceAll(System.lineSeparator(), "")
+				.replace("-----END CERTIFICATE-----", "")
+				.replace("\n", "");
+
+		String publicKey = cleanedPEM;
+
+		String businessTokenProvisioning = getBusinessTokenProvisioning(mapJD, privateKey, publicKey, iat, exp, iss);
 		LOGGER.info(businessTokenProvisioning);
 		LOGGER.info("\n"); 
 		dumpVerboseMsg(flagVerbose, "FSE-JWT-PROVISIONING END HERE\n");
@@ -223,7 +239,22 @@ public class Launcher {
 		return generateAuthJWT(mapJD, privateKey, publicKey, iat, exp, iss);
 	}
 	
-	private static String getBusinessTokenProvisioning() throws Exception {
+	private static String getBusinessTokenProvisioning(Map<String, String> mapJD, Key privateKey, String x5c, Date iat, Date exp, String iss) throws Exception {
+		Map<String, Object> headerParams = new HashMap<>();
+		headerParams.put(JWTClaimsEnum.ALG.getKey(), SignatureAlgorithm.RS256);
+		headerParams.put(JWTClaimsEnum.TYP.getKey(), JWTClaimsEnum.JWT.getKey());
+		headerParams.put(JWTClaimsEnum.X5C.getKey(), Arrays.asList(x5c).toArray());
+
+		Map<String, Object> claims = new HashMap<>();
+		for (JWTClaimsEnum k : JWTClaimsEnum.values()) {
+			if (k.getAutoFlagPayloadClaim() && mapJD.containsKey(k.getKey())) {
+				claims.put(k.getKey(), mapJD.get(k.getKey()));
+			}
+		}
+		claims.put(JWTClaimsEnum.IAT.getKey(), iat.getTime()/1000);
+		claims.put(JWTClaimsEnum.EXP.getKey(), exp.getTime()/1000);
+		claims.put(JWTAuthEnum.ISS.getKey(), "integrity:" + cleanIss(iss));
+
 		File directory = new File(dirPathCsrProv);
 
 		if (!directory.isDirectory()) {
@@ -233,16 +264,20 @@ public class Launcher {
 
 		File[] files = directory.listFiles();
 
-		List<CsrDTO> hashCsr = new ArrayList<>();
+		List<String> hashCsr = new ArrayList<>();
 		for (File file : files) {
 			if (file.isFile() && file.getName().endsWith(".csr")) {
-				hashCsr.add(new CsrDTO(Utility.encodeSHA256(Files.readAllBytes(file.toPath()))));
+				hashCsr.add(Utility.encodeSHA256(Files.readAllBytes(file.toPath())));
 			} 
 		}
 
 		JWTTokenDTO provToken = new JWTTokenDTO(hashCsr);
 		String tokenJson = new Gson().toJson(provToken);
-		return new String(Base64.getEncoder().encode(tokenJson.getBytes()));
+
+		claims.put(JWTClaimsEnum.JWT.getKey(), tokenJson);
+
+		return Jwts.builder().setHeaderParams(headerParams).setClaims(claims)
+				.signWith(SignatureAlgorithm.RS256, privateKey).compact();
 	}
 
 	private static void buildTokens() throws Exception {
