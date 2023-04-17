@@ -37,6 +37,7 @@ Il microservizio in oggetto contiene i tools di supporto al corretto utilizzo de
 | :------------: | :------------: | ------------ |
 | JWTGenerator | [jwt-generator] | Genera un Json Web Token (JWT) per la chiamata del servizio Web FSE2.0 Gateway Validator. |
 | PDFGenerator | [pdf-generator] | Inserisce un file CDA.xml in un file PDF per la chiamata del servizio Web FSE2.0 Gateway Validator. |
+| GTWCertifier | [gtw-certifier] | Consente di effettuare offline la verifica dei test case previsti per l'accreditamento. |
 
 <br/>
 
@@ -87,6 +88,7 @@ Se la compilazione ha esito positivo, i tools verranno generati. Guarda ogni fil
 [//]: # (Questi sono collegamenti di riferimento utilizzati nel body di questa nota e vengono rimossi quando il processore di markdown fa il suo lavoro. Non è necessario formattare bene perché non dovrebbe essere visto. Grazie - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
 [jwt-generator]: <https://github.com/ministero-salute/it-fse-gtw-tools/tree/main/jwt-generator>
 [pdf-generator]: <https://github.com/ministero-salute/it-fse-gtw-tools/tree/main/pdf-generator>
+[gtw-certifier]: <https://github.com/ministero-salute/it-fse-gtw-tools/tree/main/gtw-certifier>
 [jdk.zip]: <https://aka.ms/download-jdk/microsoft-jdk-17.0.3-windows-x64.zip>
 [maven]: <https://maven.apache.org/download.cgi>
 
