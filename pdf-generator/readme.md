@@ -4,6 +4,7 @@
 # _pdf-generator_
 
 Il generatore di PDF consente di inserire un file CDA.xml in un file PDF per l'invocazione del servizio Web FSE2.0 Gateway Validator.
+Tale jar offre anche la possibilit‡ di apporre una firma pades sul pdf generato utilizzando un certificato p12 fornito in input.
 
 ### Requisiti
 <ul>
@@ -67,6 +68,8 @@ Il comando precedente mostrer√† un aiuto che spiega come utilizzare l'applicazio
 | -c | true  | VALUE | The complete path of the CDA to inject in the file.  |
 | -p | false | VALUE | The complete file of the PDF where to inject the CDA (if not provided, it will use a sample.pdf)  |
 | -o | false | VALUE | The output path of the generated PDF (if not provided, it will use ./output.pdf ) |
+| -s | false | VALUE | P12 Path of sign certificate |
+| -pwd | false | VALUE | P12 Password of sign certificate |
 
 ### Esempio
 
