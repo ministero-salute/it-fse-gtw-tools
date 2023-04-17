@@ -2,8 +2,8 @@ package it.finanze.sanita.fpm;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
+import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -22,8 +22,5 @@ class LauncherTest {
     	assertDoesNotThrow(()->Launcher.getPdf(pdf));
     	assertDoesNotThrow(()->Launcher.extract(pdf));
     }
-
-    
-    
     
 }

@@ -91,7 +91,6 @@
 						<configuration>
 							<tasks>
 								<copy file="sample.pdf" tofile="${basedir}/target/sample.pdf"/>
-								<copy file="mykeystore.p12" tofile="${basedir}/target/mykeystore.p12"/>
 							</tasks>
 						</configuration>
 					</execution>

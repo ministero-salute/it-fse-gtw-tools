@@ -40,7 +40,12 @@ enum ArgumentEnum {
 	/**
 	 * Pdf sign(optional parameter).
 	 */
-	SIGN_PDF("-s", false, "specify if pdf have to sign(optional , default is false)");
+	PATH_SIGN_P12_PDF("-s", true, "specify if pdf have to sign(optional , default is false)"),
+	
+	/**
+	 * Pwd sign p12.
+	 */
+	PWD_SIGN_P12_PDF("-pwd", true, "specify pwd of p12 certificate");
 	
 	/**
 	 * Key argument.
