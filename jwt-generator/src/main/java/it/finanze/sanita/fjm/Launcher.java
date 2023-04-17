@@ -478,8 +478,7 @@ public class Launcher {
 			} 
 		}
 
-		JWTTokenDTO provToken = new JWTTokenDTO(hashCsr);
-		String tokenJson = new Gson().toJson(provToken);
+		String tokenJson = new Gson().toJson(hashCsr);
 
 		claims.put(JWTClaimsEnum.JWT.getKey(), tokenJson);
 
