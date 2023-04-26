@@ -428,7 +428,7 @@ public class Launcher {
 				claims.put(k.getKey(), mapJD.get(k.getKey()));
 			}
 		}
-		claims.put(JWTClaimsEnum.PATIENT_CONSENT.getKey(), true);
+		
 		claims.put(JWTClaimsEnum.IAT.getKey(), iat.getTime()/1000);
 		claims.put(JWTClaimsEnum.EXP.getKey(), exp.getTime()/1000);
 		claims.put(JWTAuthEnum.ISS.getKey(), "integrity:" + cleanIss(iss));
@@ -476,8 +476,8 @@ public class Launcher {
 		}
 
 		String tokenJson = new Gson().toJson(hashCsr);
-
-		claims.put(JWTClaimsEnum.JWT.getKey(), tokenJson);
+		// TODO In alternativa potresti avere gli id
+		claims.put(JWTClaimsEnum.VECTOR_HASH_CSR.getKey(), tokenJson);
 
 		return Jwts.builder().setHeaderParams(headerParams).setClaims(claims)
 				.signWith(SignatureAlgorithm.RS256, privateKey).compact();

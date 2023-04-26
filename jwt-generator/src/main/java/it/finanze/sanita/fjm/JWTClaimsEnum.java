@@ -118,11 +118,16 @@ enum JWTClaimsEnum {
 	 */
 	JWT("JWT", false),
 
-	 
 	/**
 	 * Hash claim.
 	 */
 	ATTACHMENT_HASH("attachment_hash", true),
+
+
+	/**
+	 * Vector of hashes claim used for provisioning dashboard.
+	 */
+	VECTOR_HASH_CSR("vector_hash_csr", false),
 
 	/**
 	 * PEM path.
