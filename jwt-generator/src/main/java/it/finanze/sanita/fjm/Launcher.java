@@ -452,10 +452,8 @@ public class Launcher {
 			} 
 		}
 
-		Gson gson = new GsonBuilder().disableHtmlEscaping().create();
-		String tokenJson = gson.toJson(hashCsr);
 		// TODO In alternativa potresti avere gli id
-		claims.put(JWTClaimsEnum.VECTOR_HASH_CSR.getKey(), tokenJson);
+		claims.put(JWTClaimsEnum.VECTOR_HASH_CSR.getKey(), hashCsr);
 
 		return Jwts.builder().setHeaderParams(headerParams).setClaims(claims)
 				.signWith(SignatureAlgorithm.RS256, privateKey).compact();
