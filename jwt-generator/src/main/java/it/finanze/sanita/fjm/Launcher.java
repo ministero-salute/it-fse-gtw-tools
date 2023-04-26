@@ -57,7 +57,6 @@ public class Launcher {
 	 * @param args arguments
 	 */
 	public static void main(String[] args) {
-		args = new String[]{"-m", "-d", "C:\\Users\\066008758\\Desktop\\FascicoloSanitario\\PROVISIONING\\CSRMULTI\\data.json", "-a", "190201234567XX", "-p","FSE_654321", "-f", ""};
 
 		LOGGER.info(" _____  _____  ___       __  _ _ _  _____    _____       _             ");
 		LOGGER.info("|   __||   __||_  |   __|  || | | ||_   _|  |     | ___ | |_  ___  ___ ");
@@ -77,9 +76,6 @@ public class Launcher {
 				switch (system) {
 				case PROVISIONING:
 					buildTokensProvisioning();
-					break;
-				case MONITORING:
-					buildTokens(system);
 					break;
 				default:
 					buildTokens(system);
@@ -199,7 +195,7 @@ public class Launcher {
 		dumpVerboseMsg(flagVerbose, !Utility.nullOrEmpty(publicKey) ? "Public key found." : "Public key NOT FOUND!");
 		dumpVerboseMsg(flagVerbose, "Json data items found: " + mapJD.size() + ".\n");
 
-		String jwt = generateAuthJWT(mapJD, privateKey, publicKey, iat, exp, iss); 
+		String jwt = generateAuthJWT(mapJD, privateKey, publicKey, iat, exp, iss);
 		String claimsJwt = generateClaimsJWT(mapJD, privateKey, publicKey, iat, exp, iss, fileToHash, system); 
 
 		dumpVerboseMsg(flagVerbose, "Generating Authorization Bearer Token\n");
@@ -207,10 +203,10 @@ public class Launcher {
 		LOGGER.info("------------- Authorization Bearer Token ---------------\n" + jwt);
 		dumpVerboseMsg(flagVerbose, "AUTHORIZATION BEARER TOKEN END HERE\n"); 
 
-		dumpVerboseMsg(flagVerbose, "Generating FSE-JWT-Signature\n");
-		dumpVerboseMsg(flagVerbose, "FSE-JWT-SIGNATURE START HERE");
+		dumpVerboseMsg(flagVerbose, String.format("Generating Token for System: %s\n", system.name()));
+		dumpVerboseMsg(flagVerbose, "TOKEN START HERE");
 		LOGGER.info("\n------------- FSE-JWT-Signature ---------------\n" + claimsJwt + "\n");
-		dumpVerboseMsg(flagVerbose, "FSE-JWT-SIGNATURE END HERE\n");
+		dumpVerboseMsg(flagVerbose, "TOKEN END HERE\n");
 
 		if (flagValidation) {
 			// Authorization Token Validation

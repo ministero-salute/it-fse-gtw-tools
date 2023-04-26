@@ -123,7 +123,11 @@ enum JWTClaimsEnum {
 	 */
 	ATTACHMENT_HASH("attachment_hash", true),
 
-
+	/**
+	 * File hash claim used for monitoring dashboard.
+	 */
+	FILE_HASH("file_hash", false),
+	
 	/**
 	 * Vector of hashes claim used for provisioning dashboard.
 	 */
