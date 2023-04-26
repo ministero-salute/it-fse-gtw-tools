@@ -57,8 +57,6 @@ public class Launcher {
 	 * @param args arguments
 	 */
 	public static void main(String[] args) {
-		args = new String[]{"-dirCSR", "C:\\Users\\066008758\\Desktop\\FascicoloSanitario\\PROVISIONING\\CSRMULTI", "-d", "C:\\Users\\066008758\\Desktop\\FascicoloSanitario\\PROVISIONING\\CSRMULTI\\data.json", "-a", "190201234567XX", "-p","FSE_654321"};
-//		-d data.json -a 190201234567XX -p 
 		LOGGER.info(" _____  _____  ___       __  _ _ _  _____    _____       _             ");
 		LOGGER.info("|   __||   __||_  |   __|  || | | ||_   _|  |     | ___ | |_  ___  ___ ");
 		LOGGER.info("|   __||__   ||  _|  |  |  || | | |  | |    | | | || .'|| '_|| -_||  _|");
@@ -143,7 +141,6 @@ public class Launcher {
 		}
 
 	}
-
 
 	private static void checkNoValueArg(ArgumentEnum arg) {
 		if (ArgumentEnum.HELP_MODE.equals(arg)) {
