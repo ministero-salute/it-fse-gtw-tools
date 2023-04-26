@@ -24,7 +24,6 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -42,7 +41,7 @@ public class Launcher {
 	static final Logger LOGGER = Utility.getLogger(Launcher.class.getName());
 
 	static String jsonData = null;
-	static String pathFileToPublish = null;
+	static String pathFileOrDir = null;
 	static String aliasP12 = null;
 	static char[] pwdP12 = null;
 	static Integer nHour = 24;
@@ -50,7 +49,7 @@ public class Launcher {
 	static boolean flagNeedHelp = false;
 	static boolean flagVerbose = false;
 	static boolean flagValidation = false;
-	static String dirPathCsrProv = null;
+	static SystemEnum system = SystemEnum.GATEWAY;
 
 	/**
 	 * Main method.
@@ -73,10 +72,18 @@ public class Launcher {
 				LOGGER.info(
 						"Please check for malformed input; please remember that password p12 and json data are mandatory.");
 			} else {
-				if(dirPathCsrProv!=null) {
+				
+				switch (system) {
+				case PROVISIONING:
 					buildTokensProvisioning();
-				} else {
-					buildTokens();	
+					break;
+				case MONITORING:
+					
+					break;
+
+				default:
+					buildTokens();
+					break;
 				}
 			}
 		} catch (Exception e) {
@@ -131,14 +138,14 @@ public class Launcher {
 			jsonData = value;
 		} else if (ArgumentEnum.DURATION_JWT.equals(arg)) {
 			nHour = Integer.valueOf(value);
-		} else if (ArgumentEnum.FILE_TO_PUBLISH.equals(arg)) {
-			pathFileToPublish = value;
+		} else if (ArgumentEnum.FILE_OR_DIR_PATH.equals(arg)) {
+			pathFileOrDir = value;
 		} else if (ArgumentEnum.P12_ALIAS.equals(arg)) {
 			aliasP12 = value;
 		} else if (ArgumentEnum.P12_PWD.equals(arg)) {
 			pwdP12 = value.toCharArray();
-		} else if (ArgumentEnum.DIR_PATH_CSR.equals(arg)) {
-			dirPathCsrProv = value;
+		} else if (ArgumentEnum.SYSTEM.equals(arg)) {
+			system = SystemEnum.getByKey(value);
 		}
 
 	}
@@ -166,8 +173,8 @@ public class Launcher {
 		byte[] privateKeyP12 = Utility.getFileFromFS(get(mapJD, JWTAuthEnum.P12_PATH));
 		byte[] pem = Utility.getFileFromFS(get(mapJD, JWTAuthEnum.PEM_PATH));
 		byte[] fileToHash = null;
-		if (!Utility.nullOrEmpty(pathFileToPublish)) {
-			fileToHash = Utility.getFileFromFS(pathFileToPublish);
+		if (!Utility.nullOrEmpty(pathFileOrDir)) {
+			fileToHash = Utility.getFileFromFS(pathFileOrDir);
 		}
 		getTokens(mapJD, privateKeyP12, pem, fileToHash);
 	}
@@ -460,7 +467,7 @@ public class Launcher {
 		claims.put(JWTClaimsEnum.EXP.getKey(), exp.getTime()/1000);
 		claims.put(JWTAuthEnum.ISS.getKey(), "integrity:" + cleanIss(iss));
 
-		File directory = new File(dirPathCsrProv);
+		File directory = new File(pathFileOrDir);
 
 		if (!directory.isDirectory()) {
 			LOGGER.info("Attenzione fornire il path in cui sono presenti le csr.");

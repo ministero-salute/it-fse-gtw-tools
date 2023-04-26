@@ -18,7 +18,7 @@ enum ArgumentEnum {
 	/**
 	 * File to publish (optional parameter).
 	 */
-	FILE_TO_PUBLISH("-f", true, "specify PDF file path to publish (optional, if given the tool will calculate hash)"),
+	FILE_OR_DIR_PATH("-f", true, "specify path to file or directory (optional, if given will be used for custom claims)"),
 
 	/**
 	 * P12 alias (mandatory parameter).
@@ -46,9 +46,9 @@ enum ArgumentEnum {
 	VALIDATION_MODE("-v", false, "enable validation mode (optional, default is false)"),
 	
 	/**
-	 * Dir path csr(optional parameter).
+	 * specify jwt application target.
 	 */
-	DIR_PATH_CSR("-dircsr", true, "specify CSR file path to calculate sha");
+	SYSTEM("-s", true, "specify jwt application target");
 	
 	/**
 	 * Key argument.
