@@ -24,6 +24,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -49,6 +50,7 @@ public class Launcher {
 	static boolean flagNeedHelp = false;
 	static boolean flagVerbose = false;
 	static boolean flagValidation = false;
+	static boolean flagMonitoring = false;
 	static String dirPathCsrProv = null;
 
 	/**
@@ -57,6 +59,8 @@ public class Launcher {
 	 * @param args arguments
 	 */
 	public static void main(String[] args) {
+		args = new String[]{"-m", "-d", "C:\\Users\\066008758\\Desktop\\FascicoloSanitario\\PROVISIONING\\CSRMULTI\\data.json", "-a", "190201234567XX", "-p","FSE_654321", "-f", ""};
+
 		LOGGER.info(" _____  _____  ___       __  _ _ _  _____    _____       _             ");
 		LOGGER.info("|   __||   __||_  |   __|  || | | ||_   _|  |     | ___ | |_  ___  ___ ");
 		LOGGER.info("|   __||__   ||  _|  |  |  || | | |  | |    | | | || .'|| '_|| -_||  _|");
@@ -69,13 +73,12 @@ public class Launcher {
 			if (flagNeedHelp) {
 				showHelp(LOGGER);
 			} else if (flagMalformedInput || Utility.nullOrEmpty(jsonData) || pwdP12 == null) {
-				LOGGER.info(
-						"Please check for malformed input; please remember that password p12 and json data are mandatory.");
+				LOGGER.info("Please check for malformed input; please remember that password p12 and json data are mandatory.");
 			} else {
 				if(dirPathCsrProv!=null) {
 					buildTokensProvisioning();
 				} else {
-					buildTokens();	
+					buildTokens(flagMonitoring);	
 				}
 			}
 		} catch (Exception e) {
@@ -90,7 +93,7 @@ public class Launcher {
 		pwdP12 = request.getPasswordP12().toCharArray();
 		nHour = request.getDurationHours();
 		Map<String, String> mapJD = getJsonData(request.getConfig());
-		return getTokens(mapJD, request.getP12(), request.getPem(), request.getFileToHash());
+		return getTokens(mapJD, request.getP12(), request.getPem(), request.getFileToHash(), false);
 	}
 
 	private static void checkArgs(String[] args) {
@@ -142,6 +145,7 @@ public class Launcher {
 
 	}
 
+
 	private static void checkNoValueArg(ArgumentEnum arg) {
 		if (ArgumentEnum.HELP_MODE.equals(arg)) {
 			flagNeedHelp = true;
@@ -149,6 +153,8 @@ public class Launcher {
 			flagVerbose = true;
 		} else if (ArgumentEnum.VALIDATION_MODE.equals(arg)) {
 			flagValidation = true;
+		} else if (ArgumentEnum.MONITORING.equals(arg)) {
+			flagMonitoring = true;
 		}
 	}
  
@@ -160,7 +166,7 @@ public class Launcher {
 		getTokensProvisioning(mapJD, privateKeyP12, pem);
 	}
 	
-	private static void buildTokens() throws Exception {
+	private static void buildTokens(boolean isMonitoring) throws Exception {
 		Map<String, String> mapJD = getJsonData(new String(Utility.getFileFromFS(jsonData)));
 		byte[] privateKeyP12 = Utility.getFileFromFS(get(mapJD, JWTAuthEnum.P12_PATH));
 		byte[] pem = Utility.getFileFromFS(get(mapJD, JWTAuthEnum.PEM_PATH));
@@ -168,63 +174,39 @@ public class Launcher {
 		if (!Utility.nullOrEmpty(pathFileToPublish)) {
 			fileToHash = Utility.getFileFromFS(pathFileToPublish);
 		}
-		getTokens(mapJD, privateKeyP12, pem, fileToHash);
+		getTokens(mapJD, privateKeyP12, pem, fileToHash, isMonitoring);
 	}
 
-	private static TokenResponseDTO getTokens(Map<String, String> mapJD, byte[] privateKeyP12, byte[] pem, byte[] fileToHash) throws Exception {
+	private static TokenResponseDTO getTokens(Map<String, String> mapJD, byte[] privateKeyP12, byte[] pem, byte[] fileToHash, boolean isMonitoring) throws Exception {
 
 		Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
 
 		Key privateKey = Utility.extractKeyByAliasFromP12(pwdP12, aliasP12, privateKeyP12);
-
-		String cleanedPEM = new String(pem)
-				.replace("-----BEGIN PUBLIC KEY-----", "")
-				.replaceAll(System.lineSeparator(), "")
-				.replace("-----END PUBLIC KEY-----", "")
-				.replace("-----BEGIN CERTIFICATE-----", "")
-				.replaceAll(System.lineSeparator(), "")
-				.replace("-----END CERTIFICATE-----", "")
-				.replace("\n", "");
-
-		String publicKey = cleanedPEM;
+		String publicKey = cleanPem(pem);
 
 		dumpVerboseMsg(flagVerbose, "Analyzing data\n");
+
 		String iss = get(mapJD, JWTAuthEnum.ISS);
 		Date iat = new Date();
 		Date exp = Utility.addHoursToJavaUtilDate(iat, nHour);
 
 		dumpVerboseMsg(flagVerbose, "Issued At Time: " + iat);
 		dumpVerboseMsg(flagVerbose, "EXPiration time: " + exp);
-		if (privateKey != null) {
-			dumpVerboseMsg(flagVerbose, "Private key founded.");
-		} else {
-			dumpVerboseMsg(flagVerbose, "Private key NOT FOUNDED!");
-		}
-		if (!Utility.nullOrEmpty(publicKey)) {
-			dumpVerboseMsg(flagVerbose, "Public key founded.");
-		} else {
-			dumpVerboseMsg(flagVerbose, "Public key NOT FOUNDED!");
-		}
-		Integer nDataItems = 0;
-		if (mapJD.size() > 0) {
-			nDataItems = mapJD.size();
-		}
-		dumpVerboseMsg(flagVerbose, "Json data items founded: " + nDataItems + ".\n");
+		dumpVerboseMsg(flagVerbose, privateKey != null ? "Private key found." : "Private key NOT FOUND!");
+		dumpVerboseMsg(flagVerbose, !Utility.nullOrEmpty(publicKey) ? "Public key found." : "Public key NOT FOUND!");
+		dumpVerboseMsg(flagVerbose, "Json data items found: " + mapJD.size() + ".\n");
 
 		String jwt = generateAuthJWT(mapJD, privateKey, publicKey, iat, exp, iss); 
-		String claimsJwt = generateClaimsJWT(mapJD, privateKey, publicKey, iat, exp, iss, fileToHash); 
+		String claimsJwt = generateClaimsJWT(mapJD, privateKey, publicKey, iat, exp, iss, fileToHash, isMonitoring); 
 
 		dumpVerboseMsg(flagVerbose, "Generating Authorization Bearer Token\n");
 		dumpVerboseMsg(flagVerbose, "AUTHORIZATION BEARER TOKEN START HERE");
-		LOGGER.info("------------- Authorization Bearer Token ---------------\n"); 
-		LOGGER.info(jwt);
+		LOGGER.info("------------- Authorization Bearer Token ---------------\n" + jwt);
 		dumpVerboseMsg(flagVerbose, "AUTHORIZATION BEARER TOKEN END HERE\n"); 
 
 		dumpVerboseMsg(flagVerbose, "Generating FSE-JWT-Signature\n");
 		dumpVerboseMsg(flagVerbose, "FSE-JWT-SIGNATURE START HERE");
-		LOGGER.info("\n------------- FSE-JWT-Signature ---------------\n"); 
-		LOGGER.info(claimsJwt);
-		LOGGER.info("\n"); 
+		LOGGER.info("\n------------- FSE-JWT-Signature ---------------\n" + claimsJwt + "\n");
 		dumpVerboseMsg(flagVerbose, "FSE-JWT-SIGNATURE END HERE\n");
 
 		if (flagValidation) {
@@ -255,14 +237,9 @@ public class Launcher {
 		} 
 		return new TokenResponseDTO(jwt, claimsJwt);
 	}
-	
-	private static TokenResponseDTO getTokensProvisioning(Map<String, String> mapJD, byte[] privateKeyP12, byte[] pem) throws Exception {
 
-		Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
-
-		Key privateKey = Utility.extractKeyByAliasFromP12(pwdP12, aliasP12, privateKeyP12);
-
-		String cleanedPEM = new String(pem)
+	private static String cleanPem(byte[] pem) {
+		return new String(pem)
 				.replace("-----BEGIN PUBLIC KEY-----", "")
 				.replaceAll(System.lineSeparator(), "")
 				.replace("-----END PUBLIC KEY-----", "")
@@ -270,47 +247,39 @@ public class Launcher {
 				.replaceAll(System.lineSeparator(), "")
 				.replace("-----END CERTIFICATE-----", "")
 				.replace("\n", "");
+	}
+	
+	private static TokenResponseDTO getTokensProvisioning(Map<String, String> mapJD, byte[] privateKeyP12, byte[] pem) throws Exception {
 
-		String publicKey = cleanedPEM;
+		Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
+
+		Key privateKey = Utility.extractKeyByAliasFromP12(pwdP12, aliasP12, privateKeyP12);
+		String publicKey = cleanPem(pem);
 
 		dumpVerboseMsg(flagVerbose, "Analyzing data\n");
+
 		String iss = get(mapJD, JWTAuthEnum.ISS);
 		Date iat = new Date();
 		Date exp = Utility.addHoursToJavaUtilDate(iat, nHour);
 
 		dumpVerboseMsg(flagVerbose, "Issued At Time: " + iat);
 		dumpVerboseMsg(flagVerbose, "EXPiration time: " + exp);
-		if (privateKey != null) {
-			dumpVerboseMsg(flagVerbose, "Private key founded.");
-		} else {
-			dumpVerboseMsg(flagVerbose, "Private key NOT FOUNDED!");
-		}
-		if (!Utility.nullOrEmpty(publicKey)) {
-			dumpVerboseMsg(flagVerbose, "Public key founded.");
-		} else {
-			dumpVerboseMsg(flagVerbose, "Public key NOT FOUNDED!");
-		}
-		Integer nDataItems = 0;
-		if (mapJD.size() > 0) {
-			nDataItems = mapJD.size();
-		}
-		dumpVerboseMsg(flagVerbose, "Json data items founded: " + nDataItems + ".\n");
+		dumpVerboseMsg(flagVerbose, privateKey != null ? "Private key found." : "Private key NOT FOUND!");
+		dumpVerboseMsg(flagVerbose, !Utility.nullOrEmpty(publicKey) ? "Public key found." : "Public key NOT FOUND!");
+		dumpVerboseMsg(flagVerbose, "Json data items found: " + mapJD.size() + ".\n");
 
 		String jwt = generateAuthJWT(mapJD, privateKey, publicKey, iat, exp, iss); 
 		String claimsJwt = generateClaimsJWTProvisioning(mapJD, privateKey, publicKey, iat, exp, iss); 
 
 		dumpVerboseMsg(flagVerbose, "Generating Authorization Bearer Token\n");
 		dumpVerboseMsg(flagVerbose, "AUTHORIZATION BEARER TOKEN START HERE");
-		LOGGER.info("------------- Authorization Bearer Token ---------------\n"); 
-		LOGGER.info(jwt);
+		LOGGER.info("------------- Authorization Bearer Token ---------------\n" + jwt);
 		dumpVerboseMsg(flagVerbose, "AUTHORIZATION BEARER TOKEN END HERE\n"); 
 
-		dumpVerboseMsg(flagVerbose, "Generating FSE-JWT-Signature\n");
-		dumpVerboseMsg(flagVerbose, "FSE-JWT-SIGNATURE START HERE");
-		LOGGER.info("\n------------- FSE-JWT-Signature ---------------\n"); 
-		LOGGER.info(claimsJwt);
-		LOGGER.info("\n"); 
-		dumpVerboseMsg(flagVerbose, "FSE-JWT-SIGNATURE END HERE\n");
+		dumpVerboseMsg(flagVerbose, "Generating FSE-JWT-Provisioning\n");
+		dumpVerboseMsg(flagVerbose, "FSE-JWT-PROVISIONING START HERE");
+		LOGGER.info("\n------------- FSE-JWT-Provisioning ---------------\n" + claimsJwt + "\n");
+		dumpVerboseMsg(flagVerbose, "FSE-JWT-PROVISIONING END HERE\n");
 
 		if (flagValidation) {
 			// Authorization Token Validation
@@ -407,16 +376,17 @@ public class Launcher {
 	/**
 	 * Generate Claims JWT.
 	 * 
-	 * @param mapJD             arguments map
-	 * @param privateKey        private key
-	 * @param x5c               public key
-	 * @param iat               issuing time
-	 * @param exp               expiring time
-	 * @param pathFileToPublish file to hash
-	 * @return jwt
+	 * @param mapJD Arguments map.
+	 * @param privateKey Private key.
+	 * @param x5c Public key.
+	 * @param iat Issuing time.
+	 * @param exp Expiring time.
+	 * @param pathFileToPublish File to hash.
+	 * @param isMonitoring Monitoring flag.
+	 * @return Generated JWT
 	 * @throws Exception
 	 */
-	private static String generateClaimsJWT(Map<String, String> mapJD, Key privateKey, String x5c, Date iat, Date exp, String iss, byte[] fileToHash) throws Exception {
+	private static String generateClaimsJWT(Map<String, String> mapJD, Key privateKey, String x5c, Date iat, Date exp, String iss, byte[] fileToHash, boolean isMonitoring) throws Exception {
 		Map<String, Object> headerParams = new HashMap<>();
 		headerParams.put(JWTClaimsEnum.ALG.getKey(), SignatureAlgorithm.RS256);
 		headerParams.put(JWTClaimsEnum.TYP.getKey(), JWTClaimsEnum.JWT.getKey());
@@ -428,14 +398,21 @@ public class Launcher {
 				claims.put(k.getKey(), mapJD.get(k.getKey()));
 			}
 		}
-		
+
+		if (!isMonitoring) {
+			claims.put(JWTClaimsEnum.PATIENT_CONSENT.getKey(), true);
+		}
+
 		claims.put(JWTClaimsEnum.IAT.getKey(), iat.getTime()/1000);
 		claims.put(JWTClaimsEnum.EXP.getKey(), exp.getTime()/1000);
 		claims.put(JWTAuthEnum.ISS.getKey(), "integrity:" + cleanIss(iss));
 
-		if (Utility.isPdf(fileToHash)) {
+		if (Utility.isPdf(fileToHash) && !isMonitoring) {
 			String hash = Utility.encodeSHA256(fileToHash);
 			claims.put(JWTClaimsEnum.ATTACHMENT_HASH.getKey(), hash);
+		} else if (isMonitoring) {
+			String hash = Utility.encodeSHA256(fileToHash);
+			claims.put(JWTClaimsEnum.FILE_HASH.getKey(), hash);
 		}
 
 		return Jwts.builder().setHeaderParams(headerParams).setClaims(claims)
@@ -483,7 +460,6 @@ public class Launcher {
 		return Jwts.builder().setHeaderParams(headerParams).setClaims(claims)
 				.signWith(SignatureAlgorithm.RS256, privateKey).compact();
 	}
-
 
 	/**
 	 * Clean ISS.
