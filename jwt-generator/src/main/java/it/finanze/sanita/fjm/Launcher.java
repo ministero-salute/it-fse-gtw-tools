@@ -205,7 +205,7 @@ public class Launcher {
 
 		dumpVerboseMsg(flagVerbose, String.format("Generating Token for System: %s\n", system.name()));
 		dumpVerboseMsg(flagVerbose, "TOKEN START HERE");
-		LOGGER.info("\n------------- FSE-JWT-Signature ---------------\n" + claimsJwt + "\n");
+		LOGGER.info(SystemEnum.MONITORING.equals(system) ? "\n------------- FSE-JWT-Monitoring ---------------\n" + claimsJwt + "\n" : "\n------------- FSE-JWT-Signature ---------------\n" + claimsJwt + "\n");
 		dumpVerboseMsg(flagVerbose, "TOKEN END HERE\n");
 
 		if (flagValidation) {
