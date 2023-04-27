@@ -435,25 +435,22 @@ public class Launcher {
 		claims.put(JWTClaimsEnum.EXP.getKey(), exp.getTime()/1000);
 		claims.put(JWTAuthEnum.ISS.getKey(), "integrity:" + cleanIss(iss));
 
-		File directory = new File(pathFileOrDir);
-
-		if (!directory.isDirectory()) {
-			LOGGER.info("Attenzione fornire il path in cui sono presenti le csr.");
-			return null;
+		if(!Utility.nullOrEmpty(pathFileOrDir)) {
+			File directory = new File(pathFileOrDir);
+			if (!directory.isDirectory()) {
+				LOGGER.info("Attenzione fornire il path in cui sono presenti le csr.");
+				return null;
+			}
+			File[] files = directory.listFiles();
+			List<String> hashCsr = new ArrayList<>();
+			for (File file : files) {
+				if (file.isFile() && file.getName().endsWith(".csr")) {
+					hashCsr.add(Utility.encodeSHA256(Files.readAllBytes(file.toPath())));
+				} 
+			}
+			claims.put(JWTClaimsEnum.VECTOR_HASH_CSR.getKey(), hashCsr);
 		}
-
-		File[] files = directory.listFiles();
-
-		List<String> hashCsr = new ArrayList<>();
-		for (File file : files) {
-			if (file.isFile() && file.getName().endsWith(".csr")) {
-				hashCsr.add(Utility.encodeSHA256(Files.readAllBytes(file.toPath())));
-			} 
-		}
-
-		// TODO In alternativa potresti avere gli id
-		claims.put(JWTClaimsEnum.VECTOR_HASH_CSR.getKey(), hashCsr);
-
+		
 		return Jwts.builder().setHeaderParams(headerParams).setClaims(claims)
 				.signWith(SignatureAlgorithm.RS256, privateKey).compact();
 	}
