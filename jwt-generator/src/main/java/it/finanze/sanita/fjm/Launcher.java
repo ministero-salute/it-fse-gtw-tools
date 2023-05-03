@@ -409,7 +409,7 @@ public class Launcher {
 		if (Utility.isPdf(fileToHash) && SystemEnum.GATEWAY.equals(system)) {
 			String hash = Utility.encodeSHA256(fileToHash);
 			claims.put(JWTClaimsEnum.ATTACHMENT_HASH.getKey(), hash);
-		} else if (system != null && SystemEnum.MONITORING.equals(system)) {
+		} else if (fileToHash != null && SystemEnum.MONITORING.equals(system)) {
 			String hash = Utility.encodeSHA256(fileToHash);
 			claims.put(JWTClaimsEnum.FILE_HASH.getKey(), hash);
 		}
