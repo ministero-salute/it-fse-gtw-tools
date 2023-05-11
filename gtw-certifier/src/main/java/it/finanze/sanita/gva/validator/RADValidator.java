@@ -227,5 +227,5 @@ public final class RADValidator extends DocumentTypeValidator {
 		ValidationXML.equalIC(errors, RADErrorEnum.SUGGERIMENTI_CODE_DISPLAY_NAME, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Suggerimenti_per_il_medico_prescrittore'] > code", "displayName", "Raccomandazione studio - Radiologia");
 	}
 
-
 }
+
