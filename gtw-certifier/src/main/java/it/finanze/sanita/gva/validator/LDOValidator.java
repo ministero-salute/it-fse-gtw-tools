@@ -242,7 +242,8 @@ public final class LDOValidator extends DocumentTypeValidator {
 		ValidationXML.equalIC(errors, LDOErrorEnum.INQUADRAMENTO_ESAME_DISPLAY_NAME, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Inquadramento_clinico_iniziale'] > component > section[ID='Esame_Obiettivo'] > code", "displayName", "Esame Obiettivo");
 		ValidationXML.equalIC(errors, LDOErrorEnum.INQUADRAMENTO_TERAPIA_CODE_SYSTEM, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Inquadramento_clinico_iniziale'] > component > section[ID='Terapia_Farmacologica_Ingresso'] > code", "codeSystem", "2.16.840.1.113883.6.1");
 		ValidationXML.equalIC(errors, LDOErrorEnum.INQUADRAMENTO_TERAPIA_CODE_SYSTEM_NAME, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Inquadramento_clinico_iniziale'] > component > section[ID='Terapia_Farmacologica_Ingresso'] > code", "codeSystemName", "LOINC");
-		ValidationXML.equalIC(errors, LDOErrorEnum.INQUADRAMENTO_TERAPIA_DISPLAY_NAME, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Inquadramento_clinico_iniziale'] > component > section[ID='Terapia_Farmacologica_Ingresso'] > code", "displayName", "Terapia Farmacologica all'ingresso");
+		ValidationXML.equalIC(errors, LDOErrorEnum.INQUADRAMENTO_TERAPIA_DISPLAY_NAME, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Inquadramento_clinico_iniziale'] > component > section[ID='Terapia_Farmacologica_Ingresso'] > code", "displayName", "Terapia Farmacologica all'ingresso","Terapia Farmacologica all’ingresso");
 	}
 
 }
+
