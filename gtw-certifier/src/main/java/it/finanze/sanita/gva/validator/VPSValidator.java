@@ -221,7 +221,7 @@ public final class VPSValidator extends DocumentTypeValidator {
 		ValidationXML.equalIC(errors, VPSErrorEnum.DIMISSIONE_ACT_ER_OBS_STATUS_CODE, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Dimissione'] > entry > act > entryRelationship > observation > statusCode", "code", "Completed");
 		ValidationXML.hasDateFormat(errors, VPSErrorEnum.DIMISSIONE_ACT_ER_OBS_TIME, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Dimissione'] > entry > act > entryRelationship > observation > effectiveTime", "value");
 		ValidationXML.equalIC(errors, VPSErrorEnum.DIMISSIONE_ACT_ER_OBS_VALUE_CODE_SYSTEM, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Dimissione'] > entry > act > entryRelationship > observation > value", "codeSystem", "2.16.840.1.113883.6.103");
-		ValidationXML.equalIC(errors, VPSErrorEnum.DIMISSIONE_ACT_ER_OBS_VALUE_CODE_SYSTEM_NAME, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Dimissione'] > entry > act > entryRelationship > observation > value", "codeSystemName", "ICD9-CM");
+		ValidationXML.equalIC(errors, VPSErrorEnum.DIMISSIONE_ACT_ER_OBS_VALUE_CODE_SYSTEM_NAME, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Dimissione'] > entry > act > entryRelationship > observation > value", "codeSystemName", "ICD9-CM","EsitoTrattamento_VPS");
 		ValidationXML.equalIC(errors, VPSErrorEnum.DIMISSIONE_ACT_ER_OBS_CODE_CODE, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Dimissione'] > entry > act > entryRelationship > observation > statusCode", "code", "Completed");
 		ValidationXML.containsIC(errors, VPSErrorEnum.DIMISSIONE_ACT_ER_OBS_CODE_CODE_SYSTEM_NAME, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Dimissione'] > entry > act > entryRelationship > observation > value", "codeSystem", "2.16.840.1.113883.2.9.6.1.54.5");
 		ValidationXML.containsIC(errors, VPSErrorEnum.DIMISSIONE_ACT_ER_OBS_CODE_DISPLAY_NAME, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Dimissione'] > entry > act > entryRelationship > observation > value", "codeSystemName","ICD9-CM","EsitoTrattamento_VPS");
@@ -597,4 +597,3 @@ public final class VPSValidator extends DocumentTypeValidator {
 	}
 
 }
-

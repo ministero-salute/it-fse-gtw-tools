@@ -10,11 +10,11 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class PssValidator extends DocumentTypeValidator {
-
+	
 	public static List<ErrorUCTDTO> validateUC1(String xml) {
 		List<ErrorUCTDTO> errors = new ArrayList<>();
-
-		ValidationXML.equalIC(errors, PssErrorEnum.T001, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Allergie_Intolleranze'] > templateId","root","2.16.840.1.113883.2.9.10.1.4.2.1");
+		 
+ ValidationXML.equalIC(errors, PssErrorEnum.T001, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Allergie_Intolleranze'] > templateId","root","2.16.840.1.113883.2.9.10.1.4.2.1");
 		ValidationXML.equalIC(errors, PssErrorEnum.T002, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Allergie_Intolleranze'] > code","code","48765-2");
 		ValidationXML.equalIC(errors, PssErrorEnum.T003, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Allergie_Intolleranze'] > code","codeSystem","2.16.840.1.113883.6.1");
 		ValidationXML.equalIC(errors, PssErrorEnum.T004, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Allergie_Intolleranze'] > code","codeSystemName","LOINC");
@@ -495,7 +495,7 @@ public class PssValidator extends DocumentTypeValidator {
 		ValidationXML.equalIC(errors, PssErrorEnum.T253, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Indagini_diagnostiche_esami_laboratorio'] > entry > organizer > component > observation > interpretationCode","codeSystem","2.16.840.1.113883.5.83");
 		return errors;
 	}
-
+	
 	public static List<ErrorUCTDTO> validateUC4(final String xml) {
 		List<ErrorUCTDTO> errors = new ArrayList<>();
 		ValidationXML.equalIC(errors, PssErrorEnum.T001, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Allergie_Intolleranze'] > templateId","root","2.16.840.1.113883.2.9.10.1.4.2.1");
@@ -815,3 +815,4 @@ public class PssValidator extends DocumentTypeValidator {
 	}
 
 }
+
