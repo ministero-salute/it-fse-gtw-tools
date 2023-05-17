@@ -31,13 +31,14 @@ public class Launcher {
 
 	static String pathFilePDF = null;
 	static String pathFileCDA = null;
+	static String pathP12SignPDF = null;
+	static String pwdP12SignPDF = null;
 	static boolean flagMalformedInput = false;
 	static boolean flagNeedHelp = false;
 	static boolean flagVerbose = false;
 	static boolean flagValidation = false;
 	static String pathOutput = null;
 	
-	static boolean signPdf = false;
 
 	/**
 	 * Main method.
@@ -112,6 +113,10 @@ public class Launcher {
 			pathFileCDA = value;
 		} else if(ArgumentEnum.FILE_OUTPUT.equals(arg)) {
 			pathOutput = value;
+		} else if(ArgumentEnum.PATH_SIGN_P12_PDF.equals(arg)) {
+			pathP12SignPDF = value;
+		} else if(ArgumentEnum.PWD_SIGN_P12_PDF.equals(arg)) {
+			pwdP12SignPDF = value;
 		} 
 
 	}
@@ -123,9 +128,7 @@ public class Launcher {
 			flagVerbose = true;
 		} else if (ArgumentEnum.VALIDATION_MODE.equals(arg)) {
 			flagValidation = true;
-		} else if(ArgumentEnum.SIGN_PDF.equals(arg)) {
-			signPdf = true;
-		}
+		} 
 	}
 
 	private static void buildPdf() throws Exception {
@@ -152,9 +155,9 @@ public class Launcher {
 			pathOutput = "output.pdf";
 		}
 
-		if(signPdf) {
-			byte[] keyStore = Utility.getFileFromFS("mykeystore.p12");
-			char[] pwd = "fascicolo".toCharArray();
+		if(!Utility.nullOrEmpty(pathP12SignPDF) && !Utility.nullOrEmpty(pwdP12SignPDF)) {
+			byte[] keyStore = Utility.getFileFromFS(pathP12SignPDF);
+			char[] pwd = pwdP12SignPDF.toCharArray();
 			CreateSignaturePades signaturePades = SignerHelper.getSP(keyStore, pwd);
 			output = SignerHelper.pades(signaturePades, pathOutput, output);
 		}
@@ -183,7 +186,7 @@ public class Launcher {
 		LOGGER.info("\t\tFS2 PDF Maker (fpm) - Injected PDF generator for FS2 Gateway\n");
 		LOGGER.info("SYNOPSIS");
 		LOGGER.info(
-				"\t\tjava -jar fpm -c CDA_FILE [-p PDF_FILE] [-v] [-x] [-h] [-o]");
+				"\t\tjava -jar fpm -c CDA_FILE [-p PDF_FILE] [-v] [-x] [-h] [-o] [-s PATH_P12] [-pwd PWD_P12]");
 		LOGGER.info("");
 		LOGGER.info("DESCRIPTION");
 		LOGGER.info("\t\tGenerate PDF with injected CDA (attachment mode) for FS2 Gateway");

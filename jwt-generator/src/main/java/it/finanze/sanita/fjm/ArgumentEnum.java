@@ -18,7 +18,7 @@ enum ArgumentEnum {
 	/**
 	 * File to publish (optional parameter).
 	 */
-	FILE_TO_PUBLISH("-f", true, "specify PDF file path to publish (optional, if given the tool will calculate hash)"),
+	FILE_OR_DIR_PATH("-f", true, "specify path to file or directory (optional, if given will be used for custom claims)"),
 
 	/**
 	 * P12 alias (mandatory parameter).
@@ -43,7 +43,12 @@ enum ArgumentEnum {
 	/**
 	 * Show validation info (optional mode).
 	 */
-	VALIDATION_MODE("-v", false, "enable validation mode (optional, default is false)");
+	VALIDATION_MODE("-v", false, "enable validation mode (optional, default is false)"),
+	
+	/**
+	 * specify jwt application target.
+	 */
+	SYSTEM("-s", true, "specify jwt application target");
 	
 	/**
 	 * Key argument.
