@@ -1,11 +1,11 @@
 package it.finanze.sanita.fjm;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+
+import static org.junit.Assert.assertEquals;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles(Constants.Profile.TEST)
@@ -31,7 +31,7 @@ public class EnumTest {
 
 		String key3 = "-f";
 		boolean flag3 = true;
-		String desc3 = "specify PDF file path to publish (optional, if given the tool will calculate hash)";
+		String desc3 = "specify path to file or directory (optional, if given will be used for custom claims)";
         assertEquals(ArgumentEnum.getByKey(key3).getKey(), key3);
         assertEquals(ArgumentEnum.getByKey(key3).getFlagHasValue(), flag3);
         assertEquals(ArgumentEnum.getByKey(key3).getDescription(), desc3);
