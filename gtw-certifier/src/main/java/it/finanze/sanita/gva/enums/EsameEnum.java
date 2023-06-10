@@ -69,8 +69,10 @@ public enum EsameEnum {
 	TEST171PSS(171, TipoDocEnum.PROFILO_SANITARIO_SINTETICO,  PssValidator.class,"validateUC2"),
 	TEST172PSS(172, TipoDocEnum.PROFILO_SANITARIO_SINTETICO,  PssValidator.class,"validateUC3"),
 	TEST173PSS(173, TipoDocEnum.PROFILO_SANITARIO_SINTETICO,  PssValidator.class,"validateUC4"),
-	
-	TEST191TRASF(191, TipoDocEnum.REFERTO_LABORATORIO,  TRASFValidator.class,"validateUC1");
+
+	//TRASFUSIONALE
+	TEST191TRASF(191, TipoDocEnum.REFERTO_LABORATORIO, TRASFValidator.class,"validateUC1"),
+	TEST376TRASF(376, TipoDocEnum.REFERTO_LABORATORIO, TRASFValidator.class,"validateUC2");
 	
 
 	

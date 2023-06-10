@@ -8,6 +8,7 @@ import java.util.List;
 
 import it.finanze.sanita.gva.dto.ErrorUCTDTO;
 import it.finanze.sanita.gva.enums.CVACErrorEnum;
+import it.finanze.sanita.gva.validator.DocumentTypeValidator;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -24,7 +25,7 @@ public final class CVACValidator extends DocumentTypeValidator {
 		ValidationXML.equalIC(errors, CVACErrorEnum.CERT_VAC_DISPLAY_NAME, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Certificato_Vaccinale'] > code", "displayName", "Storia delle immunizzazioni");
 		ValidationXML.equalIC(errors, CVACErrorEnum.CERT_VAC_ENTRY_CLASS_CODE, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Certificato_Vaccinale'] > entry > substanceAdministration", "classCode", "SBADM");
 		ValidationXML.equalIC(errors, CVACErrorEnum.CERT_VAC_ENTRY_MOOD_CODE, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Certificato_Vaccinale'] > entry > substanceAdministration", "moodCode", "EVN");
-		ValidationXML.equalIC(errors, CVACErrorEnum.CERT_VAC_ENTRY_TEMPLATE_ID, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Certificato_Vaccinale'] > entry > substanceAdministration > templateID", "root", "2.16.840.1.113883.2.9.10.1.11.4.1");
+		ValidationXML.containsIC(errors, CVACErrorEnum.CERT_VAC_ENTRY_TEMPLATE_ID, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Certificato_Vaccinale'] > entry > substanceAdministration > templateID", "root", "2.16.840.1.113883.2.9.10.1.11.4.1","2.16.840.1.113883.2.9.10.1.11.4.2");
 		ValidationXML.equalIC(errors, CVACErrorEnum.CERT_VAC_ENTRY_STATUS, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Certificato_Vaccinale'] > entry > substanceAdministration > statusCode", "code", "completed" );
 		ValidationXML.hasDateFormat(errors, CVACErrorEnum.CERT_VAC_ENTRY_TIME, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Certificato_Vaccinale'] > entry > substanceAdministration > effectiveTime", "value");
 		ValidationXML.equalIC(errors, CVACErrorEnum.CERT_VAC_ENTRY_CODE_SYSTEM, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Certificato_Vaccinale'] > entry > substanceAdministration > routeCode", "codeSystem", "2.16.840.1.113883.5.112");
@@ -44,7 +45,6 @@ public final class CVACValidator extends DocumentTypeValidator {
 		ValidationXML.containsIC(errors, CVACErrorEnum.CERT_VAC_ENTRY_OBS_STATUS_CODE, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Certificato_Vaccinale'] > entry > substanceAdministration > entryRelationship > observation > statusCode", "code", "completed");
 		ValidationXML.equalIC(errors, CVACErrorEnum.CERT_VAC_ENTRY_SUB_CLASS_CODE, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Certificato_Vaccinale'] > entry > substanceAdministration", "classCode", "SBADM");
 		ValidationXML.equalIC(errors, CVACErrorEnum.CERT_VAC_ENTRY_SUB_MOOD_CODE, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Certificato_Vaccinale'] > entry > substanceAdministration", "moodCode", "EVN");
-		ValidationXML.equalIC(errors, CVACErrorEnum.CERT_VAC_ENTRY_SUB_ROOT, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Certificato_Vaccinale'] > entry > substanceAdministration > templateId", "root", "2.16.840.1.113883.2.9.10.1.11.4.1");
 		ValidationXML.equalIC(errors, CVACErrorEnum.CERT_VAC_ENTRY_SUB_STATUS, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Certificato_Vaccinale'] > entry > substanceAdministration > statusCode", "code", "completed");
 		ValidationXML.equalIC(errors, CVACErrorEnum.CERT_VAC_ENTRY_SUB_CONS_TYPE_CODE, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Certificato_Vaccinale'] > entry > substanceAdministration > consumable", "typeCode", "CSM");
 		ValidationXML.equalIC(errors, CVACErrorEnum.CERT_VAC_ENTRY_SUB_MAN_CODE, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Certificato_Vaccinale'] > entry > substanceAdministration > consumable > manufacturedProduct > manufacturedMaterial > code", "codeSystem", "2.16.840.1.113883.2.9.6.1.5");
@@ -55,12 +55,13 @@ public final class CVACValidator extends DocumentTypeValidator {
 		ValidationXML.containsIC(errors, CVACErrorEnum.CERT_VAC_ENTRY_SUB_INV_ID, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Certificato_Vaccinale'] > entry > substanceAdministration > entryRelationship", "inversionInd", "false", "true");
 		ValidationXML.containsIC(errors, CVACErrorEnum.CERT_VAC_ENTRY_SUB_OBS_CLASS_CODE, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Certificato_Vaccinale'] > entry > substanceAdministration > entryRelationship > observation", "classCode", "OBS");
 		ValidationXML.containsIC(errors, CVACErrorEnum.CERT_VAC_ENTRY_SUB_OBS_MOOD_CODE, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Certificato_Vaccinale'] > entry > substanceAdministration > entryRelationship > observation", "moodCode", "EVN");
-		ValidationXML.containsIC(errors, CVACErrorEnum.CERT_VAC_ENTRY_SUB_OBS_CODE_, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Certificato_Vaccinale'] > entry > substanceAdministration > entryRelationship > observation > code", "code", "85714-4", "59784-9");
+		ValidationXML.containsIC(errors, CVACErrorEnum.CERT_VAC_ENTRY_SUB_OBS_CODE_, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Certificato_Vaccinale'] > entry > substanceAdministration > entryRelationship > observation > code", "code","30973-2","95715-9","59785-6","31044-1","75323-6","85714-4", "59784-9"); 
 		ValidationXML.containsIC(errors, CVACErrorEnum.CERT_VAC_ENTRY_SUB_OBS_CODE_SYSTEM, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Certificato_Vaccinale'] > entry > substanceAdministration > entryRelationship > observation > code", "codeSystem", "2.16.840.1.113883.6.1");
 		ValidationXML.containsIC(errors, CVACErrorEnum.CERT_VAC_ENTRY_SUB_OBS_CODE_SYSTEM_NAME, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Certificato_Vaccinale'] > entry > substanceAdministration > entryRelationship > observation > code", "codeSystemName", "LOINC");
 		ValidationXML.containsIC(errors, CVACErrorEnum.CERT_VAC_ENTRY_SUB_OBS_STATUS, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Certificato_Vaccinale'] > entry > substanceAdministration > entryRelationship > observation > statusCode", "code", "completed");
 		return errors;
 	}
+
 
 	public static List<ErrorUCTDTO> validateUC2(String xml) {
 		List<ErrorUCTDTO> errors = new ArrayList<>();
@@ -103,6 +104,8 @@ public final class CVACValidator extends DocumentTypeValidator {
 		ValidationXML.containsIC(errors, CVACErrorEnum.SING_VAC_ER_OBS_MOOD_CODE, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Certificato_Vaccinale'] > entry > substanceAdministration > entryRelationship > observation", "moodCode", "EVN");
 		ValidationXML.containsIC(errors, CVACErrorEnum.SING_VAC_ER_OBS_ROOT, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Certificato_Vaccinale'] > entry > substanceAdministration > entryRelationship > observation > templateId", "root", "2.16.840.1.113883.2.9.10.1.11.4.3", " 2.16.840.1.113883.2.9.10.1.11.4.4", "2.16.840.1.113883.2.9.10.1.11.4.5","2.16.840.1.113883.2.9.10.1.11.4.6", "2.16.840.1.113883.2.9.10.1.11.4.8", "2.16.840.1.113883.2.9.10.1.11.4.9");
 		ValidationXML.containsIC(errors, CVACErrorEnum.SING_VAC_ER_OBS_STATUS, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Certificato_Vaccinale'] > entry > substanceAdministration > entryRelationship > observation > statusCode", "code", "completed");
+		ValidationXML.containsIC(errors, CVACErrorEnum.CERT_VAC_SUB_ER_OBS_CODE, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Certificato_Vaccinale'] > entry > substanceAdministration > entryRelationship > observation > code", "code", "30973-2", "95715-9", "59785-6","75323-6");
+
 		return errors;
 	}
 
@@ -145,7 +148,7 @@ public final class CVACValidator extends DocumentTypeValidator {
 		ValidationXML.containsIC(errors, CVACErrorEnum.CERT_VAC_SUB_OBS_ROOT, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Certificato_Vaccinale'] > entry > substanceAdministration > entryRelationship > observation > templateId", "root", "2.16.840.1.113883.2.9.10.1.11.4.3", "2.16.840.1.113883.2.9.10.1.11.4.4", "2.16.840.1.113883.2.9.10.1.11.4.5", "2.16.840.1.113883.2.9.10.1.11.4.6", "2.16.840.1.113883.2.9.10.1.11.4.8", "2.16.840.1.113883.2.9.10.1.11.4.9");
 		ValidationXML.containsIC(errors, CVACErrorEnum.CERT_VAC_SUB_OBS_STATUS, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Certificato_Vaccinale'] > entry > substanceAdministration > entryRelationship > observation > statusCode", "code", "completed");
 		ValidationXML.containsIC(errors, CVACErrorEnum.CERT_VAC_SUB_STATUS, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Certificato_Vaccinale'] > entry > substanceAdministration > statusCode", "code", "cancelled");
-		ValidationXML.containsIC(errors, CVACErrorEnum.CERT_VAC_SUB_ER_OBS_CODE, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Certificato_Vaccinale'] > entry > substanceAdministration > entryRelationship > observation > code", "code", "85714-4", "59784-9");
+		ValidationXML.containsIC(errors, CVACErrorEnum.CERT_VAC_SUB_ER_OBS_CODE, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Certificato_Vaccinale'] > entry > substanceAdministration > entryRelationship > observation > code", "code", "85714-4", "59784-9", "30973-2","95715-9","59785-6","31044-1","75323-6");
 		ValidationXML.equalIC(errors, CVACErrorEnum.CERT_VAC_SUB_ER_OBS_CODE_SYSTEM, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Certificato_Vaccinale'] > entry > substanceAdministration > entryRelationship > observation > code", "codeSystem", "2.16.840.1.113883.6.1");
 		ValidationXML.equalIC(errors, CVACErrorEnum.CERT_VAC_SUB_ER_OBS_CODE_SYSTEM_NAME, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Certificato_Vaccinale'] > entry > substanceAdministration > entryRelationship > observation > code", "codeSystemName", "LOINC");
 		ValidationXML.equalIC(errors, CVACErrorEnum.CERT_VAC_SUB_ER_OBS_TYPE_CODE, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Certificato_Vaccinale'] > entry > substanceAdministration > entryRelationship", "typeCode", "SUBJ", "RSON");
@@ -200,11 +203,11 @@ public final class CVACValidator extends DocumentTypeValidator {
 		ValidationXML.equalIC(errors, CVACErrorEnum.CERT_VAC_ER_TYPE_CODE, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Certificato_Vaccinale'] > entry > substanceAdministration > entryRelationship", "typeCode", "SUBJ", "REFR", "CAUS", "RSON");
 		ValidationXML.equalIC(errors, CVACErrorEnum.CERT_VAC_ER_INV_ID, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Certificato_Vaccinale'] > entry > substanceAdministration > entryRelationship", "inversionInd", "true", "false");
 		ValidationXML.containsIC(errors, CVACErrorEnum.CERT_VAC_OBS_ROOT, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Certificato_Vaccinale'] > entry > substanceAdministration > entryRelationship > observation > templateId", "root", "2.16.840.1.113883.2.9.10.1.11.4.10", "2.16.840.1.113883.2.9.10.1.11.4.7");
-		ValidationXML.containsIC(errors, CVACErrorEnum.CERT_VAC_OBS_CODE, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Certificato_Vaccinale'] > entry > substanceAdministration > entryRelationship > observation > code", "code", "85714-4", "59784-9");
+		ValidationXML.containsIC(errors, CVACErrorEnum.CERT_VAC_OBS_CODE, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Certificato_Vaccinale'] > entry > substanceAdministration > entryRelationship > observation > code", "code", "85714-4", "59784-9","30973-2","95715-9","59785-6","31044-1","75323-6");
 		ValidationXML.equalIC(errors, CVACErrorEnum.CERT_VAC_OBS_CODE_SYSTEM, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Certificato_Vaccinale'] > entry > substanceAdministration > entryRelationship > observation > code", "codeSystem", "2.16.840.1.113883.6.1");
 		ValidationXML.equalIC(errors, CVACErrorEnum.CERT_VAC_OBS_CODE_SYSTEM_NAME, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Certificato_Vaccinale'] > entry > substanceAdministration > entryRelationship > observation > code", "codeSystemName", "LOINC");
 		ValidationXML.equalIC(errors, CVACErrorEnum.CERT_VAC_OBS_STATUS, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Certificato_Vaccinale'] > entry > substanceAdministration > entryRelationship > observation > statusCode", "code", "completed");
-//		ValidationXML.containsIC(errors, CVACErrorEnum.CERT_VAC_OBS_VALUE, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Certificato_Vaccinale'] > entry > substanceAdministration > entryRelationship > observation > value > originalText > reference", "value", "Malattia con presunta immunità");
+		//		ValidationXML.containsIC(errors, CVACErrorEnum.CERT_VAC_OBS_VALUE, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Certificato_Vaccinale'] > entry > substanceAdministration > entryRelationship > observation > value > originalText > reference", "value", "Malattia con presunta immunità");
 		ValidationXML.equalIC(errors, CVACErrorEnum.CERT_VAC_SUB_ER_OBS_ROOT, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Certificato_Vaccinale'] > entry > substanceAdministration > entryRelationship > observation > templateId", "root", "2.16.840.1.113883.2.9.10.1.11.4.3", "2.16.840.1.113883.2.9.10.1.11.4.4", "2.16.840.1.113883.2.9.10.1.11.4.5", "2.16.840.1.113883.2.9.10.1.11.4.6", "2.16.840.1.113883.2.9.10.1.11.4.8", "2.16.840.1.113883.2.9.10.1.11.4.9");
 		ValidationXML.containsIC(errors, CVACErrorEnum.CERT_VAC_SUB_ROOT, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Certificato_Vaccinale'] > entry > substanceAdministration > templateId", "root", "2.16.840.1.113883.2.9.10.1.11.4.2");
 		ValidationXML.equalIC(errors, CVACErrorEnum.CERT_VAC_SUB_PART_TYPE_CODE, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Certificato_Vaccinale'] > entry > substanceAdministration > participant", "typeCode", "LOC");
@@ -220,5 +223,4 @@ public final class CVACValidator extends DocumentTypeValidator {
 		ValidationXML.equalIC(errors, CVACErrorEnum.COMP_STRUCT_TYPE_CODE, xml, "ClinicalDocument > component > structuredBody > component", "typeCode", "COMP");
 		ValidationXML.equalIC(errors, CVACErrorEnum.COMP_COMP_COND_IND, xml, "ClinicalDocument > component > structuredBody > component", "contextConductionInd", "true");
 	}
-
 }
