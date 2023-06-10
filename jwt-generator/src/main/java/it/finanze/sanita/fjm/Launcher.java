@@ -2,8 +2,11 @@ package it.finanze.sanita.fjm;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.security.Key;
 import java.security.Security;
 import java.security.cert.CertificateException;
@@ -42,6 +45,7 @@ public class Launcher {
 
 	static String jsonData = null;
 	static String pathFileOrDir = null;
+	static String outputFileNamePrefix = null;
 	static String aliasP12 = null;
 	static char[] pwdP12 = null;
 	static Integer nHour = 24;
@@ -142,6 +146,8 @@ public class Launcher {
 			pwdP12 = value.toCharArray();
 		} else if (ArgumentEnum.SYSTEM.equals(arg)) {
 			system = SystemEnum.getByKey(value);
+		} else if (ArgumentEnum.OUTPUT_FILE_PREFIX.equals(arg)) {
+			outputFileNamePrefix = value;
 		}
 
 	}
@@ -176,6 +182,21 @@ public class Launcher {
 		getTokens(mapJD, privateKeyP12, pem, fileToHash, system);
 	}
 
+	/**
+	 * Saves tokens to files.
+	 * 
+	 * @param authToken
+	 * @param signToken
+	 * 
+	 */
+	private static void saveTokensToFiles(String authToken, String signToken) throws IOException{
+		String authTokenFileName=outputFileNamePrefix+".auth.txt";
+		String signTokenFileName=outputFileNamePrefix+".sign.txt";
+		Files.writeString(Path.of(authTokenFileName),authToken,StandardOpenOption.TRUNCATE_EXISTING,StandardOpenOption.CREATE,StandardOpenOption.WRITE);
+		Files.writeString(Path.of(signTokenFileName),signToken,StandardOpenOption.TRUNCATE_EXISTING,StandardOpenOption.CREATE,StandardOpenOption.WRITE);
+	}
+
+
 	private static TokenResponseDTO getTokens(Map<String, String> mapJD, byte[] privateKeyP12, byte[] pem, byte[] fileToHash, SystemEnum system) throws Exception {
 
 		Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
@@ -197,6 +218,16 @@ public class Launcher {
 
 		String jwt = generateAuthJWT(mapJD, privateKey, publicKey, iat, exp, iss);
 		String claimsJwt = generateClaimsJWT(mapJD, privateKey, publicKey, iat, exp, iss, fileToHash, system); 
+
+		if (outputFileNamePrefix!=null){
+			try{
+				saveTokensToFiles(jwt,claimsJwt);
+			}
+			catch (Exception e){
+				LOGGER.info("Error saving files");
+				LOGGER.info(String.format("EXCEPTION: %s", e.getMessage()));
+			}
+		}
 
 		dumpVerboseMsg(flagVerbose, "Generating Authorization Bearer Token\n");
 		dumpVerboseMsg(flagVerbose, "AUTHORIZATION BEARER TOKEN START HERE");
@@ -318,7 +349,7 @@ public class Launcher {
 		logger.info("\t\tFS2 JWT Maker (fjm) - JWT generator for FS2 Gateway\n");
 		logger.info("SYNOPSIS");
 		logger.info(
-				"\t\tjava -jar fjm -d JSON_DATA_FILE -p PASSWORD_P12 [-a ALIAS_P12] [-f PDF_FILE_TO_PUBLISH] [-t TOKEN_DURATION] [-v] [-x] [-h]");
+				"\t\tjava -jar fjm -d JSON_DATA_FILE -p PASSWORD_P12 [-a ALIAS_P12] [-f PDF_FILE_TO_PUBLISH] [-t TOKEN_DURATION] [-o OUTPUT_FILE_PREFIX] [-v] [-x] [-h]");
 		logger.info("");
 		logger.info("DESCRIPTION");
 		logger.info("\t\tGenerate JWT for FS2 Gateway");

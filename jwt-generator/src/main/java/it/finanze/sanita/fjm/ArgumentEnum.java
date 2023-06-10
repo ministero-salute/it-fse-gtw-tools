@@ -23,7 +23,7 @@ enum ArgumentEnum {
 	/**
 	 * P12 alias (mandatory parameter).
 	 */
-	P12_ALIAS("-a", true, "specify alias of p12 file (mandatory)"),
+	P12_ALIAS("-a", true, "specify alias of p12 file"),
 
 	/**
 	 * P12 password (mandatory parameter).
@@ -34,6 +34,11 @@ enum ArgumentEnum {
 	 * Token duration (from now till n hours, optional parameter).
 	 */
 	DURATION_JWT("-t", true, "specify token duration (optional, default is 24h)"),
+
+	/**
+	 * Output file prefix.
+	 */
+	OUTPUT_FILE_PREFIX("-o", true, "specify output file name prefix (optional, tokens will be saved as prefix.auth.txt and prefix.sign.txt)"),
 
 	/**
 	 * Show verbose message (optional mode).
