@@ -73,6 +73,7 @@ Il comando precedente mostrerà un aiuto che spiega come utilizzare l'applicazio
 | -d | true  | VALUE | Complete path of data.json file where JWTToken parameters are located. |
 | -a | true  | VALUE | Alias of p12 cert used to execute the JWT signature |
 | -p | true  | VALUE | Password of p12 cert used to execute the JWT signature |
+| -0 | false | VALUE | Specify output file name prefix (optional, tokens will be saved as prefix.auth.txt and prefix.sign.txt) |
 
 ---
 ### TOKEN CUSTOMIZATION
