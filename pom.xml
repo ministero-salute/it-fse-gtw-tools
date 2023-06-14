@@ -5,7 +5,7 @@
   <groupId>it.finanze.sanita.fse2</groupId>
   <artifactId>gtw-tools</artifactId>
   <name>gtw-tools</name>
-  <version>0.0.4-SNAPSHOT</version>
+  <version>0.0.5-SNAPSHOT</version>
   <packaging>pom</packaging>
   <description>Gateway Tools</description>
 
