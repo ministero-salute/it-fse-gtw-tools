@@ -1,3 +1,6 @@
+/*
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 package it.finanze.sanita.gva;
 
 import it.finanze.sanita.gva.cli.CliParser;

@@ -1,3 +1,6 @@
+/*
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 package it.finanze.sanita.gva.cli.data;
 
 import com.beust.jcommander.Parameter;

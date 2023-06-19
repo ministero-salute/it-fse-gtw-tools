@@ -1,3 +1,6 @@
+/*
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 package it.finanze.sanita.gva.core;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
