@@ -41,7 +41,7 @@ public class EnumTest {
 
 		String key4 = "-a";
 		boolean flag4 = true;
-		String desc4 = "specify alias of p12 file (mandatory)";
+		String desc4 = "specify alias of p12 file";
         assertEquals(ArgumentEnum.getByKey(key4).getKey(), key4);
         assertEquals(ArgumentEnum.getByKey(key4).getFlagHasValue(), flag4);
         assertEquals(ArgumentEnum.getByKey(key4).getDescription(), desc4);
