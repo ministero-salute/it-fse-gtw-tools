@@ -9,32 +9,45 @@
  * 
  * You should have received a copy of the GNU Affero General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-package it.finanze.sanita.fjm;
+package it.finanze.sanita.fjm.enums;
+
+import lombok.Getter;
 
 /**
  * Copyright (c) 2022, Ministero della Salute
  */
-enum SystemEnum {
+@Getter
+public enum SystemEnum {
 
 	/**
 	 * Show help page (optional mode).
 	 */
-	GATEWAY("gateway"),
+	GATEWAY("gateway","FSE-JWT-Signature"),
 	
 	/**
 	 * Show help page (optional mode).
 	 */
-	PROVISIONING("provisioning"),
+	PROVISIONING("provisioning","FSE-JWT-Provisioning"),
 	
 	/**
 	 * specify jwt application target.
 	 */
-	MONITORING("monitoring");
+	MONITORING("monitoring","FSE-JWT-Monitoring"),
+	
+	/**
+	 * Terminology.
+	 */
+	TERMINOLOGY("terminology","");
 	
 	/**
 	 * Key argument.
 	 */
 	private String key;
+	
+	/**
+	 * Key argument.
+	 */
+	private String tokenBusinessName;
 	
 	
 	/**
@@ -44,18 +57,12 @@ enum SystemEnum {
 	 * @param inFlagHasValue	flag mode or argument
 	 * @param inDescription		description
 	 */
-	private SystemEnum(String inKey) {
+	private SystemEnum(String inKey, String inTokenBusinessName) {
 		key = inKey;
+		tokenBusinessName = inTokenBusinessName;
+		
 	}
 
-	/**
-	 * Getter key.
-	 * 
-	 * @return	key
-	 */
-	public String getKey() {
-		return key;
-	}
 
 	/**
 	 * Get argument by key.

@@ -9,15 +9,17 @@
  * 
  * You should have received a copy of the GNU Affero General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-package it.finanze.sanita.fjm;
+package it.finanze.sanita.fjm.enums;
 
+import lombok.Getter;
 
 /**
  * Copyright (c) 2022, Ministero della Salute
  *
- * JWT Claims class.
+ * JWT AUTH class.
  */
-enum JWTClaimsEnum {
+@Getter
+public enum JWTAuthEnum {
 	
 	/**
 	 * Algorithm claim.
@@ -42,12 +44,12 @@ enum JWTClaimsEnum {
 	/**
 	 * Subject role claim.
 	 */
-	SUBJECT_ROLE("subject_role", true),
+	SUBJECT_ROLE("subject_role", false),
 
 	/**
 	 * Purpose of use claim.
 	 */
-	PURPOSE_OF_USE("purpose_of_use", true),
+	PURPOSE_OF_USE("purpose_of_use", false),
 
 	/**
 	 * Issuer claim.
@@ -55,34 +57,19 @@ enum JWTClaimsEnum {
 	ISS("iss", true),
 
 	/**
-	 * Subject Application ID claim.
-	 */
-	SUBJECT_APPLICATION_ID("subject_application_id", true),
-
-	/**
-	 * Subject Application Vendor claim.
-	 */
-	SUBJECT_APPLICATION_VENDOR("subject_application_vendor", true),
-
-	/**
-	 * Subject Application Version claim.
-	 */
-	SUBJECT_APPLICATION_VERSION("subject_application_version", true),
-
-	/**
 	 * Locality claim.
 	 */
-	LOCALITY("locality", true),
+	LOCALITY("locality", false),
 
 	/**
 	 * Subject Organization ID claim.
 	 */
-	SUBJECT_ORGANIZATION_ID("subject_organization_id", true),
+	SUBJECT_ORGANIZATION_ID("subject_organization_id", false),
 
 	/**
 	 * Subject Organization claim.
 	 */
-	SUBJECT_ORGANIZATION("subject_organization", true),
+	SUBJECT_ORGANIZATION("subject_organization", false),
 
 	/**
 	 * Audience claim.
@@ -92,17 +79,17 @@ enum JWTClaimsEnum {
 	/**
 	 * Patient consent claim.
 	 */
-	PATIENT_CONSENT("patient_consent", true),
+	PATIENT_CONSENT("patient_consent", false),
 
 	/**
 	 * Action id claim.
 	 */
-	ACTION_ID("action_id", true),
+	ACTION_ID("action_id", false),
 
 	/**
 	 * HL7 resource type claim.
 	 */
-	RESOURCE_HL7_TYPE("resource_hl7_type", true),
+	RESOURCE_HL7_TYPE("resource_hl7_type", false),
 
 	/**
 	 * Identifier claim.
@@ -112,7 +99,7 @@ enum JWTClaimsEnum {
 	/**
 	 * Person id claim.
 	 */
-	PERSON_ID("person_id", true),
+	PERSON_ID("person_id", false),
 
 	/**
 	 * Issuing at claim.
@@ -129,25 +116,11 @@ enum JWTClaimsEnum {
 	 */
 	JWT("JWT", false),
 
+	 
 	/**
 	 * Hash claim.
 	 */
-	ATTACHMENT_HASH("attachment_hash", true),
-
-	/**
-	 * File hash claim used for monitoring dashboard.
-	 */
-	FILE_HASH("file_hash", false),
-	
-	/**
-	 * Vector of hashes claim used for provisioning dashboard.
-	 */
-	VECTOR_HASH_CSR("vector_hash_csr", false),
-	
-	/**
-	 * Vector id.
-	 */
-	VECTOR_ID("vector_id", true),
+	ATTACHMENT_HASH("attachment_hash", false),
 
 	/**
 	 * PEM path.
@@ -175,26 +148,9 @@ enum JWTClaimsEnum {
 	 * @param inKey						key
 	 * @param inFlagAutoPayloadClaim	flag claim retrive from json data
 	 */
-	private JWTClaimsEnum(String inKey, boolean inFlagAutoPayloadClaim) {
+	private JWTAuthEnum(String inKey, boolean inFlagAutoPayloadClaim) {
 		key = inKey;
 		flagAutoPayloadClaim = inFlagAutoPayloadClaim;
 	}
 	
-	/**
-	 * Getter key.
-	 * 
-	 * @return	key
-	 */
-	public String getKey() {
-		return key;
-	}
-
-	/**
-	 * Getter flag claim retrive from json data
-	 * @return	claim retrive from json data
-	 */
-	public boolean getAutoFlagPayloadClaim() {
-		return flagAutoPayloadClaim;
-	}
-
 }

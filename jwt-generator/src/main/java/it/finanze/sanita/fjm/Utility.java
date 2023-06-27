@@ -182,4 +182,15 @@ public class Utility {
 		logger.setUseParentHandlers(false);
 		return logger;
 	}
+	
+	/**
+	 * Clean ISS.
+	 * 
+	 * @param iss
+	 * @return iss cleaned
+	 */
+	public static String cleanIss(String iss) {
+		if (iss == null) return null;
+		return iss.replaceFirst("integrity:", "").replaceFirst("auth:", "");
+	}
 }

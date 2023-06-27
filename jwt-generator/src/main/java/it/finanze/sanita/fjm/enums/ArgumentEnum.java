@@ -9,12 +9,15 @@
  * 
  * You should have received a copy of the GNU Affero General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-package it.finanze.sanita.fjm;
+package it.finanze.sanita.fjm.enums;
+
+import lombok.Getter;
 
 /**
  * Copyright (c) 2022, Ministero della Salute
  */
-enum ArgumentEnum {
+@Getter
+public enum ArgumentEnum {
 
 	/**
 	 * Show help page (optional mode).
@@ -95,33 +98,6 @@ enum ArgumentEnum {
 		description = inDescription;
 	}
 
-	/**
-	 * Getter key.
-	 * 
-	 * @return	key
-	 */
-	public String getKey() {
-		return key;
-	}
-
-	/**
-	 * Getter flag attribute or mode.
-	 * 
-	 * @return	flag attribute or mode
-	 */
-	public boolean getFlagHasValue() {
-		return flagHasValue;
-	}
-
-	/**
-	 * Getter description.
-	 * 
-	 * @return	description
-	 */
-	public String getDescription() {
-		return description;
-	}
-	
 	/**
 	 * Get argument by key.
 	 * 	

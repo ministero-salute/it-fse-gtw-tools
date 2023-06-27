@@ -9,24 +9,16 @@
  * 
  * You should have received a copy of the GNU Affero General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-package it.finanze.sanita.fjm;
+package it.finanze.sanita.fjm.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
 public class TokenResponseDTO {
 
 	private String authorizationBearer;
 	private String fseJwtSignature;
-	
-	public TokenResponseDTO(String authJWT, String signJWT) {
-		this.authorizationBearer = authJWT;
-		this.fseJwtSignature = signJWT;
-	}
-	
-	public String getAuthorizationBearer() {
-		return authorizationBearer;
-	}
-	
-	public String getFseJwtSignature() {
-		return fseJwtSignature;
-	}
 	
 }

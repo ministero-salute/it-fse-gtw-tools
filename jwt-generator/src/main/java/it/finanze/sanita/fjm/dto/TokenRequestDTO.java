@@ -9,19 +9,20 @@
  * 
  * You should have received a copy of the GNU Affero General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-package it.finanze.sanita.fjm;
+package it.finanze.sanita.fjm.dto;
 
-import java.util.List;
-
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
-public class JWTTokenDTO {
-    
-    private List<String> vector_hash_csr;
-    
+@Setter
+public class TokenRequestDTO {
+	private String config;
+	private int durationHours = 24;
+	private byte[] p12;
+	private String aliasP12;
+	private String passwordP12;
+	private byte[] pem;
+	private byte[] fileToHash;
+	
 }
