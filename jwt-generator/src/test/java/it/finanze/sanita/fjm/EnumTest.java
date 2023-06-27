@@ -94,118 +94,118 @@ public class EnumTest {
         String code1 = "alg";
         boolean flag1 = false;
         assertEquals(code1, JWTClaimsEnum.ALG.getKey());
-        assertEquals(flag1, JWTClaimsEnum.ALG.getAutoFlagPayloadClaim());
+        assertEquals(flag1, JWTClaimsEnum.ALG.isFlagAutoPayloadClaim());
         
         String code2 = "typ";
         boolean flag2 = false;
         assertEquals(code2, JWTClaimsEnum.TYP.getKey());
-        assertEquals(flag2, JWTClaimsEnum.TYP.getAutoFlagPayloadClaim());
+        assertEquals(flag2, JWTClaimsEnum.TYP.isFlagAutoPayloadClaim());
         
         String code3 = "x5c";
         boolean flag3 = false;
         assertEquals(code3, JWTClaimsEnum.X5C.getKey());
-        assertEquals(flag3, JWTClaimsEnum.X5C.getAutoFlagPayloadClaim());
+        assertEquals(flag3, JWTClaimsEnum.X5C.isFlagAutoPayloadClaim());
 
         
         String code4 = "sub";
         boolean flag4 = true;
         assertEquals(code4, JWTClaimsEnum.SUB.getKey());
-        assertEquals(flag4, JWTClaimsEnum.SUB.getAutoFlagPayloadClaim());
+        assertEquals(flag4, JWTClaimsEnum.SUB.isFlagAutoPayloadClaim());
 
         String code5 = "purpose_of_use";
         boolean flag5 = true;
         assertEquals(code5, JWTClaimsEnum.PURPOSE_OF_USE.getKey());
-        assertEquals(flag5, JWTClaimsEnum.PURPOSE_OF_USE.getAutoFlagPayloadClaim());
+        assertEquals(flag5, JWTClaimsEnum.PURPOSE_OF_USE.isFlagAutoPayloadClaim());
 
         String code6 = "iss";
         boolean flag6 = true;
         assertEquals(code6, JWTClaimsEnum.ISS.getKey());
-        assertEquals(flag6, JWTClaimsEnum.ISS.getAutoFlagPayloadClaim());
+        assertEquals(flag6, JWTClaimsEnum.ISS.isFlagAutoPayloadClaim());
 
         String code7 = "subject_application_id";
         boolean flag7 = true;
         assertEquals(code7, JWTClaimsEnum.SUBJECT_APPLICATION_ID.getKey());
-        assertEquals(flag7, JWTClaimsEnum.SUBJECT_APPLICATION_ID.getAutoFlagPayloadClaim());
+        assertEquals(flag7, JWTClaimsEnum.SUBJECT_APPLICATION_ID.isFlagAutoPayloadClaim());
 
         String code8 = "subject_application_vendor";
         boolean flag8 = true;
         assertEquals(code8, JWTClaimsEnum.SUBJECT_APPLICATION_VENDOR.getKey());
-        assertEquals(flag8, JWTClaimsEnum.SUBJECT_APPLICATION_VENDOR.getAutoFlagPayloadClaim());
+        assertEquals(flag8, JWTClaimsEnum.SUBJECT_APPLICATION_VENDOR.isFlagAutoPayloadClaim());
 
         String code10 = "subject_application_version";
         boolean flag10 = true;
         assertEquals(code10, JWTClaimsEnum.SUBJECT_APPLICATION_VERSION.getKey());
-        assertEquals(flag10, JWTClaimsEnum.SUBJECT_APPLICATION_VERSION.getAutoFlagPayloadClaim());
+        assertEquals(flag10, JWTClaimsEnum.SUBJECT_APPLICATION_VERSION.isFlagAutoPayloadClaim());
 
         String code11 = "locality";
         boolean flag11 = true;
         assertEquals(code11, JWTClaimsEnum.LOCALITY.getKey());
-        assertEquals(flag11, JWTClaimsEnum.LOCALITY.getAutoFlagPayloadClaim());
+        assertEquals(flag11, JWTClaimsEnum.LOCALITY.isFlagAutoPayloadClaim());
 
         String code12 = "subject_organization";
         boolean flag12 = true;
         assertEquals(code12, JWTClaimsEnum.SUBJECT_ORGANIZATION.getKey());
-        assertEquals(flag12, JWTClaimsEnum.SUBJECT_ORGANIZATION.getAutoFlagPayloadClaim());
+        assertEquals(flag12, JWTClaimsEnum.SUBJECT_ORGANIZATION.isFlagAutoPayloadClaim());
 
         String code13 = "aud";
         boolean flag13 = true;
         assertEquals(code13, JWTClaimsEnum.AUD.getKey());
-        assertEquals(flag13, JWTClaimsEnum.AUD.getAutoFlagPayloadClaim());
+        assertEquals(flag13, JWTClaimsEnum.AUD.isFlagAutoPayloadClaim());
 
         String code14 = "subject_organization_id";
         boolean flag14 = true;
         assertEquals(code14, JWTClaimsEnum.SUBJECT_ORGANIZATION_ID.getKey());
-        assertEquals(flag14, JWTClaimsEnum.SUBJECT_ORGANIZATION_ID.getAutoFlagPayloadClaim());
+        assertEquals(flag14, JWTClaimsEnum.SUBJECT_ORGANIZATION_ID.isFlagAutoPayloadClaim());
 
         String code15 = "patient_consent";
         boolean flag15 = true;
         assertEquals(code15, JWTClaimsEnum.PATIENT_CONSENT.getKey());
-        assertEquals(flag15, JWTClaimsEnum.PATIENT_CONSENT.getAutoFlagPayloadClaim());
+        assertEquals(flag15, JWTClaimsEnum.PATIENT_CONSENT.isFlagAutoPayloadClaim());
 
         String code16 = "action_id";
         boolean flag16 = true;
         assertEquals(code16, JWTClaimsEnum.ACTION_ID.getKey());
-        assertEquals(flag16, JWTClaimsEnum.ACTION_ID.getAutoFlagPayloadClaim());
+        assertEquals(flag16, JWTClaimsEnum.ACTION_ID.isFlagAutoPayloadClaim());
 
         String code17 = "resource_hl7_type";
         boolean flag17 = true;
         assertEquals(code17, JWTClaimsEnum.RESOURCE_HL7_TYPE.getKey());
-        assertEquals(flag17, JWTClaimsEnum.RESOURCE_HL7_TYPE.getAutoFlagPayloadClaim());
+        assertEquals(flag17, JWTClaimsEnum.RESOURCE_HL7_TYPE.isFlagAutoPayloadClaim());
 
         String code18 = "jti";
         boolean flag18 = true;
         assertEquals(code18, JWTClaimsEnum.JTI.getKey());
-        assertEquals(flag18, JWTClaimsEnum.JTI.getAutoFlagPayloadClaim());
+        assertEquals(flag18, JWTClaimsEnum.JTI.isFlagAutoPayloadClaim());
 
         String code19 = "iat";
         boolean flag19 = true;
         assertEquals(code19, JWTClaimsEnum.IAT.getKey());
-        assertEquals(flag19, JWTClaimsEnum.IAT.getAutoFlagPayloadClaim());
+        assertEquals(flag19, JWTClaimsEnum.IAT.isFlagAutoPayloadClaim());
 
         String code20 = "exp";
         boolean flag20 = true;
         assertEquals(code20, JWTClaimsEnum.EXP.getKey());
-        assertEquals(flag20, JWTClaimsEnum.EXP.getAutoFlagPayloadClaim());
+        assertEquals(flag20, JWTClaimsEnum.EXP.isFlagAutoPayloadClaim());
 
         String code21 = "JWT";
         boolean flag21 = false;
         assertEquals(code21, JWTClaimsEnum.JWT.getKey());
-        assertEquals(flag21, JWTClaimsEnum.JWT.getAutoFlagPayloadClaim());
+        assertEquals(flag21, JWTClaimsEnum.JWT.isFlagAutoPayloadClaim());
 
         String code22 = "p12_path";
         boolean flag22 = false;
         assertEquals(code22, JWTClaimsEnum.P12_PATH.getKey());
-        assertEquals(flag22, JWTClaimsEnum.P12_PATH.getAutoFlagPayloadClaim());
+        assertEquals(flag22, JWTClaimsEnum.P12_PATH.isFlagAutoPayloadClaim());
 
         String code23 = "attachment_hash";
         boolean flag23 = true;
         assertEquals(code23, JWTClaimsEnum.ATTACHMENT_HASH.getKey());
-        assertEquals(flag23, JWTClaimsEnum.ATTACHMENT_HASH.getAutoFlagPayloadClaim());
+        assertEquals(flag23, JWTClaimsEnum.ATTACHMENT_HASH.isFlagAutoPayloadClaim());
 
         String code24 = "pem_path";
         boolean flag24 = false;
         assertEquals(code24, JWTClaimsEnum.PEM_PATH.getKey());
-        assertEquals(flag24, JWTClaimsEnum.PEM_PATH.getAutoFlagPayloadClaim());
+        assertEquals(flag24, JWTClaimsEnum.PEM_PATH.isFlagAutoPayloadClaim());
 
     }
     

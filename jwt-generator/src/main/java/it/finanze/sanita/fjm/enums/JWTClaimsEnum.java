@@ -11,12 +11,14 @@
  */
 package it.finanze.sanita.fjm.enums;
 
+import lombok.Getter;
 
 /**
  * Copyright (c) 2022, Ministero della Salute
  *
  * JWT Claims class.
  */
+@Getter
 public enum JWTClaimsEnum {
 	
 	/**
@@ -135,7 +137,7 @@ public enum JWTClaimsEnum {
 	ATTACHMENT_HASH("attachment_hash", true),
 
 	/**
-	 * File hash claim used for monitoring dashboard.
+	 * File hash claim used for monitoring dashboard and terminology.
 	 */
 	FILE_HASH("file_hash", false),
 	
@@ -157,7 +159,17 @@ public enum JWTClaimsEnum {
 	/**
 	 * P12 path.
 	 */
-	P12_PATH("p12_path", false);
+	P12_PATH("p12_path", false),
+	
+	/**
+	 * Oid used to terminology server.
+	 */
+	OID("oid", true),
+
+	/**
+	 * Version used to terminology server.
+	 */
+	VERSION("version", true);
 
 	/**
 	 * Key.
@@ -180,21 +192,4 @@ public enum JWTClaimsEnum {
 		flagAutoPayloadClaim = inFlagAutoPayloadClaim;
 	}
 	
-	/**
-	 * Getter key.
-	 * 
-	 * @return	key
-	 */
-	public String getKey() {
-		return key;
-	}
-
-	/**
-	 * Getter flag claim retrive from json data
-	 * @return	claim retrive from json data
-	 */
-	public boolean getAutoFlagPayloadClaim() {
-		return flagAutoPayloadClaim;
-	}
-
 }

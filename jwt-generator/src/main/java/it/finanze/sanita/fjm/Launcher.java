@@ -247,9 +247,9 @@ public class Launcher {
 		dumpVerboseMsg(flagVerbose, "AUTHORIZATION BEARER TOKEN END HERE\n"); 
 
 		dumpVerboseMsg(flagVerbose, "Generating" +system.getTokenBusinessName()+"\n");
-		dumpVerboseMsg(flagVerbose, "FSE-JWT-PROVISIONING START HERE");
-		LOGGER.info("\n------------- FSE-JWT-Provisioning ---------------\n" + tokenResponseDTO.getFseJwtSignature() + "\n");
-		dumpVerboseMsg(flagVerbose, "FSE-JWT-PROVISIONING END HERE\n");
+		dumpVerboseMsg(flagVerbose, system.getTokenBusinessName()+ " START HERE");
+		LOGGER.info("\n-------------" + system.getTokenBusinessName()+"---------------\n" + tokenResponseDTO.getFseJwtSignature() + "\n");
+		dumpVerboseMsg(flagVerbose, system.getTokenBusinessName()+ " END HERE\n");
 	}
 
 
@@ -424,7 +424,7 @@ public class Launcher {
 
 		Map<String, Object> claims = new HashMap<>();
 		for (JWTClaimsEnum k : JWTClaimsEnum.values()) {
-			if (k.getAutoFlagPayloadClaim() && mapJD.containsKey(k.getKey())) {
+			if (k.isFlagAutoPayloadClaim() && mapJD.containsKey(k.getKey())) {
 				claims.put(k.getKey(), mapJD.get(k.getKey()));
 			}
 		}
@@ -457,7 +457,7 @@ public class Launcher {
 
 		Map<String, Object> claims = new HashMap<>();
 		for (JWTClaimsEnum k : JWTClaimsEnum.values()) {
-			if (k.getAutoFlagPayloadClaim() && mapJD.containsKey(k.getKey())) {
+			if (k.isFlagAutoPayloadClaim() && mapJD.containsKey(k.getKey())) {
 				claims.put(k.getKey(), mapJD.get(k.getKey()));
 			}
 		}
@@ -494,7 +494,7 @@ public class Launcher {
 
 		Map<String, Object> claims = new HashMap<>();
 		for (JWTClaimsEnum k : JWTClaimsEnum.values()) {
-			if (k.getAutoFlagPayloadClaim() && mapJD.containsKey(k.getKey())) {
+			if (k.isFlagAutoPayloadClaim() && mapJD.containsKey(k.getKey())) {
 				claims.put(k.getKey(), mapJD.get(k.getKey()));
 			}
 		}

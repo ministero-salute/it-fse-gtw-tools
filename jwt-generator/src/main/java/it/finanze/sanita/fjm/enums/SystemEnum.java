@@ -37,7 +37,7 @@ public enum SystemEnum {
 	/**
 	 * Terminology.
 	 */
-	TERMINOLOGY("terminology","");
+	TERMINOLOGY("terminology","FSE-JWT-Authoring");
 	
 	/**
 	 * Key argument.
