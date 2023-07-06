@@ -139,7 +139,7 @@ public enum JWTClaimsEnum {
 	/**
 	 * File hash claim used for monitoring dashboard and terminology.
 	 */
-	FILE_HASH("file_hash", false),
+	FILE_HASH("file_hash", true),
 	
 	/**
 	 * Vector of hashes claim used for provisioning dashboard.
