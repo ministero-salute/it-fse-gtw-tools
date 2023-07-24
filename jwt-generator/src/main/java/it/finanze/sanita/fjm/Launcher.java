@@ -16,8 +16,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
 import java.security.Key;
 import java.security.Security;
 import java.security.cert.CertificateException;
@@ -181,19 +179,21 @@ public class Launcher {
 		byte[] privateKeyP12 = Utility.getFileFromFS(get(mapJD, JWTAuthEnum.P12_PATH));
 		byte[] pem = Utility.getFileFromFS(get(mapJD, JWTAuthEnum.PEM_PATH));
 		Key privateKey = Utility.extractKeyByAliasFromP12(pwdP12, aliasP12, privateKeyP12);
+		
+		byte[] fileToHash = null;
+		if (!Utility.nullOrEmpty(pathFileOrDir)) {
+			fileToHash = Utility.getFileFromFS(pathFileOrDir);
+		}
+		
 		TokenResponseDTO tokenResponseDTO = null;
 		switch (system) {
 		case PROVISIONING:
 			tokenResponseDTO = getTokensProvisioning(privateKey,mapJD,privateKeyP12,pem);
 			break;
 		case TERMINOLOGY:
-			tokenResponseDTO = getTokensTerminology(privateKey,mapJD,privateKeyP12,pem);
+			tokenResponseDTO = getTokensTerminology(privateKey,mapJD,privateKeyP12,pem,fileToHash);
 			break;
 		default:
-			byte[] fileToHash = null;
-			if (!Utility.nullOrEmpty(pathFileOrDir)) {
-				fileToHash = Utility.getFileFromFS(pathFileOrDir);
-			}
 			tokenResponseDTO = getTokens(privateKey,mapJD, privateKeyP12, pem, fileToHash, system);
 			break;
 		}
@@ -320,7 +320,8 @@ public class Launcher {
 		return new TokenResponseDTO(jwt, claimsJwt);
 	}
 
-	private static TokenResponseDTO getTokensTerminology(Key privateKey,Map<String, String> mapJD, byte[] privateKeyP12, byte[] pem) throws Exception {
+	private static TokenResponseDTO getTokensTerminology(Key privateKey,Map<String, String> mapJD, byte[] privateKeyP12, byte[] pem,
+			byte[] fileToHash) throws Exception {
 		String publicKey = cleanPem(pem);
 
 		dumpVerboseMsg(flagVerbose, "Analyzing data\n");
@@ -336,7 +337,7 @@ public class Launcher {
 		dumpVerboseMsg(flagVerbose, "Json data items found: " + mapJD.size() + ".\n");
 
 		String jwt = generateAuthJWT(mapJD, privateKey, publicKey, iat, exp, iss); 
-		String claimsJwt = generateClaimsJWTTerminology(mapJD, privateKey, publicKey, iat, exp, iss); 
+		String claimsJwt = generateClaimsJWTTerminology(mapJD, privateKey, publicKey, iat, exp, iss,fileToHash); 
 		return new TokenResponseDTO(jwt, claimsJwt);
 	}
 
@@ -486,7 +487,8 @@ public class Launcher {
 				.signWith(SignatureAlgorithm.RS256, privateKey).compact();
 	}
 
-	private static String generateClaimsJWTTerminology(Map<String, String> mapJD, Key privateKey, String x5c, Date iat, Date exp, String iss) throws Exception {
+	private static String generateClaimsJWTTerminology(Map<String, String> mapJD, Key privateKey, String x5c, Date iat, Date exp, String iss,
+			byte[] fileToHash) throws Exception {
 		Map<String, Object> headerParams = new HashMap<>();
 		headerParams.put(JWTClaimsEnum.ALG.getKey(), SignatureAlgorithm.RS256);
 		headerParams.put(JWTClaimsEnum.TYP.getKey(), JWTClaimsEnum.JWT.getKey());
@@ -503,6 +505,11 @@ public class Launcher {
 		claims.put(JWTClaimsEnum.EXP.getKey(), exp.getTime()/1000);
 		claims.put(JWTAuthEnum.ISS.getKey(), "integrity:" + Utility.cleanIss(iss));
 
+		if (fileToHash != null) {
+			String hash = Utility.encodeSHA256(fileToHash);
+			claims.put(JWTClaimsEnum.FILE_HASH.getKey(), hash);
+		}
+		
 		return Jwts.builder().setHeaderParams(headerParams).setClaims(claims)
 				.signWith(SignatureAlgorithm.RS256, privateKey).compact();
 	}
