@@ -80,8 +80,18 @@ public class Launcher {
 	}
 
 	public static byte[] getPdf(byte[] cda) throws IOException {
+		return getPdf(cda, null, null);
+	}
+	
+	public static byte[] getPdf(byte[] cda, byte[] p12, String password) throws IOException {
 		byte[] filePDF = createSample();
-		return inject(filePDF, cda);
+		byte[] output = inject(filePDF, cda);
+		if(p12!=null && password!=null) {
+			char[] pwd = password.toCharArray();
+			CreateSignaturePades signaturePades = SignerHelper.getSP(p12, pwd);
+			output = SignerHelper.pades(signaturePades, pathOutput, output);
+		}
+		return output;
 	}
 	
 	private static void checkArgs(String[] args) {
