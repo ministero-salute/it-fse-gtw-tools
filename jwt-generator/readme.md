@@ -71,10 +71,18 @@ Il comando precedente mostrerà un aiuto che spiega come utilizzare l'applicazio
 | -t | false | VALUE | Allows to assign a number of hours of validity of the created token (default is 24 hours).  |
 | -f | false | VALUE | Allows to specify a PDF file path (if given, the tool will calculate hash and use it as value in custom claim field: attachment_hash) |
 | -d | true  | VALUE | Complete path of data.json file where JWTToken parameters are located. |
-| -a | true  | VALUE | Alias of p12 cert used to execute the JWT signature |
+| -a | false  | VALUE | Alias of p12 cert used to execute the JWT signature (if not provided, alias is retrieved from the certificate) |
 | -p | true  | VALUE | Password of p12 cert used to execute the JWT signature |
 | -o | false | VALUE | Specify output file name prefix (optional, tokens will be saved as prefix.auth.txt and prefix.sign.txt) |
-| -s | true | VALUE | Specify jwt application target |
+| -s | true | VALUE | Specify jwt system target * |
+
+#### * System Target
+| KEY | BUSINESS NAME |
+| :------------: | :------------: |
+| GATEWAY | FSE-JWT-Signature  |
+| PROVISIONING | FSE-JWT-Provisioning  |
+| MONITORING | FSE-JWT-Monitoring  |
+| TERMINOLOGY | FSE-JWT-Terminology  |
 
 ---
 ### TOKEN CUSTOMIZATION GATEWAY
@@ -190,12 +198,12 @@ Un esempio del file data.json è il seguente:
 ```javascript
 {
 	"iss": "integrity:190201123456XX",
-    "iat": 1540890704,
-    "exp": 1540918800,
-    "jti": 1540918800,
-    "aud": "https://modipa-val.fse.salute.gov.it/govway/rest/in/FSE/monitoring/v1",
-    "sub": "mef",
-    "file_hash": "0ef542da6e59a03a8d95f03f635327d60d8a3795e634b1d20b07108c497697fd"
+	"iat": 1540890704,
+	"exp": 1540918800,
+	"jti": 1540918800,
+	"aud": "https://modipa-val.fse.salute.gov.it/govway/rest/in/FSE/monitoring/v1",
+	"sub": "mef",
+	"file_hash": "0ef542da6e59a03a8d95f03f635327d60d8a3795e634b1d20b07108c497697fd"
 }
 ```
 
