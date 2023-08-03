@@ -79,10 +79,10 @@ Il comando precedente mostrerà un aiuto che spiega come utilizzare l'applicazio
 #### * System Target
 | KEY | BUSINESS NAME |
 | :------------: | :------------: |
-| GATEWAY | FSE-JWT-Signature  |
-| PROVISIONING | FSE-JWT-Provisioning  |
-| MONITORING | FSE-JWT-Monitoring  |
-| TERMINOLOGY | FSE-JWT-Terminology  |
+| gateway | FSE-JWT-Signature  |
+| provisioning | FSE-JWT-Provisioning  |
+| monitoring | FSE-JWT-Monitoring  |
+| terminology | FSE-JWT-Terminology  |
 
 ---
 ### TOKEN CUSTOMIZATION GATEWAY
@@ -139,6 +139,10 @@ Il seguente comando genererà due JWT Token che possono essere usati per chiamar
 
 `java -jar jwt-generator.jar -d data.json -a {alias} -p {password} -t 1`
 
+oppure
+
+`java -jar jwt-generator.jar -d data.json -a {alias} -p {password} -t 1 -s gateway`
+
 ---
 ### TOKEN CUSTOMIZATION TERMINOLOGY
 L'esecuzione di questa applicazione richiede di definire i parametri JWT e i percorsi dei certificati in un oggetto JSON esterno, il contenuto del file data.json conterrà le seguenti informazioni:
@@ -186,6 +190,12 @@ Un esempio del file data.json in caso di eliminazione di terminologie è il segu
 }
 ```
 
+### Esempio
+
+Il seguente comando genererà due JWT Token che possono essere usati per chiamare il FSE2.0-Terminology: il primo (chiamato Authorization Bearer Token) è un token contenente tutte le attestazioni utilizzate per l'autorizzazione (es. iss, iat, exp), mentre il secondo (chiamato FSE-JWT-Terminology Token) contiene tutte le attestazioni personalizzate.
+
+`java -jar jwt-generator.jar -d data.json -a {alias} -p {password} -t 1 -s terminology`
+
 ---
 ### TOKEN CUSTOMIZATION MONITORING
 L'esecuzione di questa applicazione richiede di definire i parametri JWT e i percorsi dei certificati in un oggetto JSON esterno, il contenuto del file data.json conterrà le seguenti informazioni:
@@ -206,6 +216,12 @@ Un esempio del file data.json è il seguente:
 	"file_hash": "0ef542da6e59a03a8d95f03f635327d60d8a3795e634b1d20b07108c497697fd"
 }
 ```
+
+### Esempio
+
+Il seguente comando genererà due JWT Token che possono essere usati per chiamare il FSE2.0-Monitoring: il primo (chiamato Authorization Bearer Token) è un token contenente tutte le attestazioni utilizzate per l'autorizzazione (es. iss, iat, exp), mentre il secondo (chiamato FSE-JWT-Monitoring Token) contiene tutte le attestazioni personalizzate.
+
+`java -jar jwt-generator.jar -d data.json -a {alias} -p {password} -t 1 -s monitoring`
 
 ---
 ### TOKEN CUSTOMIZATION PROVISIONING
@@ -252,6 +268,12 @@ Un esempio del file data.json in caso di revoca massiva è il seguente:
 	"vector_id": "e2241357-6d09-43c8-adcc-6e098d95ca3f"
 }
 ```
+
+### Esempio
+
+Il seguente comando genererà due JWT Token che possono essere usati per chiamare il FSE2.0-Provisioning: il primo (chiamato Authorization Bearer Token) è un token contenente tutte le attestazioni utilizzate per l'autorizzazione (es. iss, iat, exp), mentre il secondo (chiamato FSE-JWT-Provisioning Token) contiene tutte le attestazioni personalizzate.
+
+`java -jar jwt-generator.jar -d data.json -a {alias} -p {password} -t 1 -s provisioning`
 
 
 [//]: # (Questi sono collegamenti di riferimento utilizzati nel corpo di questa nota e vengono rimossi quando il processore di markdown fa il suo lavoro. Non è necessario formattare bene perché non dovrebbe essere visto. Grazie - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
