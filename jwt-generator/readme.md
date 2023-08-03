@@ -74,9 +74,10 @@ Il comando precedente mostrerà un aiuto che spiega come utilizzare l'applicazio
 | -a | true  | VALUE | Alias of p12 cert used to execute the JWT signature |
 | -p | true  | VALUE | Password of p12 cert used to execute the JWT signature |
 | -o | false | VALUE | Specify output file name prefix (optional, tokens will be saved as prefix.auth.txt and prefix.sign.txt) |
+| -s | true | VALUE | Specify jwt application target |
 
 ---
-### TOKEN CUSTOMIZATION
+### TOKEN CUSTOMIZATION GATEWAY
 L'esecuzione di questa applicazione richiede di definire i parametri JWT e i percorsi dei certificati in un oggetto JSON esterno, il contenuto del file data.json conterrà le seguenti informazioni:
 
 | NAME | TYPE | DESCRIPTION |
@@ -129,6 +130,120 @@ Un esempio del file data.json è il seguente:
 Il seguente comando genererà due JWT Token che possono essere usati per chiamare il FSE2.0-Gateway: il primo (chiamato Authorization Bearer Token) è un token contenente tutte le attestazioni utilizzate per l'autorizzazione (es. iss, iat, exp), mentre il secondo (chiamato FSE-JWT-Signature Token) contiene tutte le attestazioni personalizzate.
 
 `java -jar jwt-generator.jar -d data.json -a {alias} -p {password} -t 1`
+
+---
+### TOKEN CUSTOMIZATION TERMINOLOGY
+L'esecuzione di questa applicazione richiede di definire i parametri JWT e i percorsi dei certificati in un oggetto JSON esterno, il contenuto del file data.json conterrà le seguenti informazioni:
+
+| NAME | TYPE | DESCRIPTION |
+| ------------ | :------------: | ------------ |
+| oid | STRING | Identifies the oid for which you want to make a create/delete request |
+| version | STRING | Identifies the version of the terminology for which you want to request a creation/deletion |
+| file_hash | STRING | Identify the hash of the input file |
+
+Un esempio del file data.json in caso di upload di terminologie è il seguente: 
+```javascript
+{
+	"alg": "RS256",
+	"typ": "JWT",
+	"kid": "0",
+	"x5c": "MIIDBzCCAe+gAwIBAgIJAIBJZQZQX4ZmMA0GCSqGSIb3DQEBC[...]",
+	"sub": "PROVAX00X00X000Y",
+	"aud": "https://modipa-val.fse.salute.gov.it/govway/rest/in/FSE/terminology/v1",
+	"file_hash":  "d98d66e46b1333ddb548e55a086c0153b1a691f2c4f38e62067ad4ca77bfd8f8",
+	"iss": "integrity:S1#190201234567PR",
+	"oid": "urn:oid:2.16.840.1.113883.5.1",
+	"exp": 1689697549,
+	"iat": 1689611149,
+	"version": "2.1.0",
+	"jti": "1689611149"
+}
+```
+
+Un esempio del file data.json in caso di eliminazione di terminologie è il seguente: 
+```javascript
+{
+	"alg": "RS256",
+	"typ": "JWT",
+	"kid": "0",
+	"x5c": "MIIDBzCCAe+gAwIBAgIJAIBJZQZQX4ZmMA0GCSqGSIb3DQEBC[...]",
+	"sub": "PROVAX00X00X000Y",
+	"aud": "https://modipa-val.fse.salute.gov.it/govway/rest/in/FSE/terminology/v1",
+	"iss": "integrity:S1#190201234567PR",
+	"oid": "urn:oid:2.16.840.1.113883.5.1",
+	"exp": 1689697549,
+	"iat": 1689611149,
+	"version": "2.1.0",
+	"jti": "1689611149"
+}
+```
+
+---
+### TOKEN CUSTOMIZATION MONITORING
+L'esecuzione di questa applicazione richiede di definire i parametri JWT e i percorsi dei certificati in un oggetto JSON esterno, il contenuto del file data.json conterrà le seguenti informazioni:
+
+| NAME | TYPE | DESCRIPTION |
+| ------------ | :------------: | ------------ |
+| file_hash | STRING | Hash (SHA256) of the file provided as input |
+
+Un esempio del file data.json è il seguente: 
+```javascript
+{
+	"iss": "integrity:190201123456XX",
+    "iat": 1540890704,
+    "exp": 1540918800,
+    "jti": 1540918800,
+    "aud": "https://modipa-val.fse.salute.gov.it/govway/rest/in/FSE/monitoring/v1",
+    "sub": "mef",
+    "file_hash": "0ef542da6e59a03a8d95f03f635327d60d8a3795e634b1d20b07108c497697fd"
+}
+```
+
+---
+### TOKEN CUSTOMIZATION PROVISIONING
+L'esecuzione di questa applicazione richiede di definire i parametri JWT e i percorsi dei certificati in un oggetto JSON esterno, il contenuto del file data.json conterrà le seguenti informazioni:
+
+| NAME | TYPE | DESCRIPTION |
+| ------------ | :------------: | ------------ |
+| vector_hash_csr | STRING | Array containing the hash list (HEX SHA256) of the CSRs supplied as input to the endpoint |
+| vector_id | STRING | UUID associated with the previous Mass Creation or Mass Renewal request |
+
+Un esempio del file data.json in caso di creazione e rinnovo massivo è il seguente: 
+```javascript
+{
+	"alg": "RS256",
+	"typ": "JWT",
+	"kid": "0",
+	"iss": "integrity:190201123456XX",
+	"x5c": "MIIDBzCCAe+gAwIBAgIJAIBJZQZQX4ZmMA0GCSqGSIb3DQEBC[...]",
+	"iat": 1540890704,
+	"exp": 1540918800,
+	"jti": 1540918800,
+	"aud": "https://modipa-val.fse.salute.gov.it/govway/rest/in/FSE/provisioning/v1",
+	"sub": "VRDMRC67T20I257E",
+	"vector_hash_csr": [
+		"d98d66e46b1333ddb548e55a086c0153b1a691f2c4f38e62067ad4ca77bfd8f8",
+		"d98d66e46b1333ddb548e55a086c0153b1a691f2c4f38e62067ad4ca77bfd8f9"
+	]
+}
+```
+
+Un esempio del file data.json in caso di revoca massiva è il seguente: 
+```javascript
+{
+	"alg": "RS256",
+	"typ": "JWT",
+	"kid": "0",
+	"iss": "integrity:190201123456XX",
+	"x5c": "MIIDBzCCAe+gAwIBAgIJAIBJZQZQX4ZmMA0GCSqGSIb3DQEBC[...]",
+	"iat": 1540890704,
+	"exp": 1540918800,
+	"jti": 1540918800,
+	"aud": "https://modipa-val.fse.salute.gov.it/govway/rest/in/FSE/provisioning/v1",
+	"sub": "VRDMRC67T20I257E",
+	"vector_id": "e2241357-6d09-43c8-adcc-6e098d95ca3f"
+}
+```
 
 
 [//]: # (Questi sono collegamenti di riferimento utilizzati nel corpo di questa nota e vengono rimossi quando il processore di markdown fa il suo lavoro. Non è necessario formattare bene perché non dovrebbe essere visto. Grazie - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
