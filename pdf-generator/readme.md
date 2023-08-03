@@ -3,8 +3,8 @@
 
 # _pdf-generator_
 
-Il generatore di PDF consente di inserire un file CDA.xml in un file PDF per l'invocazione del servizio Web FSE2.0 Gateway Validator.
-Tale jar offre anche la possibilit� di apporre una firma pades sul pdf generato utilizzando un certificato p12 fornito in input.
+Il generatore di PDF consente di inserire un file cda.xml in un file PDF per l'invocazione del servizio Web FSE2.0 Gateway Validator.
+Tale jar offre anche la possibilità di apporre una firma pades sul pdf generato utilizzando un certificato p12 fornito in input.
 
 ### Requisiti
 <ul>
@@ -45,7 +45,7 @@ Passare alla cartella principale dell'applicazione ed eseguire il comando:
 
 `mvn clean package`
 
-Se la build riesce con successo, un file <em> pdf-generator.jar </em> sarà generato nella cartella target.
+Se la build riesce con successo, un file <em> pdf-generator.jar </em> sarÃ  generato nella cartella target.
 
 ---
 
@@ -58,7 +58,7 @@ Per eseguire il jar usare il comando:
  Usare l'help argument per verificare la sintassi:
 `java -jar pdf-generator.jar -h`
 
-Il comando precedente mostrerà un aiuto che spiega come utilizzare l'applicazione, gli arguments accettati sono definiti come segue:
+Il comando precedente mostrerÃ  un aiuto che spiega come utilizzare l'applicazione, gli arguments accettati sono definiti come segue:
 
 | ARGUMENT | MANDATORY | TYPE | DESCRIPTION |
 | :------------: | :------------: | :------------: | ------------ |
@@ -73,7 +73,7 @@ Il comando precedente mostrerà un aiuto che spiega come utilizzare l'applicazio
 
 ### Esempio
 
-Il seguente comando inserirà un file CDA.xml in un sample.pdf, il file può essere utilizzato per chiamare il servizio di convalida FSE2.0-Gateway:
+Il seguente comando inserirà  un file cda.xml in un sample.pdf, il file può essere utilizzato per chiamare il servizio di convalida FSE2.0-Gateway:
 
 `java -jar pdf-generator.jar -c CDA_OK.xml -x`
 
