@@ -3,7 +3,13 @@
 
 # _jwt-generator_
 
-Il generatore JWT consente di generare il Json Web Token (JWT) per l'invocazione del servizio Web FSE2.0 Gateway Validator.
+Il generatore JWT consente di generare il Json Web Token (JWT) per l'invocazione di diversi servizi del Fascicolo Sanitario:
+
+- Gateway Validator
+- Provisioning
+- Terminology
+- Monitoring
+
 Il JWT può essere personalizzato con il payload e la firma richiesti dal servizio Web.
 
 ### Requisiti
