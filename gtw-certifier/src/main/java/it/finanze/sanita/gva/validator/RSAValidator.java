@@ -13,7 +13,8 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class RSAValidator extends DocumentTypeValidator {
-	
+ 
+
 	public static List<ErrorUCTDTO> validateUC1(final String xml) {
 		List<ErrorUCTDTO> errors = new ArrayList<>();
 		ValidationXML.equalIC(errors, RSAErrorEnum.T01, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Prestazioni'] > code", "code", "62387-6");
@@ -171,7 +172,7 @@ public class RSAValidator extends DocumentTypeValidator {
 
 	public static List<ErrorUCTDTO> validateUC3(final String xml) {
 		List<ErrorUCTDTO> errors = new ArrayList<>();
-		
+
 		ValidationXML.equalIC(errors, RSAErrorEnum.T183, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Quesito_Diagnostico'] > code", "code", "29299-5");
 		ValidationXML.equalIC(errors, RSAErrorEnum.T184, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Quesito_Diagnostico'] > code", "codeSystem", "2.16.840.1.113883.6.1");
 		ValidationXML.equalIC(errors, RSAErrorEnum.T185, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Quesito_Diagnostico'] > code", "codeSystemName", "LOINC");
@@ -233,14 +234,14 @@ public class RSAValidator extends DocumentTypeValidator {
 		ValidationXML.equalIC(errors, RSAErrorEnum.T234, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Terapia_Farmacologica_Consigliata'] > entry > substanceAdministration > routeCode", "codeSystem", "2.16.840.1.113883.5.112");
 		ValidationXML.equalIC(errors, RSAErrorEnum.T235, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Terapia_Farmacologica_Consigliata'] > entry > substanceAdministration > approachSiteCode", "codeSystem", "2.16.840.1.113883.5.1052");
 		ValidationXML.equalIC(errors, RSAErrorEnum.T237, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Terapia_Farmacologica_Consigliata'] > entry > substanceAdministration > consumable > manufacturedProduct > manufacturedMaterial > code", "codeSystem", "2.16.840.1.113883.6.73","2.16.840.1.113883.2.9.6.1.5","2.16.840.1.113883.2.9.6.1.51");
-		ValidationXML.equalIC(errors, RSAErrorEnum.T240, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Terapia_Farmacologica_Consigliata'] > entry > substanceAdministration > entryRelationship > supply","classCode","SPLY");
-		ValidationXML.equalIC(errors, RSAErrorEnum.T241, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Terapia_Farmacologica_Consigliata'] > entry > substanceAdministration > entryRelationship > supply","moodCode","RQO");
+//		ValidationXML.equalIC(errors, RSAErrorEnum.T240, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Terapia_Farmacologica_Consigliata'] > entry > substanceAdministration > entryRelationship > supply","classCode","SPLY");
+//		ValidationXML.equalIC(errors, RSAErrorEnum.T241, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Terapia_Farmacologica_Consigliata'] > entry > substanceAdministration > entryRelationship > supply","moodCode","RQO");
 		return errors;
 	}
-	
+
 	public static List<ErrorUCTDTO> validateUC4(final String xml) {
 		List<ErrorUCTDTO> errors = new ArrayList<>();
-		
+
 		ValidationXML.equalIC(errors, RSAErrorEnum.T242, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Quesito_Diagnostico'] > code","code","29299-5");
 		ValidationXML.equalIC(errors, RSAErrorEnum.T243, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Quesito_Diagnostico'] > code","codeSystem","2.16.840.1.113883.6.1");
 		ValidationXML.equalIC(errors, RSAErrorEnum.T244, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Quesito_Diagnostico'] > code","codeSystemName","LOINC");
@@ -412,5 +413,5 @@ public class RSAValidator extends DocumentTypeValidator {
 		ValidationXML.equalIC(errors, RSAErrorEnum.T468, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Terapia_Farmacologica_Consigliata'] > entry > substanceAdministration > entryRelationship > supply","moodCode","RQO");
 		return errors;
 	}
-	 
+
 }

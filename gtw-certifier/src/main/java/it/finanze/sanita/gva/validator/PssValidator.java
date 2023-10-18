@@ -23,7 +23,7 @@ public class PssValidator extends DocumentTypeValidator {
 		ValidationXML.equalIC(errors, PssErrorEnum.T007, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Allergie_Intolleranze'] > entry > act","classCode","ACT");
 		ValidationXML.equalIC(errors, PssErrorEnum.T008, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Allergie_Intolleranze'] > entry > act","moodCode","EVN");
 		ValidationXML.equalIC(errors, PssErrorEnum.T009, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Allergie_Intolleranze'] > entry > act > templateId","root","2.16.840.1.113883.2.9.10.1.4.3.1.1");
-		ValidationXML.equalIC(errors, PssErrorEnum.T010, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Allergie_Intolleranze'] > entry > act > statusCode","code","active");
+		ValidationXML.equalIC(errors, PssErrorEnum.T010, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Allergie_Intolleranze'] > entry > act > statusCode","code","active","suspended","aborted","completed");
 		ValidationXML.hasDateFormat(errors, PssErrorEnum.T011, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Allergie_Intolleranze'] > entry > act > effectiveTime > low","value");
 		ValidationXML.containsIC(errors, PssErrorEnum.T012, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Allergie_Intolleranze'] > entry > act > entryRelationship","typeCode","SUBJ");
 		ValidationXML.containsIC(errors, PssErrorEnum.T013, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Allergie_Intolleranze'] > entry > act > entryRelationship > observation","classCode","OBS");
@@ -34,7 +34,7 @@ public class PssValidator extends DocumentTypeValidator {
 		ValidationXML.containsIC(errors, PssErrorEnum.T018, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Allergie_Intolleranze'] > entry > act > entryRelationship > observation > code","codeSystemName","ObservationIntoleranceType","LOINC");
 		ValidationXML.containsIC(errors, PssErrorEnum.T019, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Allergie_Intolleranze'] > entry > act > entryRelationship > observation > code","displayName","Intolerance","Allergia o causa della reazione");
 		ValidationXML.containsIC(errors, PssErrorEnum.T020, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Allergie_Intolleranze'] > entry > act > entryRelationship > observation > statusCode","code","completed");
-		ValidationXML.containsIC(errors, PssErrorEnum.T021, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Allergie_Intolleranze'] > entry > act > entryRelationship > observation > value","code","ALG");
+//		ValidationXML.containsIC(errors, PssErrorEnum.T021, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Allergie_Intolleranze'] > entry > act > entryRelationship > observation > value","code","ALG");
 		ValidationXML.containsIC(errors, PssErrorEnum.T022, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Allergie_Intolleranze'] > entry > act > entryRelationship > observation > value","codeSystem","2.16.840.1.113883.5.1150.1","2.16.840.1.113883.5.4");
 		ValidationXML.containsIC(errors, PssErrorEnum.T023, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Allergie_Intolleranze'] > entry > act > entryRelationship > observation > value","codeSystemName","UnknownAllergies","ObservationIntoleranceType");
 		ValidationXML.containsIC(errors, PssErrorEnum.T024, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Allergie_Intolleranze'] > entry > act > entryRelationship > observation > value","displayName","Allergy");
@@ -152,7 +152,7 @@ public class PssValidator extends DocumentTypeValidator {
 		ValidationXML.equalIC(errors, PssErrorEnum.T007, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Allergie_Intolleranze'] > entry > act","classCode","ACT");
 		ValidationXML.equalIC(errors, PssErrorEnum.T008, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Allergie_Intolleranze'] > entry > act","moodCode","EVN");
 		ValidationXML.equalIC(errors, PssErrorEnum.T009, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Allergie_Intolleranze'] > entry > act > templateId","root","2.16.840.1.113883.2.9.10.1.4.3.1.1");
-		ValidationXML.equalIC(errors, PssErrorEnum.T010, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Allergie_Intolleranze'] > entry > act > statusCode","code","active");
+		ValidationXML.equalIC(errors, PssErrorEnum.T010, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Allergie_Intolleranze'] > entry > act > statusCode","code","active","suspended","aborted","completed");
 		ValidationXML.containsIC(errors, PssErrorEnum.T012, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Allergie_Intolleranze'] > entry > act > entryRelationship","typeCode","SUBJ");
 		ValidationXML.containsIC(errors, PssErrorEnum.T013, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Allergie_Intolleranze'] > entry > act > entryRelationship > observation","classCode","OBS");
 		ValidationXML.containsIC(errors, PssErrorEnum.T014, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Allergie_Intolleranze'] > entry > act > entryRelationship > observation","moodCode","EVN");
@@ -162,7 +162,7 @@ public class PssValidator extends DocumentTypeValidator {
 		ValidationXML.containsIC(errors, PssErrorEnum.T018, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Allergie_Intolleranze'] > entry > act > entryRelationship > observation > code","codeSystemName","ObservationIntoleranceType","LOINC");
 		ValidationXML.containsIC(errors, PssErrorEnum.T019, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Allergie_Intolleranze'] > entry > act > entryRelationship > observation > code","displayName","Intolerance","Allergia o causa della reazione");
 		ValidationXML.containsIC(errors, PssErrorEnum.T020, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Allergie_Intolleranze'] > entry > act > entryRelationship > observation > statusCode","code","completed");
-		ValidationXML.containsIC(errors, PssErrorEnum.T021, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Allergie_Intolleranze'] > entry > act > entryRelationship > observation > value","code","ALG");
+//		ValidationXML.containsIC(errors, PssErrorEnum.T021, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Allergie_Intolleranze'] > entry > act > entryRelationship > observation > value","code","ALG");
 		ValidationXML.containsIC(errors, PssErrorEnum.T022, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Allergie_Intolleranze'] > entry > act > entryRelationship > observation > value","codeSystem","2.16.840.1.113883.5.1150.1","2.16.840.1.113883.5.4");
 		ValidationXML.containsIC(errors, PssErrorEnum.T023, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Allergie_Intolleranze'] > entry > act > entryRelationship > observation > value","codeSystemName","UnknownAllergies","ObservationIntoleranceType");
 		ValidationXML.containsIC(errors, PssErrorEnum.T025, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Allergie_Intolleranze'] > entry > act > entryRelationship > observation > participant","typeCode","CSM");
@@ -288,7 +288,7 @@ public class PssValidator extends DocumentTypeValidator {
 		ValidationXML.equalIC(errors, PssErrorEnum.T007, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Allergie_Intolleranze'] > entry > act","classCode","ACT");
 		ValidationXML.equalIC(errors, PssErrorEnum.T008, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Allergie_Intolleranze'] > entry > act","moodCode","EVN");
 		ValidationXML.equalIC(errors, PssErrorEnum.T009, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Allergie_Intolleranze'] > entry > act > templateId","root","2.16.840.1.113883.2.9.10.1.4.3.1.1");
-		ValidationXML.equalIC(errors, PssErrorEnum.T010, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Allergie_Intolleranze'] > entry > act > statusCode","code","active");
+		ValidationXML.equalIC(errors, PssErrorEnum.T010, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Allergie_Intolleranze'] > entry > act > statusCode","code","active","suspended","aborted","completed");
 		ValidationXML.containsIC(errors, PssErrorEnum.T012, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Allergie_Intolleranze'] > entry > act > entryRelationship","typeCode","SUBJ");
 		ValidationXML.containsIC(errors, PssErrorEnum.T013, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Allergie_Intolleranze'] > entry > act > entryRelationship > observation","classCode","OBS");
 		ValidationXML.containsIC(errors, PssErrorEnum.T014, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Allergie_Intolleranze'] > entry > act > entryRelationship > observation","moodCode","EVN");
@@ -506,7 +506,7 @@ public class PssValidator extends DocumentTypeValidator {
 		ValidationXML.equalIC(errors, PssErrorEnum.T007, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Allergie_Intolleranze'] > entry > act","classCode","ACT");
 		ValidationXML.equalIC(errors, PssErrorEnum.T008, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Allergie_Intolleranze'] > entry > act","moodCode","EVN");
 		ValidationXML.equalIC(errors, PssErrorEnum.T009, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Allergie_Intolleranze'] > entry > act > templateId","root","2.16.840.1.113883.2.9.10.1.4.3.1.1");
-		ValidationXML.equalIC(errors, PssErrorEnum.T010, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Allergie_Intolleranze'] > entry > act > statusCode","code","active");
+		ValidationXML.equalIC(errors, PssErrorEnum.T010, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Allergie_Intolleranze'] > entry > act > statusCode","code","active","suspended","aborted","completed");
 		ValidationXML.containsIC(errors, PssErrorEnum.T012, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Allergie_Intolleranze'] > entry > act > entryRelationship","typeCode","SUBJ");
 		ValidationXML.containsIC(errors, PssErrorEnum.T013, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Allergie_Intolleranze'] > entry > act > entryRelationship > observation","classCode","OBS");
 		ValidationXML.containsIC(errors, PssErrorEnum.T014, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Allergie_Intolleranze'] > entry > act > entryRelationship > observation","moodCode","EVN");
@@ -785,7 +785,11 @@ public class PssValidator extends DocumentTypeValidator {
 		ValidationXML.equalIC(errors, PssErrorEnum.T323, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Esenzioni'] > entry > act","classCode","ACT");
 		ValidationXML.equalIC(errors, PssErrorEnum.T324, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Esenzioni'] > entry > act","moodCode","EVN");
 		ValidationXML.equalIC(errors, PssErrorEnum.T325, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Esenzioni'] > entry > act > templateId","root","2.16.840.1.113883.2.9.10.1.4.3.17.1");
-		ValidationXML.equalIC(errors, PssErrorEnum.T326, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Esenzioni'] > entry > act > code","codeSystem","2.16.840.1.113883.2.9.6.1.22","2.16.840.1.113883.2.9.2.[REGIONE].6.22","2.16.840.1.113883.2.9.5.2.2");
+		ValidationXML.equalIC(errors, PssErrorEnum.T326, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Esenzioni'] > entry > act > code","codeSystem","2.16.840.1.113883.2.9.6.1.22","2.16.840.1.113883.2.9.2.10.6.22","2.16.840.1.113883.2.9.2.20.6.22","2.16.840.1.113883.2.9.2.30.6.22","2.16.840.1.113883.2.9.2.41.6.22","2.16.840.1.113883.2.9.2.42.6.22",
+				"2.16.840.1.113883.2.9.2.50.6.22","2.16.840.1.113883.2.9.2.60.6.22","2.16.840.1.113883.2.9.2.70.6.22","2.16.840.1.113883.2.9.2.80.6.22","2.16.840.1.113883.2.9.2.90.6.22","2.16.840.1.113883.2.9.2.100.6.22",
+				"2.16.840.1.113883.2.9.2.110.6.22","2.16.840.1.113883.2.9.2.120.6.22","2.16.840.1.113883.2.9.2.130.6.22","2.16.840.1.113883.2.9.2.140.6.22","2.16.840.1.113883.2.9.2.150.6.22",
+				"2.16.840.1.113883.2.9.2.160.6.22","2.16.840.1.113883.2.9.2.170.6.22","2.16.840.1.113883.2.9.2.180.6.22","2.16.840.1.113883.2.9.2.190.6.22","2.16.840.1.113883.2.9.2.200.6.22"
+,"2.16.840.1.113883.2.9.5.2.2");
 		ValidationXML.equalIC(errors, PssErrorEnum.T327, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Esenzioni'] > entry > act > statusCode","code","active","suspended","aborted","completed");
 		ValidationXML.hasDateFormat(errors, PssErrorEnum.T328, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Esenzioni'] > entry > act > effectiveTime > low","value");
 		ValidationXML.containsIC(errors, PssErrorEnum.T329, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Esenzioni'] > entry > act > entryRelationship","typeCode","SUBJ");
@@ -815,4 +819,3 @@ public class PssValidator extends DocumentTypeValidator {
 	}
 
 }
-
