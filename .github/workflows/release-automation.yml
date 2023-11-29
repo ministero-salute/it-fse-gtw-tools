@@ -29,8 +29,12 @@ jobs:
       working-directory: ./pdf-generator
       run: mvn --batch-mode --update-snapshots package
 
+    - name: Build package gtw-certifier with Maven
+      working-directory: ./gtw-certifier
+      run: mvn --batch-mode --update-snapshots package
+  
     - name: Staging packages and source-code
-      run: mkdir staging && cp {jwt-generator,pdf-generator}/target/*.jar staging
+      run: mkdir staging && cp {jwt-generator,pdf-generator,gtw-certifier}/target/*.jar staging
 
     - name: Create release by ncipollo
       uses: ncipollo/release-action@v1
