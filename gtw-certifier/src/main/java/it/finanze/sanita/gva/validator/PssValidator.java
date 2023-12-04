@@ -421,7 +421,7 @@ public class PssValidator extends DocumentTypeValidator {
 		ValidationXML.equalIC(errors, PssErrorEnum.T086, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Protesi_impianti_ausili'] > code","code","46264-8");
 		ValidationXML.equalIC(errors, PssErrorEnum.T087, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Protesi_impianti_ausili'] > code","codeSystem","2.16.840.1.113883.6.1");
 		ValidationXML.equalIC(errors, PssErrorEnum.T088, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Protesi_impianti_ausili'] > code","codeSystemName","LOINC");
-		ValidationXML.equalIC(errors, PssErrorEnum.T233, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Protesi_impianti_ausili'] > code","displayName","Storia di uso di dispositivi medici");
+		ValidationXML.equalIC(errors, PssErrorEnum.T233, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Protesi_impianti_ausili'] > code","displayName","Storia d'uso di dispositivi medici");
 		ValidationXML.equalIC(errors, PssErrorEnum.T091, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Protesi_impianti_ausili'] > entry > supply > templateId","root","2.16.840.1.113883.2.9.10.1.4.3.9.1","2.16.840.1.113883.2.9.10.1.4.3.9.2");
 		ValidationXML.equalIC(errors, PssErrorEnum.T152, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Piani_cura'] > templateId","root","2.16.840.1.113883.2.9.10.1.4.2.10");
 		ValidationXML.equalIC(errors, PssErrorEnum.T153, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Piani_cura'] > code","code","18776-5");
