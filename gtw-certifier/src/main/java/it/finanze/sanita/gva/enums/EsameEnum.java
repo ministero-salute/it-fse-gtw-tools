@@ -3,6 +3,9 @@
  */
 package it.finanze.sanita.gva.enums;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import it.finanze.sanita.gva.validator.CVACValidator;
 import it.finanze.sanita.gva.validator.DocumentTypeValidator;
 import it.finanze.sanita.gva.validator.LABValidator;
@@ -72,14 +75,35 @@ public enum EsameEnum {
 
 	//TRASFUSIONALE
 	TEST191TRASF(191, TipoDocEnum.REFERTO_LABORATORIO, TRASFValidator.class,"validateUC1"),
-	TEST376TRASF(376, TipoDocEnum.REFERTO_LABORATORIO, TRASFValidator.class,"validateUC2");
+	TEST376TRASF(376, TipoDocEnum.REFERTO_LABORATORIO, TRASFValidator.class,"validateUC2"),
 	
-
+	//TEST 0
+	TEST0LAB(368, TipoDocEnum.REFERTO_LABORATORIO, LABValidator.class, null),
+	TEST0LDO(369, TipoDocEnum.LETTERA_DIMISSIONE_OSPEDALIERA, LDOValidator.class, null),
+	TEST0VACC(371, TipoDocEnum.CERTIFICATO_VACCINALE, CVACValidator.class,null),
+	TEST0SIN_VACC(372, TipoDocEnum.SCHEDA_SINGOLA_VACCINAZIONE, SVACValidator.class,null),
+	TEST0VPS(373, TipoDocEnum.VERBALE_PRONTO_SOCCORSO, VPSValidator.class,null),
+	TEST0RSA(374, TipoDocEnum.REFERTO_SPECIALISTICA_AMBULATORIALE, RSAValidator.class,null);
+	//PRS Missing
+	//PRF Missing
+	//RAP Missing
 	
 	private Integer idTest;
 	private TipoDocEnum tipoDocumento;
 	private Class<? extends DocumentTypeValidator> validator;
 	private String methodName;
+
+	private static final List<Integer> TEST0_LIST;
+
+    static {
+        TEST0_LIST = new ArrayList<>();
+        TEST0_LIST.add(TEST0LAB.getIdTest());
+        TEST0_LIST.add(TEST0LDO.getIdTest());
+        TEST0_LIST.add(TEST0RSA.getIdTest());
+        TEST0_LIST.add(TEST0SIN_VACC.getIdTest());
+        TEST0_LIST.add(TEST0VPS.getIdTest());
+        TEST0_LIST.add(TEST0VACC.getIdTest());
+    }
 	
 	public static EsameEnum getCode(final Integer inIdTest) {
 		EsameEnum out = null;
@@ -90,5 +114,12 @@ public enum EsameEnum {
 			}
 		}
 		return out;
+	}
+
+	public boolean isTest0(Integer idTest){
+		if(TEST0_LIST.contains(idTest))
+			return true;
+		
+		return false;
 	}
 }

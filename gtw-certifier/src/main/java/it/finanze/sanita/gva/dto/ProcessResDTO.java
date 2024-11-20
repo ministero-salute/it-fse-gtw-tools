@@ -12,10 +12,12 @@ import java.util.logging.Logger;
 public class ProcessResDTO {
     private final Set<Integer> unverifiable;
     private final Set<Integer> success;
+    private final Set<Integer> unverifiableZero;
     private final Map<Integer, String> failures;
 
     public ProcessResDTO() {
         this.unverifiable = new TreeSet<>();
+        this.unverifiableZero = new TreeSet<>();
         this.success = new TreeSet<>();
         this.failures = new HashMap<>();
     }
@@ -28,15 +30,22 @@ public class ProcessResDTO {
         unverifiable.add(id);
     }
 
+    public void unverifiableZero(int id) {
+        unverifiableZero.add(id);
+    }
+
     public void failure(int id, String issue) {
         failures.putIfAbsent(id, issue);
     }
+
 
     public void print(Logger logger) {
         logger.info("[TEST SUPERATI]");
         logger.info(String.format("Test case OK con ids: %s", success));
         logger.info("[TEST NON VERIFICABILI]");
         logger.info(String.format("Test case KO con ids: %s", unverifiable));
+        logger.info("[TEST NON VERIFICABILI]");
+        logger.info(String.format("Test non sottoposto ad alcun validatore con ids: %s", unverifiableZero));
         logger.info("[TEST FALLITI]");
         logger.info(String.format("Test case KO con ids: %s", failures.keySet()));
         logger.info("");
