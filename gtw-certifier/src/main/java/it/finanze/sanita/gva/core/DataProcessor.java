@@ -91,11 +91,15 @@ public class DataProcessor {
 		}
 
 		for (ResultJSONDTO result : results) {
-			EsameEnum esame = EsameEnum.getCode(result.getId());
+			Integer idTest = result.getId();
+			EsameEnum esame = EsameEnum.getCode(idTest);
 			if (esame != null) {
-				checkValidation(esame, result,pdfFiles, out);
+				if(esame.isTest0(idTest))
+					out.unverifiableZero(idTest);
+				else
+					checkValidation(esame, result,pdfFiles, out);
 			} else {
-				out.unverifiable(result.getId());
+				out.unverifiable(idTest);
 			}
 		}
 		// Print res
