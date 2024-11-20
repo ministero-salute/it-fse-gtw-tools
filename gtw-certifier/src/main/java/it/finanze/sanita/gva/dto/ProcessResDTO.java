@@ -44,8 +44,8 @@ public class ProcessResDTO {
         logger.info(String.format("Test case OK con ids: %s", success));
         logger.info("[TEST NON VERIFICABILI]");
         logger.info(String.format("Test case KO con ids: %s", unverifiable));
-        logger.info("[TEST ZERO]");
-        logger.info(String.format("Test case 0 con ids: %s", unverifiableZero));
+        logger.info("[TEST NON VERIFICABILI]");
+        logger.info(String.format("Test non sottoposto ad alcun validatore con ids: %s", unverifiableZero));
         logger.info("[TEST FALLITI]");
         logger.info(String.format("Test case KO con ids: %s", failures.keySet()));
         logger.info("");
