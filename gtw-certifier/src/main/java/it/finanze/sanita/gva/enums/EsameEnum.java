@@ -101,6 +101,7 @@ public enum EsameEnum {
         TEST0_LIST.add(TEST0SIN_VACC.getIdTest());
         TEST0_LIST.add(TEST0VPS.getIdTest());
         TEST0_LIST.add(TEST0VACC.getIdTest());
+		TEST0_LIST.add(TEST0RAP.getIdTest());
     }
 	
 	public static EsameEnum getCode(final Integer inIdTest) {
