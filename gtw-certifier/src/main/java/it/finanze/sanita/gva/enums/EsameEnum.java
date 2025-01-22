@@ -79,12 +79,12 @@ public enum EsameEnum {
 	TEST0SIN_VACC(372, TipoDocEnum.SCHEDA_SINGOLA_VACCINAZIONE, SVACValidator.class,null),
 	TEST0VPS(373, TipoDocEnum.VERBALE_PRONTO_SOCCORSO, VPSValidator.class,null),
 	TEST0RSA(374, TipoDocEnum.REFERTO_SPECIALISTICA_AMBULATORIALE, RSAValidator.class,null),
-	TEST0RAP(417,TipoDocEnum.REFERTO_ANATOMIA_PATOLOGICA, RapValidator.class, null),
 	//PRS Missing
 	//PRF Missing
 	//RAP
-	TEST1RAP(418, TipoDocEnum.REFERTO_ANATOMIA_PATOLOGICA, RapValidator.class,"validateUC1"),
-	TEST2RAP(419, TipoDocEnum.REFERTO_ANATOMIA_PATOLOGICA, RapValidator.class,"validateUC2");
+	TEST0RAP(417,TipoDocEnum.REFERTO_ANATOMIA_PATOLOGICA, RapValidator.class, "validateUC1"),
+	TEST1RAP(418, TipoDocEnum.REFERTO_ANATOMIA_PATOLOGICA, RapValidator.class,"validateUC2"),
+	TEST2RAP(419, TipoDocEnum.REFERTO_ANATOMIA_PATOLOGICA, RapValidator.class,"validateUC3");
 	
 	private Integer idTest;
 	private TipoDocEnum tipoDocumento;
