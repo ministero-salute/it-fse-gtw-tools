@@ -6,16 +6,7 @@ package it.finanze.sanita.gva.enums;
 import java.util.ArrayList;
 import java.util.List;
 
-import it.finanze.sanita.gva.validator.CVACValidator;
-import it.finanze.sanita.gva.validator.DocumentTypeValidator;
-import it.finanze.sanita.gva.validator.LABValidator;
-import it.finanze.sanita.gva.validator.LDOValidator;
-import it.finanze.sanita.gva.validator.PssValidator;
-import it.finanze.sanita.gva.validator.RADValidator;
-import it.finanze.sanita.gva.validator.RSAValidator;
-import it.finanze.sanita.gva.validator.SVACValidator;
-import it.finanze.sanita.gva.validator.TRASFValidator;
-import it.finanze.sanita.gva.validator.VPSValidator;
+import it.finanze.sanita.gva.validator.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -38,10 +29,12 @@ public enum EsameEnum {
 	TEST9LDO(9, TipoDocEnum.LETTERA_DIMISSIONE_OSPEDALIERA, LDOValidator.class,"validateUC4"),
 	
 	//RAD
-	TEST11RAD(11, TipoDocEnum.REFERTO_RADIOLOGIA,  RADValidator.class,"validateUC1"),
-	TEST12RAD(12, TipoDocEnum.REFERTO_RADIOLOGIA,  RADValidator.class,"validateUC2"),
-	TEST13RAD(13, TipoDocEnum.REFERTO_RADIOLOGIA,  RADValidator.class,"validateUC3"),
-	TEST14RAD(14, TipoDocEnum.REFERTO_RADIOLOGIA,  RADValidator.class,"validateUC4"),
+	//TEST11RAD(11, TipoDocEnum.REFERTO_RADIOLOGIA,  RADValidator.class,"validateUC1"),
+	//TEST12RAD(12, TipoDocEnum.REFERTO_RADIOLOGIA,  RADValidator.class,"validateUC2"),
+	//TEST13RAD(13, TipoDocEnum.REFERTO_RADIOLOGIA,  RADValidator.class,"validateUC3"),
+	//TEST14RAD(14, TipoDocEnum.REFERTO_RADIOLOGIA,  RADValidator.class,"validateUC4"),
+	TEST446RAD(446, TipoDocEnum.REFERTO_RADIOLOGIA, RADValidator.class,"validateUC1"),
+	TEST447RAD(447, TipoDocEnum.REFERTO_RADIOLOGIA, RADValidator.class,"validateUC2"),
 	
 	//CERT VACC
 	TEST16VACC(16, TipoDocEnum.CERTIFICATO_VACCINALE,  CVACValidator.class,"validateUC1"),
@@ -68,10 +61,12 @@ public enum EsameEnum {
 	TEST150RSA(150, TipoDocEnum.REFERTO_SPECIALISTICA_AMBULATORIALE,  RSAValidator.class,"validateUC4"),
 	
 	//PSS
-	TEST170PSS(170, TipoDocEnum.PROFILO_SANITARIO_SINTETICO,  PssValidator.class,"validateUC1"),
-	TEST171PSS(171, TipoDocEnum.PROFILO_SANITARIO_SINTETICO,  PssValidator.class,"validateUC2"),
-	TEST172PSS(172, TipoDocEnum.PROFILO_SANITARIO_SINTETICO,  PssValidator.class,"validateUC3"),
-	TEST173PSS(173, TipoDocEnum.PROFILO_SANITARIO_SINTETICO,  PssValidator.class,"validateUC4"),
+	//TEST170PSS(170, TipoDocEnum.PROFILO_SANITARIO_SINTETICO,  PssValidator.class,"validateUC1"),
+	//TEST171PSS(171, TipoDocEnum.PROFILO_SANITARIO_SINTETICO,  PssValidator.class,"validateUC2"),
+	//TEST172PSS(172, TipoDocEnum.PROFILO_SANITARIO_SINTETICO,  PssValidator.class,"validateUC3"),
+	//TEST173PSS(173, TipoDocEnum.PROFILO_SANITARIO_SINTETICO,  PssValidator.class,"validateUC4"),
+	TEST444PSS(444, TipoDocEnum.PROFILO_SANITARIO_SINTETICO, PssValidator.class,"validateUC1"),
+	TEST445PSS(445, TipoDocEnum.PROFILO_SANITARIO_SINTETICO, PssValidator.class,"validateUC2"),
 
 	//TRASFUSIONALE
 	TEST191TRASF(191, TipoDocEnum.REFERTO_LABORATORIO, TRASFValidator.class,"validateUC1"),
@@ -83,10 +78,13 @@ public enum EsameEnum {
 	TEST0VACC(371, TipoDocEnum.CERTIFICATO_VACCINALE, CVACValidator.class,null),
 	TEST0SIN_VACC(372, TipoDocEnum.SCHEDA_SINGOLA_VACCINAZIONE, SVACValidator.class,null),
 	TEST0VPS(373, TipoDocEnum.VERBALE_PRONTO_SOCCORSO, VPSValidator.class,null),
-	TEST0RSA(374, TipoDocEnum.REFERTO_SPECIALISTICA_AMBULATORIALE, RSAValidator.class,null);
+	TEST0RSA(374, TipoDocEnum.REFERTO_SPECIALISTICA_AMBULATORIALE, RSAValidator.class,null),
+	TEST0RAP(417,TipoDocEnum.REFERTO_ANATOMIA_PATOLOGICA, RapValidator.class, null),
 	//PRS Missing
 	//PRF Missing
-	//RAP Missing
+	//RAP
+	TEST1RAP(418, TipoDocEnum.REFERTO_ANATOMIA_PATOLOGICA, RapValidator.class,"validateUC1"),
+	TEST2RAP(419, TipoDocEnum.REFERTO_ANATOMIA_PATOLOGICA, RapValidator.class,"validateUC2");
 	
 	private Integer idTest;
 	private TipoDocEnum tipoDocumento;

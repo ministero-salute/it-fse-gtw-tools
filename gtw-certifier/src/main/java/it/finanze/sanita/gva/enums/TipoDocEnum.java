@@ -17,7 +17,8 @@ public enum TipoDocEnum {
 	SCHEDA_SINGOLA_VACCINAZIONE("Scheda singola vaccinazione"),
 	CERTIFICATO_VACCINALE("Certificato Vaccinale"),
 	VERBALE_PRONTO_SOCCORSO("Verbale di Pronto Soccorso"),
-	REFERTO_SPECIALISTICA_AMBULATORIALE("Referto specialistico");
+	REFERTO_SPECIALISTICA_AMBULATORIALE("Referto specialistico"),
+	REFERTO_ANATOMIA_PATOLOGICA("Referto di Anatomia Patologica");
 
 	private String description;
 
