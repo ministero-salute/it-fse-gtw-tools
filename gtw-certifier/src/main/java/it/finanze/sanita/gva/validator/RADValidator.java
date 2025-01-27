@@ -7,6 +7,7 @@ import java.util.List;
 
 import it.finanze.sanita.gva.dto.ErrorUCTDTO;
 import it.finanze.sanita.gva.enums.RADErrorEnum;
+import it.finanze.sanita.gva.enums.RapErrorEnum;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 

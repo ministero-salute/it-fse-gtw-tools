@@ -84,7 +84,8 @@ public enum EsameEnum {
 	//RAP
 	TEST0RAP(417,TipoDocEnum.REFERTO_ANATOMIA_PATOLOGICA, RapValidator.class, "validateUC1"),
 	TEST1RAP(418, TipoDocEnum.REFERTO_ANATOMIA_PATOLOGICA, RapValidator.class,"validateUC2"),
-	TEST2RAP(419, TipoDocEnum.REFERTO_ANATOMIA_PATOLOGICA, RapValidator.class,"validateUC3");
+	TEST2RAP(419, TipoDocEnum.REFERTO_ANATOMIA_PATOLOGICA, RapValidator.class,"validateUC3"),
+	TEST460RAP(460, TipoDocEnum.REFERTO_ANATOMIA_PATOLOGICA, RapValidator.class, "validateUC24");
 	
 	private Integer idTest;
 	private TipoDocEnum tipoDocumento;
