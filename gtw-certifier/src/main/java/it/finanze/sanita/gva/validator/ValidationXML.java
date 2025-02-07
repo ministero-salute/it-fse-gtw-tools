@@ -239,6 +239,10 @@ public final class ValidationXML {
 					section = entrySection.selectFirst(element.getSpecificXPath());
 				else
 					section = entrySection;
+				if(section==null) {
+					errors.add(new ErrorUCTDTO(xPath, element.getSpecificXPath() + " > " + element.getAttribute(), out, "section not found", element.getAttributeValues().toArray(new String[0]), false));
+					throw new RuntimeException("Error");
+				}
 				String actualValue = section.attr(element.getAttribute());
 				List<String> expectedValues = element.getAttributeValues();
 				if (!expectedValues.contains(actualValue)){
