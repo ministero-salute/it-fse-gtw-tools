@@ -2,18 +2,21 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 package it.finanze.sanita.gva.validator;
-import java.util.ArrayList;
-import java.util.List;
 
 import it.finanze.sanita.gva.dto.ErrorUCTDTO;
 import it.finanze.sanita.gva.enums.TRASFErrorEnum;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class TRASFValidator extends DocumentTypeValidator {
-	
-	public static List<ErrorUCTDTO> validateUC1(String xml) {
+
+
+
+	public static List<ErrorUCTDTO> validateUC1New(String xml) {
 		List<ErrorUCTDTO> errors = new ArrayList<>();
 
 		ValidationXML.equalIC(errors, TRASFErrorEnum.SECTION_CODE, xml, "ClinicalDocument > component > structuredBody > component > section > code", "code", "18717-9");
@@ -57,7 +60,7 @@ public final class TRASFValidator extends DocumentTypeValidator {
 		return errors;
 	}
 
-	public static List<ErrorUCTDTO> validateUC2(String xml) {
+	public static List<ErrorUCTDTO> validateUC2New(String xml) {
 		List<ErrorUCTDTO> errors = new ArrayList<>();
 		ValidationXML.equalIC(errors, TRASFErrorEnum.UC00_TRASF0, xml, "ClinicalDocument > component > structuredBody > component > section > code","code","18724-5");
 		ValidationXML.equalIC(errors, TRASFErrorEnum.UC00_TRASF1, xml, "ClinicalDocument > component > structuredBody > component > section > code","codeSystem","2.16.840.1.113883.6.1");
@@ -93,5 +96,4 @@ public final class TRASFValidator extends DocumentTypeValidator {
 		ValidationXML.containsIC(errors, TRASFErrorEnum.UC00_TRASF31, xml, "ClinicalDocument > component > structuredBody > component > section > component > section > entry > act > entryRelationship > act > code","displayName","Annotazioni e commenti");
 		return errors;
 	}
-
 }

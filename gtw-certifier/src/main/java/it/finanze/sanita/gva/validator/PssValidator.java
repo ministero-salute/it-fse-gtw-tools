@@ -1,18 +1,18 @@
 package it.finanze.sanita.gva.validator;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import it.finanze.sanita.gva.dto.ErrorUCTDTO;
 import it.finanze.sanita.gva.enums.PssErrorEnum;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class PssValidator extends DocumentTypeValidator {
 
 
-	public static List<ErrorUCTDTO> validateUC1(String xml) {
+	public static List<ErrorUCTDTO> validateUC1New(String xml) {
 		List<ErrorUCTDTO> errors = new ArrayList<>(); 
 		ValidationXML.equalIC(errors, PssErrorEnum.T000, xml, "ClinicalDocument > component > structuredBody > component > section[ID=Allergie_Intolleranze] > templateId", "root", "2.16.840.1.113883.2.9.10.1.4.2.1");
 		ValidationXML.equalIC(errors, PssErrorEnum.T001, xml, "ClinicalDocument > component > structuredBody > component > section[ID=Allergie_Intolleranze] > code", "code", "48765-2");
@@ -259,7 +259,7 @@ public class PssValidator extends DocumentTypeValidator {
 	}
 
 
-	public static List<ErrorUCTDTO> validateUC2(String xml) {
+	public static List<ErrorUCTDTO> validateUC2New(String xml) {
 		List<ErrorUCTDTO> errors = new ArrayList<>();
 
 		ValidationXML.equalIC(errors, PssErrorEnum.T251, xml, "ClinicalDocument > component > structuredBody > component > section[ID='ALLERGIE_INTOLLERANZE'] > templateId", "root","2.16.840.1.113883.2.9.10.1.4.2.1");
@@ -559,8 +559,6 @@ public class PssValidator extends DocumentTypeValidator {
 		ValidationXML.equalIC(errors, PssErrorEnum.T544, xml, "ClinicalDocument > component > structuredBody > component > section[ID=Reti_Patologia] > entry > act > entryRelationship > act > code", "codeSystemName", "LOINC");
 		ValidationXML.equalIC(errors, PssErrorEnum.T545, xml, "ClinicalDocument > component > structuredBody > component > section[ID=Reti_Patologia] > entry > act > entryRelationship > act > code", "displayName", "Annotation comment");
 		ValidationXML.equalIC(errors, PssErrorEnum.T546, xml, "ClinicalDocument > component > structuredBody > component > section[ID=Reti_Patologia] > entry > act > entryRelationship > act > statusCode", "code", "completed");
-
-		System.out.println(getErrors(errors));
 
 		return errors;
 	}

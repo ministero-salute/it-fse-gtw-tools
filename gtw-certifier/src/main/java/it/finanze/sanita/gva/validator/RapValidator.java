@@ -13,7 +13,7 @@ import static it.finanze.sanita.gva.dto.XPathAndValuesDTO.buildPathValue;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class RapValidator extends DocumentTypeValidator {
 
-    public static List<ErrorUCTDTO> validateUC1(String xml){
+    public static List<ErrorUCTDTO> validateUC1New(String xml){
         List<ErrorUCTDTO> errors = new ArrayList<>();
 
         ValidationXML.equalIC(errors, RapErrorEnum.T001, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Notizie_Cliniche']", "classCode", "DOCSECT");
@@ -197,7 +197,7 @@ public final class RapValidator extends DocumentTypeValidator {
         return errors;
     }
     
-    public static List<ErrorUCTDTO> validateUC2(String xml){
+    public static List<ErrorUCTDTO> validateUC2New(String xml){
         List<ErrorUCTDTO> errors = new ArrayList<>();
  
         ValidationXML.equalIC(errors, RapErrorEnum.T286, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Notizie_Cliniche'] > templateId", "root",  "2.16.840.1.113883.3.1937.777.63.10.132");
@@ -255,7 +255,7 @@ public final class RapValidator extends DocumentTypeValidator {
         return errors;
     }
 
-    public static List<ErrorUCTDTO> validateUC3(String xml){
+    public static List<ErrorUCTDTO> validateUC3New(String xml){
         List<ErrorUCTDTO> errors = new ArrayList<>();
 
         ValidationXML.equalIC(errors, RapErrorEnum.T363, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Notizie_Cliniche']", "classCode", "DOCSECT");
@@ -475,6 +475,7 @@ public final class RapValidator extends DocumentTypeValidator {
         ValidationXML.equalIC(errors, RapErrorEnum.T656, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Procedura'] > entry > procedure > entryRelationship > observation > templateId", "root", "2.16.840.1.113883.3.1937.777.63.10.150");
         ValidationXML.equalIC(errors, RapErrorEnum.T657, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Procedura'] > entry > procedure > entryRelationship > observation > code", "codeSystem", "2.16.840.1.113883.6.1");
         ValidationXML.equalIC(errors, RapErrorEnum.T658, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Procedura'] > entry > procedure > entryRelationship > observation > code", "codeSystemName", "LOINC");
+        ValidationXML.equalIC(errors, RapErrorEnum.T660, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Procedura'] > entry > procedure > entryRelationship > observation > value", "xsi:type", "ST", "RTO_QTY_QTY", "IVL_PQ", "INT", "CD");
         ValidationXML.equalIC(errors, RapErrorEnum.T661, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Procedura'] > entry > procedure > entryRelationship > observation > specimen > specimenRole > templateId", "root", "2.16.840.1.113883.3.1937.777.63.10.174");
         ValidationXML.equalIC(errors, RapErrorEnum.T662, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Procedura'] > entry > procedure > entryRelationship > observation > entryRelationship > observationMedia", "classCode", "OBS");
         ValidationXML.equalIC(errors, RapErrorEnum.T663, xml,"ClinicalDocument > component > structuredBody > component > section[ID='Procedura'] > entry > procedure > entryRelationship > observation > entryRelationship > observationMedia", "moodCode", "EVN");
@@ -704,7 +705,7 @@ public final class RapValidator extends DocumentTypeValidator {
 
 
 
-    public static List<ErrorUCTDTO> validateUC24(String xml){
+    public static List<ErrorUCTDTO> validateUC24New(String xml){
         List<ErrorUCTDTO> errors = new ArrayList<>();
 
         ValidationXML.equalIC(errors, RapErrorEnum.T930, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Notizie_Cliniche']", "classCode", "DOCSECT");

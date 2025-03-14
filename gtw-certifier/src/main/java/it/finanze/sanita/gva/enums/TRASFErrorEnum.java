@@ -5,7 +5,7 @@ package it.finanze.sanita.gva.enums;
 
 import it.finanze.sanita.gva.validator.IUC;
 
-public enum TRASFErrorEnum implements IUC{
+public enum TRASFErrorEnum implements IUC {
 
 	SECTION_CODE("001"),
 	SECTION_CODE_SYSTEM("002"),
