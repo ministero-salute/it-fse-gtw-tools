@@ -1,16 +1,17 @@
 package it.finanze.sanita.gva.validator;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import it.finanze.sanita.gva.dto.ErrorUCTDTO;
 import it.finanze.sanita.gva.enums.RSAErrorEnum;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class RSAValidator extends DocumentTypeValidator {
  
+
 
 	public static List<ErrorUCTDTO> validateUC24(final String xml) {
 		List<ErrorUCTDTO> errors = new ArrayList<>();
@@ -72,10 +73,6 @@ public class RSAValidator extends DocumentTypeValidator {
 		ValidationXML.equalIC(errors, RSAErrorEnum.T055, xml, "ClinicalDocument > component > structuredBody > component > section[ID=Storia_Clinica] > component > section[ID=Allergie] > entry > act > entryRelationship > observation > code", "displayName", "Allergia o causa della reazione");
 		ValidationXML.equalIC(errors, RSAErrorEnum.T056, xml, "ClinicalDocument > component > structuredBody > component > section[ID=Storia_Clinica] > component > section[ID=Allergie] > entry > act > entryRelationship > observation > statusCode", "code", "completed");
 		ValidationXML.equalIC(errors, RSAErrorEnum.T057, xml, "ClinicalDocument > component > structuredBody > component > section[ID=Storia_Clinica] > component > section[ID=Allergie] > entry > act > entryRelationship > observation > value", "codeSystemName", "ObservationIntoleranceType");
-		ValidationXML.equalIC(errors, RSAErrorEnum.T058, xml, "ClinicalDocument > component > structuredBody > component > section[ID=Storia_Clinica] > component > section[ID=Allergie] > entry > act > entryRelationship > observation > entryRelationship", "typeCode", "MFST", "SUBJ", "REFR");
-		ValidationXML.equalIC(errors, RSAErrorEnum.T059, xml, "ClinicalDocument > component > structuredBody > component > section[ID=Storia_Clinica] > component > section[ID=Allergie] > entry > act > entryRelationship > observation > entryRelationship > observation > code", "code", "75321-0", "5321-0", "SEV", "33999-4");
-		ValidationXML.equalIC(errors, RSAErrorEnum.T060, xml, "ClinicalDocument > component > structuredBody > component > section[ID=Storia_Clinica] > component > section[ID=Allergie] > entry > act > entryRelationship > observation > entryRelationship > observation > code", "codeSystem", "2.16.840.1.113883.6.1", "2.16.840.1.113883.5.4");
-		ValidationXML.equalIC(errors, RSAErrorEnum.T061, xml, "ClinicalDocument > component > structuredBody > component > section[ID=Storia_Clinica] > component > section[ID=Allergie] > entry > act > entryRelationship > observation > entryRelationship > observation > statusCode", "code", "completed");
 		ValidationXML.equalIC(errors, RSAErrorEnum.T062, xml, "ClinicalDocument > component > structuredBody > component > section[ID=Storia_Clinica] > component > section[ID=Terapia_Farmacologica_in_atto] > code", "code", "10160-0");
 		ValidationXML.equalIC(errors, RSAErrorEnum.T063, xml, "ClinicalDocument > component > structuredBody > component > section[ID=Storia_Clinica] > component > section[ID=Terapia_Farmacologica_in_atto] > code", "codeSystem", "2.16.840.1.113883.6.1");
 		ValidationXML.equalIC(errors, RSAErrorEnum.T064, xml, "ClinicalDocument > component > structuredBody > component > section[ID=Storia_Clinica] > component > section[ID=Terapia_Farmacologica_in_atto] > code", "codeSystemName", "LOINC");
@@ -709,6 +706,7 @@ public class RSAValidator extends DocumentTypeValidator {
 		ValidationXML.equalIC(errors, RSAErrorEnum.T468, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Terapia_Farmacologica_Consigliata'] > entry > substanceAdministration > entryRelationship > supply","moodCode","RQO");
 		return errors;
 	}
+
 
 
 }
