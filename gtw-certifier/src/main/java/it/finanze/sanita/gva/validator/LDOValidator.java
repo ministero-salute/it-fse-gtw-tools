@@ -3,17 +3,14 @@
  */
 package it.finanze.sanita.gva.validator;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import it.finanze.sanita.gva.dto.ErrorUCTDTO;
 import it.finanze.sanita.gva.enums.LDOErrorEnum;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
-
- /*
- * @author CPIERASC
- */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class LDOValidator extends DocumentTypeValidator {
 	

@@ -56,6 +56,7 @@ public enum EsameEnum {
 	TEST0SIN_VACC(372, TipoDocEnum.SCHEDA_SINGOLA_VACCINAZIONE,  SVACValidator.class,null),
 	TEST0VPS(373, TipoDocEnum.VERBALE_PRONTO_SOCCORSO,  VPSValidator.class,null),
 	TEST0RSA(374, TipoDocEnum.REFERTO_SPECIALISTICA_AMBULATORIALE,  RSAValidator.class,null),
+	
 	//Lab OK e KO
 	TEST452_17LAB(452, TipoDocEnum.REFERTO_LABORATORIO,  LABValidator.class,"validateUC17"),
 	TEST4_4LAB(4, TipoDocEnum.REFERTO_LABORATORIO,  LABValidator.class,"validateUC4New"),
@@ -72,7 +73,6 @@ public enum EsameEnum {
 	TEST456_4SIN_VACC(456, TipoDocEnum.SCHEDA_SINGOLA_VACCINAZIONE,  SVACValidator.class,"validateUC4New"),
 	TEST457_20SIN_VACC(457, TipoDocEnum.SCHEDA_SINGOLA_VACCINAZIONE,  SVACValidator.class,"validateUC20"),
 	 
-	
 	//VPS
 	TEST454_30VPS(454, TipoDocEnum.VERBALE_PRONTO_SOCCORSO,  VPSValidator.class,"validateUC30"),
 	TEST455_31VPS(455, TipoDocEnum.VERBALE_PRONTO_SOCCORSO,  VPSValidator.class,"validateUC31"),
@@ -82,9 +82,10 @@ public enum EsameEnum {
 	TEST449_25RSA(449, TipoDocEnum.REFERTO_SPECIALISTICA_AMBULATORIALE,  RSAValidator.class,"validateUC25"),
 	 
 	//RAD
-	TEST446RAD(446, TipoDocEnum.REFERTO_RADIOLOGIA,  RADValidator.class,"validateUC1New"),
-	TEST447RAD(447, TipoDocEnum.REFERTO_RADIOLOGIA,  RADValidator.class,"validateUC2New"),
- 
+	TEST446RAD(446, TipoDocEnum.REFERTO_RADIOLOGIA, RADValidator.class,"validateUC1New"),
+	TEST447RAD(447, TipoDocEnum.REFERTO_RADIOLOGIA, RADValidator.class,"validateUC2New"),
+	TEST471RAD(471, TipoDocEnum.REFERTO_RADIOLOGIA, RADValidator.class,"validateUC1New"),
+	TEST472RAD(472, TipoDocEnum.REFERTO_RADIOLOGIA, RADValidator.class,"validateUC2New"),
 	
 	//PSS
 	TEST444PSS(444, TipoDocEnum.PROFILO_SANITARIO_SINTETICO,  PssValidator.class,"validateUC1New"),

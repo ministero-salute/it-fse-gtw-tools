@@ -1,12 +1,12 @@
 package it.finanze.sanita.gva.validator;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import it.finanze.sanita.gva.dto.ErrorUCTDTO;
 import it.finanze.sanita.gva.enums.PssErrorEnum;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class PssValidator extends DocumentTypeValidator {

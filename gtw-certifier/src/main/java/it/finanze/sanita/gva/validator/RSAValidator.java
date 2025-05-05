@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 public class RSAValidator extends DocumentTypeValidator {
  
 
-
 	public static List<ErrorUCTDTO> validateUC24(final String xml) {
 		List<ErrorUCTDTO> errors = new ArrayList<>();
 
@@ -706,7 +705,6 @@ public class RSAValidator extends DocumentTypeValidator {
 		ValidationXML.equalIC(errors, RSAErrorEnum.T468, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Terapia_Farmacologica_Consigliata'] > entry > substanceAdministration > entryRelationship > supply","moodCode","RQO");
 		return errors;
 	}
-
 
 
 }

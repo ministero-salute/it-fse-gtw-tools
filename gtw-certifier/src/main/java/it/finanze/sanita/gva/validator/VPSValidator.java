@@ -1,15 +1,15 @@
 package it.finanze.sanita.gva.validator;
 
+import static it.finanze.sanita.gva.dto.XPathAndValuesDTO.buildPathValue;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import it.finanze.sanita.gva.dto.ErrorUCTDTO;
 import it.finanze.sanita.gva.dto.SectionCriteriaDTO;
 import it.finanze.sanita.gva.enums.VPSErrorEnum;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static it.finanze.sanita.gva.dto.XPathAndValuesDTO.buildPathValue;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class VPSValidator extends DocumentTypeValidator {
@@ -1155,21 +1155,6 @@ public final class VPSValidator extends DocumentTypeValidator {
 		ValidationXML.hasDateFormat(errors, VPSErrorEnum.DIMISSIONE_ACT_ENC_TIME, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Dimissione'] > entry > act > entryRelationship > encounter > effectiveTime", "value");
 		ValidationXML.equalIC(errors, VPSErrorEnum.DIMISSIONE_ACT_ENC_PART_CODE, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Dimissione'] > entry > act > entryRelationship > encounter > participant", "typeCode", "LOC");
 		ValidationXML.equalIC(errors, VPSErrorEnum.DIMISSIONE_ACT_ENC_REL_CODE, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Dimissione'] > entry > act > entryRelationship > encounter > entryRelationship", "typeCode", "RSON");
-//		ValidationXML.equalIC(errors, VPSErrorEnum.DIMISSIONE_ACT_ER_CLASS_CODE, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Dimissione'] > entry > act > entryRelationship > act", "classCode", "TRNS");
-//		ValidationXML.equalIC(errors, VPSErrorEnum.DIMISSIONE_ACT_ER_ROOT, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Dimissione'] > entry > act > entryRelationship > act > templateId", "root", "2.16.840.1.113883.2.9.10.1.6.92");
-//		ValidationXML.hasDateFormat(errors, VPSErrorEnum.DIMISSIONE_ACT_ER_TIME, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Dimissione'] > entry > act > entryRelationship > act > effectiveTime", "value");
-//		ValidationXML.equalIC(errors, VPSErrorEnum.DIMISSIONE_ACT_ER_PART_TYPE_CODE, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Dimissione'] > entry > act > entryRelationship > act > participant", "typeCode", "LOC");
-//		ValidationXML.equalIC(errors, VPSErrorEnum.DIMISSIONE_ACT_ER_PART_CLASS_CODE, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Dimissione'] > entry > act > entryRelationship > act > participant > participantRole", "classCode", "SDLOC");
-//		ValidationXML.containsIC(errors, VPSErrorEnum.DIMISSIONE_ACT_ER_PART_ROOT, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Dimissione'] > entry > act > entryRelationship > act > participant > participantRole > templateId", "root", "2.16.840.1.113883.2.9.10.1.6.64");
-//		ValidationXML.equalIC(errors, VPSErrorEnum.DIMISSIONE_ACT_ER_PART_CODE_SYSTEM, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Dimissione'] > entry > act > entryRelationship > act > participant > participantRole > code", "codeSystem", "2.16.840.1.113883.2.9.1.11.1.2.11");
-//		ValidationXML.equalIC(errors, VPSErrorEnum.DIMISSIONE_ACT_ER_PART_CODE_SYSTEM_NAME, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Dimissione'] > entry > act > entryRelationship > act > participant > participantRole > code", "codeSystemName", "TipoLuogoPostDimissione_VPS");
-//		ValidationXML.equalIC(errors, VPSErrorEnum.DIMISSIONE_ACT_ER_TYPE_CODE, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Dimissione'] > entry > act > entryRelationship > act > entryRelationship", "typeCode", "RSON");
-//		ValidationXML.equalIC(errors, VPSErrorEnum.DIMISSIONE_ACT_ER_ACT_OBS_CLASS_CODE, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Dimissione'] > entry > act > entryRelationship > act > entryRelationship > observation", "classCode", "OBS");
-//		ValidationXML.equalIC(errors, VPSErrorEnum.DIMISSIONE_ACT_ER_ACT_OBS_MOOD_CODE, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Dimissione'] > entry > act > entryRelationship > act > entryRelationship > observation", "moodCode", "EVN");
-//		ValidationXML.equalIC(errors, VPSErrorEnum.DIMISSIONE_ACT_ER_ACT_OBS_TEMPLATE_ID, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Dimissione'] > entry > act > entryRelationship > act > entryRelationship > observation > templateId", "root", "2.16.840.1.113883.2.9.10.1.6.68");
-//		ValidationXML.equalIC(errors, VPSErrorEnum.DIMISSIONE_ACT_ER_ACT_OBS_CODE_SYSTEM, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Dimissione'] > entry > act > entryRelationship > act > entryRelationship > observation > code", "codeSystem", "2.16.840.1.113883.2.9.1.11.1.2.13");
-//		ValidationXML.equalIC(errors, VPSErrorEnum.DIMISSIONE_ACT_ER_ACT_OBS_CODE_SYSTEM_NAME, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Dimissione'] > entry > act > entryRelationship > act > entryRelationship > observation > code", "codeSystemName", "ProblemType_VPS");
-//		ValidationXML.equalIC(errors, VPSErrorEnum.DIMISSIONE_ACT_ER_ACT_OBS_STATUS_CODE, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Dimissione'] > entry > act > entryRelationship > act > entryRelationship > observation > statusCode", "code", "completed");
 		ValidationXML.equalIC(errors, VPSErrorEnum.DIMISSIONE_ACT_ER_OBS_CLASS_CODE, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Dimissione'] > entry > act > entryRelationship > observation", "classCode", "OBS");
 		ValidationXML.equalIC(errors, VPSErrorEnum.DIMISSIONE_ACT_ER_OBS_MOOD_CODE, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Dimissione'] > entry > act > entryRelationship > observation", "moodCode", "EVN");
 		ValidationXML.equalIC(errors, VPSErrorEnum.DIMISSIONE_ACT_ER_OBS_TEMPLATE_ID, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Dimissione'] > entry > act > entryRelationship > observation > templateId", "root", "2.16.840.1.113883.2.9.10.1.6.70", "2.16.840.1.113883.2.9.10.1.6.69");
@@ -1195,5 +1180,3 @@ public final class VPSValidator extends DocumentTypeValidator {
 		ValidationXML.equalIC(errors, VPSErrorEnum.DIMISSIONE_OBS_STATUS_CODE, xml, "ClinicalDocument > component > structuredBody > component > section[ID='Dimissione'] > entry > observation > statusCode", "code", "Completed");
 	}
 }
-
-
