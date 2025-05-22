@@ -4,8 +4,10 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.security.Key;
 import java.security.Security;
@@ -192,8 +194,8 @@ public class Launcher {
 	private static void saveTokensToFiles(String authToken, String signToken) throws IOException{
 		String authTokenFileName=outputFileNamePrefix+".auth.txt";
 		String signTokenFileName=outputFileNamePrefix+".sign.txt";
-		Files.writeString(Path.of(authTokenFileName),authToken,StandardOpenOption.TRUNCATE_EXISTING,StandardOpenOption.CREATE,StandardOpenOption.WRITE);
-		Files.writeString(Path.of(signTokenFileName),signToken,StandardOpenOption.TRUNCATE_EXISTING,StandardOpenOption.CREATE,StandardOpenOption.WRITE);
+		Files.write(Paths.get(authTokenFileName),authToken.getBytes(StandardCharsets.UTF_8),StandardOpenOption.TRUNCATE_EXISTING,StandardOpenOption.CREATE,StandardOpenOption.WRITE);
+		Files.write(Paths.get(signTokenFileName),signToken.getBytes(StandardCharsets.UTF_8),StandardOpenOption.TRUNCATE_EXISTING,StandardOpenOption.CREATE,StandardOpenOption.WRITE);
 	}
 
 

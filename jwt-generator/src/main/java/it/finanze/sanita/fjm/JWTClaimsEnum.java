@@ -146,7 +146,12 @@ enum JWTClaimsEnum {
 	/**
 	 * P12 path.
 	 */
-	P12_PATH("p12_path", false);
+	P12_PATH("p12_path", false),
+	
+	/**
+	 * USE SUB AS AUTHOR.
+	 */
+	USE_SUB_AS_AUTHOR("use_subject_as_author", true);
 
 	/**
 	 * Key.
