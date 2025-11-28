@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.security.Key;
@@ -68,6 +67,7 @@ public class Launcher {
 		LOGGER.info("|   __||   __||_  |   __|  || | | ||_   _|  |     | ___ | |_  ___  ___ ");
 		LOGGER.info("|   __||__   ||  _|  |  |  || | | |  | |    | | | || .'|| '_|| -_||  _|");
 		LOGGER.info("|__|   |_____||___|  |_____||_____|  |_|    |_|_|_||__,||_,_||___||_|  \n");
+		
 
 		try {
 
@@ -78,10 +78,12 @@ public class Launcher {
 			} else if (flagMalformedInput || Utility.nullOrEmpty(jsonData) || pwdP12 == null) {
 				LOGGER.info("Please check for malformed input; please remember that password p12 and json data are mandatory.");
 			} else {
-				
 				switch (system) {
 				case PROVISIONING:
 					buildTokensProvisioning();
+					break;
+				case UAR:
+					buildTokensUAR();
 					break;
 				default:
 					buildTokens(system);
@@ -164,15 +166,22 @@ public class Launcher {
 			flagValidation = true;
 		}
 	}
- 
-	
+
+
 	private static void buildTokensProvisioning() throws Exception {
 		Map<String, String> mapJD = getJsonData(new String(Utility.getFileFromFS(jsonData)));
 		byte[] privateKeyP12 = Utility.getFileFromFS(get(mapJD, JWTAuthEnum.P12_PATH));
 		byte[] pem = Utility.getFileFromFS(get(mapJD, JWTAuthEnum.PEM_PATH));
 		getTokensProvisioning(mapJD, privateKeyP12, pem);
 	}
-	
+
+	private static void buildTokensUAR() throws Exception {
+		Map<String, String> mapJD = getJsonData(new String(Utility.getFileFromFS(jsonData)));
+		byte[] privateKeyP12 = Utility.getFileFromFS(get(mapJD, JWTAuthEnum.P12_PATH));
+		byte[] pem = Utility.getFileFromFS(get(mapJD, JWTAuthEnum.PEM_PATH));
+		getTokensUar(mapJD, privateKeyP12, pem);
+	}
+
 	private static void buildTokens(SystemEnum system) throws Exception {
 		Map<String, String> mapJD = getJsonData(new String(Utility.getFileFromFS(jsonData)));
 		byte[] privateKeyP12 = Utility.getFileFromFS(get(mapJD, JWTAuthEnum.P12_PATH));
@@ -280,7 +289,7 @@ public class Launcher {
 				.replace("-----END CERTIFICATE-----", "")
 				.replace("\n", "");
 	}
-	
+
 	private static TokenResponseDTO getTokensProvisioning(Map<String, String> mapJD, byte[] privateKeyP12, byte[] pem) throws Exception {
 
 		Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
@@ -315,6 +324,51 @@ public class Launcher {
 
 		if (flagValidation) {
 			// Authorization Token Validation
+			LOGGER.info("Validating Authorization Token\n");
+			Jws<Claims> token = parse(jwt, privateKey);
+			LOGGER.info("HEADER: " + token.getHeader());
+			LOGGER.info("BODY: " + token.getBody());
+			boolean outValidation = validate(jwt, pem);
+			String signatureStatus = "VALID";
+			if (!outValidation) {
+				signatureStatus = "NOT VALID";
+			}
+			LOGGER.info("SIGNATURE: " + signatureStatus + "\n"); 
+
+			// Claims Token Validation 
+			LOGGER.info("Validating Claims Token\n");
+			Jws<Claims> claimsToken = parse(claimsJwt, privateKey);
+			LOGGER.info("HEADER: " + claimsToken.getHeader());
+			LOGGER.info("BODY: " + claimsToken.getBody());
+			boolean outValidationClaimsToken = validate(claimsJwt, pem);
+			String signatureStatusClaimsToken = "VALID";
+			if (!outValidationClaimsToken) {
+				signatureStatusClaimsToken = "NOT VALID";
+			}
+			LOGGER.info("SIGNATURE: " + signatureStatusClaimsToken + "\n"); 		
+
+		} 
+		return new TokenResponseDTO(jwt, claimsJwt);
+	}
+
+	private static TokenResponseDTO getTokensUar(Map<String, String> mapJD, byte[] privateKeyP12, byte[] pem) throws Exception {
+
+		Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
+
+		Key privateKey = Utility.extractKeyByAliasFromP12(pwdP12, aliasP12, privateKeyP12);
+		String publicKey = cleanPem(pem);
+
+		String iss = get(mapJD, JWTAuthEnum.ISS);
+		Date iat = new Date();
+		Date exp = Utility.addHoursToJavaUtilDate(iat, nHour);
+
+		String jwt = generateAuthJWT(mapJD, privateKey, publicKey, iat, exp, iss); 
+		String claimsJwt = generateClaimsJWTConsultazioneUAR(mapJD, privateKey, publicKey, iat, exp, iss); 
+
+		LOGGER.info("------------- Authorization Bearer Token ---------------\n" + jwt);
+		LOGGER.info("\n------------- Agid-JWT-Signature ---------------\n" + claimsJwt + "\n");
+
+		if (flagValidation) {
 			LOGGER.info("Validating Authorization Token\n");
 			Jws<Claims> token = parse(jwt, privateKey);
 			LOGGER.info("HEADER: " + token.getHeader());
@@ -450,7 +504,7 @@ public class Launcher {
 		return Jwts.builder().setHeaderParams(headerParams).setClaims(claims)
 				.signWith(SignatureAlgorithm.RS256, privateKey).compact();
 	}
-	
+
 	private static String generateClaimsJWTProvisioning(Map<String, String> mapJD, Key privateKey, String x5c, Date iat, Date exp, String iss) throws Exception {
 		Map<String, Object> headerParams = new HashMap<>();
 		headerParams.put(JWTClaimsEnum.ALG.getKey(), SignatureAlgorithm.RS256);
@@ -463,7 +517,7 @@ public class Launcher {
 				claims.put(k.getKey(), mapJD.get(k.getKey()));
 			}
 		}
-		
+
 		claims.put(JWTClaimsEnum.IAT.getKey(), iat.getTime()/1000);
 		claims.put(JWTClaimsEnum.EXP.getKey(), exp.getTime()/1000);
 		claims.put(JWTAuthEnum.ISS.getKey(), "integrity:" + cleanIss(iss));
@@ -483,10 +537,31 @@ public class Launcher {
 			}
 			claims.put(JWTClaimsEnum.VECTOR_HASH_CSR.getKey(), hashCsr);
 		}
-		
+
 		return Jwts.builder().setHeaderParams(headerParams).setClaims(claims)
 				.signWith(SignatureAlgorithm.RS256, privateKey).compact();
 	}
+
+	private static String generateClaimsJWTConsultazioneUAR(Map<String, String> mapJD, Key privateKey, String x5c, Date iat, Date exp, String iss) throws Exception {
+		Map<String, Object> headerParams = new HashMap<>();
+		headerParams.put(JWTClaimsEnum.ALG.getKey(), SignatureAlgorithm.RS256);
+		headerParams.put(JWTClaimsEnum.TYP.getKey(), JWTClaimsEnum.JWT.getKey());
+		headerParams.put(JWTClaimsEnum.X5C.getKey(), Arrays.asList(x5c).toArray());
+
+		Map<String, Object> claims = new HashMap<>();
+		for (JWTClaimsEnum k : JWTClaimsEnum.values()) {
+			if (k.getAutoFlagPayloadClaim() && mapJD.containsKey(k.getKey())) {
+				claims.put(k.getKey(), mapJD.get(k.getKey()));
+			}
+		}
+
+		claims.put(JWTClaimsEnum.IAT.getKey(), iat.getTime()/1000);
+		claims.put(JWTClaimsEnum.EXP.getKey(), exp.getTime()/1000);
+		claims.put(JWTAuthEnum.ISS.getKey(), "integrity:" + cleanIss(iss));
+
+		return Jwts.builder().setHeaderParams(headerParams).setClaims(claims).signWith(SignatureAlgorithm.RS256, privateKey).compact();
+	}
+
 
 	/**
 	 * Clean ISS.

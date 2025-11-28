@@ -18,7 +18,12 @@ enum SystemEnum {
 	/**
 	 * specify jwt application target.
 	 */
-	MONITORING("monitoring");
+	MONITORING("monitoring"),
+	
+	/**
+	 * Show help page (optional mode).
+	 */
+	UAR("uar");
 	
 	/**
 	 * Key argument.
