@@ -3,14 +3,11 @@
  */
 package it.finanze.sanita.gva.validator;
 
-import static it.finanze.sanita.fse2.testdatascheduler.dto.XPathAndValuesDTO.buildPathValue;
 import static it.finanze.sanita.gva.dto.XPathAndValuesDTO.buildPathValue;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import it.finanze.sanita.fse2.testdatascheduler.validator.DocumentTypeValidator;
-import it.finanze.sanita.fse2.testdatascheduler.validator.ValidationXML;
 import it.finanze.sanita.gva.dto.ErrorUCTDTO;
 import it.finanze.sanita.gva.enums.CVACErrorEnum;
 import it.finanze.sanita.gva.enums.SVACErrorEnum;
