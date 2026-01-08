@@ -3,11 +3,14 @@
  */
 package it.finanze.sanita.gva.validator;
 
+import static it.finanze.sanita.fse2.testdatascheduler.dto.XPathAndValuesDTO.buildPathValue;
 import static it.finanze.sanita.gva.dto.XPathAndValuesDTO.buildPathValue;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import it.finanze.sanita.fse2.testdatascheduler.validator.DocumentTypeValidator;
+import it.finanze.sanita.fse2.testdatascheduler.validator.ValidationXML;
 import it.finanze.sanita.gva.dto.ErrorUCTDTO;
 import it.finanze.sanita.gva.enums.CVACErrorEnum;
 import it.finanze.sanita.gva.enums.SVACErrorEnum;
@@ -18,7 +21,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class SVACValidator extends DocumentTypeValidator {
 
-
+	 
 	public static List<ErrorUCTDTO> validateUC4New(String xml) {
 		List<ErrorUCTDTO> errors = new ArrayList<>();
 
@@ -51,7 +54,7 @@ public final class SVACValidator extends DocumentTypeValidator {
 
 	public static List<ErrorUCTDTO> validateUC20(String xml) {
 		List<ErrorUCTDTO> errors = new ArrayList<>();
-
+		
 		ValidationXML.equalIC(errors, SVACErrorEnum.T024, xml, "ClinicalDocument > component > structuredBody > component > section[ID=Singola_Vaccinazione] > templateId", "root", "2.16.840.1.113883.2.9.10.1.11.3.1");
 		ValidationXML.equalIC(errors, SVACErrorEnum.T025, xml, "ClinicalDocument > component > structuredBody > component > section[ID=Singola_Vaccinazione] > code", "code", "11369-6");
 		ValidationXML.equalIC(errors, SVACErrorEnum.T026, xml, "ClinicalDocument > component > structuredBody > component > section[ID=Singola_Vaccinazione] > code", "codeSystem", "2.16.840.1.113883.6.1");
@@ -80,7 +83,7 @@ public final class SVACValidator extends DocumentTypeValidator {
 
 		return errors;
 	}
-
+	
 	public static List<ErrorUCTDTO> validateUC1(String xml) {
 		List<ErrorUCTDTO> errors = new ArrayList<>();
 		init(xml, errors);

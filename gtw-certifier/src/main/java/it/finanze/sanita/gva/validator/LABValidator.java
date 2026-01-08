@@ -3,6 +3,8 @@ package it.finanze.sanita.gva.validator;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.finanze.sanita.fse2.testdatascheduler.validator.DocumentTypeValidator;
+import it.finanze.sanita.fse2.testdatascheduler.validator.ValidationXML;
 import it.finanze.sanita.gva.dto.ErrorUCTDTO;
 import it.finanze.sanita.gva.enums.LABErrorEnum;
 import lombok.AccessLevel;

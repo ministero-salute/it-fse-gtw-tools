@@ -21,7 +21,7 @@ public final class CVACValidator extends DocumentTypeValidator {
 	public static List<ErrorUCTDTO> validateUC18(String xml) {
 		List<ErrorUCTDTO> errors = new ArrayList<>();
 
-		ValidationXML.equalIC(errors, CVACErrorEnum.T000, xml, "ClinicalDocument > component > structuredBody > component > section[ID=Certificato_Vaccinale]", "classCode", "DOCSET");
+		ValidationXML.equalIC(errors, CVACErrorEnum.T000, xml, "ClinicalDocument > component > structuredBody > component > section[ID=Certificato_Vaccinale]", "classCode", "DOCSECT");
 		ValidationXML.equalIC(errors, CVACErrorEnum.T001, xml, "ClinicalDocument > component > structuredBody > component > section[ID=Certificato_Vaccinale]", "moodCode", "EVN");
 		ValidationXML.equalIC(errors, CVACErrorEnum.T002, xml, "ClinicalDocument > component > structuredBody > component > section[ID=Certificato_Vaccinale] > templateId", "root", "2.16.840.1.113883.2.9.10.1.11.3.2");
 		ValidationXML.equalIC(errors, CVACErrorEnum.T003, xml, "ClinicalDocument > component > structuredBody > component > section[ID=Certificato_Vaccinale] > code", "code", "11369-6");
@@ -71,7 +71,7 @@ public final class CVACValidator extends DocumentTypeValidator {
 	public static List<ErrorUCTDTO> validateUC19(String xml) {
 		List<ErrorUCTDTO> errors = new ArrayList<>();
 
-		ValidationXML.equalIC(errors, CVACErrorEnum.T043, xml, "ClinicalDocument > component > structuredBody > component > section[ID=Certificato_Vaccinale]", "classCode", "DOCSET");
+		ValidationXML.equalIC(errors, CVACErrorEnum.T043, xml, "ClinicalDocument > component > structuredBody > component > section[ID=Certificato_Vaccinale]", "classCode", "DOCSECT");
 		ValidationXML.equalIC(errors, CVACErrorEnum.T044, xml, "ClinicalDocument > component > structuredBody > component > section[ID=Certificato_Vaccinale]", "moodCode", "EVN");
 		ValidationXML.equalIC(errors, CVACErrorEnum.T045, xml, "ClinicalDocument > component > structuredBody > component > section[ID=Certificato_Vaccinale] > templateId", "root", "2.16.840.1.113883.2.9.10.1.11.3.2");
 		ValidationXML.equalIC(errors, CVACErrorEnum.T046, xml, "ClinicalDocument > component > structuredBody > component > section[ID=Certificato_Vaccinale] > code", "code", "11369-6");
@@ -119,7 +119,7 @@ public final class CVACValidator extends DocumentTypeValidator {
 
 		return errors;
 	}
-
+	
 	public static List<ErrorUCTDTO> validateUC1(String xml) {
 		List<ErrorUCTDTO> errors = new ArrayList<>();
 		init(xml, errors);

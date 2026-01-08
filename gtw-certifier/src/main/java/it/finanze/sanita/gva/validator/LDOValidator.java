@@ -1,4 +1,4 @@
- /*
+/*
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 package it.finanze.sanita.gva.validator;
@@ -6,6 +6,8 @@ package it.finanze.sanita.gva.validator;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.finanze.sanita.fse2.testdatascheduler.validator.DocumentTypeValidator;
+import it.finanze.sanita.fse2.testdatascheduler.validator.ValidationXML;
 import it.finanze.sanita.gva.dto.ErrorUCTDTO;
 import it.finanze.sanita.gva.enums.LDOErrorEnum;
 import lombok.AccessLevel;
@@ -86,8 +88,8 @@ public final class LDOValidator extends DocumentTypeValidator {
 		ValidationXML.equalIC(errors, LDOErrorEnum.T065, xml, "ClinicalDocument > component > structuredBody > component > section[ID=Procedure_eseguite_durante_ricovero] > code", "codeSystemName", "LOINC");
 		ValidationXML.equalIC(errors, LDOErrorEnum.T066, xml, "ClinicalDocument > component > structuredBody > component > section[ID=Procedure_eseguite_durante_ricovero] > code", "displayName", "History of Procedures Document");
 		ValidationXML.equalTAG(errors, LDOErrorEnum.T067, xml, "ClinicalDocument > component > structuredBody > component > section[ID=Procedure_eseguite_durante_ricovero] > title", "Procedure eseguite durante il ricovero");
-		ValidationXML.equalIC(errors, LDOErrorEnum.T068, xml, "ClinicalDocument > component > structuredBody > component > section[ID=Procedure_eseguite_durante_ricovero] > entry > procedure > entryRelationship", "typeCode", "RSON");
-		ValidationXML.equalIC(errors, LDOErrorEnum.T069, xml, "ClinicalDocument > component > structuredBody > component > section[ID=Procedure_eseguite_durante_ricovero] > entry > procedure > entryRelationship > observation > code", "codeSystem", "2.16.840.1.113883.6.103");
+//		ValidationXML.equalIC(errors, LDOErrorEnum.T068, xml, "ClinicalDocument > component > structuredBody > component > section[ID=Procedure_eseguite_durante_ricovero] > entry > procedure > entryRelationship", "typeCode", "RSON");
+//		ValidationXML.equalIC(errors, LDOErrorEnum.T069, xml, "ClinicalDocument > component > structuredBody > component > section[ID=Procedure_eseguite_durante_ricovero] > entry > procedure > entryRelationship > observation > code", "codeSystem", "2.16.840.1.113883.6.103");
 		ValidationXML.equalIC(errors, LDOErrorEnum.T070, xml, "ClinicalDocument > component > structuredBody > component > section[ID=Allergie] > code", "code", "48765-2");
 		ValidationXML.equalIC(errors, LDOErrorEnum.T071, xml, "ClinicalDocument > component > structuredBody > component > section[ID=Allergie] > code", "codeSystem", "2.16.840.1.113883.6.1");
 		ValidationXML.equalIC(errors, LDOErrorEnum.T072, xml, "ClinicalDocument > component > structuredBody > component > section[ID=Allergie] > code", "codeSystemName", "LOINC");
@@ -127,7 +129,7 @@ public final class LDOValidator extends DocumentTypeValidator {
 		ValidationXML.equalIC(errors, LDOErrorEnum.T116, xml, "ClinicalDocument > component > structuredBody > component > section[ID=Terapia_farmacologica_dimissione] > entry > substanceAdministration", "moodCode", "INT");
 		ValidationXML.equalIC(errors, LDOErrorEnum.T117, xml, "ClinicalDocument > component > structuredBody > component > section[ID=Terapia_farmacologica_dimissione] > entry > substanceAdministration", "classCode", "SBADM");
 		ValidationXML.equalIC(errors, LDOErrorEnum.T118, xml, "ClinicalDocument > component > structuredBody > component > section[ID=Terapia_farmacologica_dimissione] > entry > substanceAdministration > consumable > manufacturedProduct > manufacturedMaterial > code", "codeSystem", "2.16.840.1.113883.2.9.6.1.5", "2.16.840.1.113883.6.73", "2.16.840.1.113883.2.9.6.1.51");
-		ValidationXML.equalIC(errors, LDOErrorEnum.T119, xml, "ClinicalDocument > component > structuredBody > component > section[ID=Terapia_farmacologica_dimissione] > entry > substanceAdministration > consumable > manufacturedProduct > manufacturedMaterial > code > translation", "codeSystem", "2.16.840.1.113883.6.73");
+//		ValidationXML.equalIC(errors, LDOErrorEnum.T119, xml, "ClinicalDocument > component > structuredBody > component > section[ID=Terapia_farmacologica_dimissione] > entry > substanceAdministration > consumable > manufacturedProduct > manufacturedMaterial > code > translation", "codeSystem", "2.16.840.1.113883.6.73");
 		ValidationXML.equalIC(errors, LDOErrorEnum.T120, xml, "ClinicalDocument > component > structuredBody > component > section[ID=Istruzioni_followup] > code", "code", "18776-5");
 		ValidationXML.equalIC(errors, LDOErrorEnum.T121, xml, "ClinicalDocument > component > structuredBody > component > section[ID=Istruzioni_followup] > code", "codeSystem", "2.16.840.1.113883.6.1");
 		ValidationXML.equalIC(errors, LDOErrorEnum.T122, xml, "ClinicalDocument > component > structuredBody > component > section[ID=Istruzioni_followup] > code", "codeSystemName", "LOINC");

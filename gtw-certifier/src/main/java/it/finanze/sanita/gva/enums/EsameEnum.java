@@ -56,6 +56,7 @@ public enum EsameEnum {
 	TEST0SIN_VACC(372, TipoDocEnum.SCHEDA_SINGOLA_VACCINAZIONE,  SVACValidator.class,null),
 	TEST0VPS(373, TipoDocEnum.VERBALE_PRONTO_SOCCORSO,  VPSValidator.class,null),
 	TEST0RSA(374, TipoDocEnum.REFERTO_SPECIALISTICA_AMBULATORIALE,  RSAValidator.class,null),
+	TEST0PSS(478, TipoDocEnum.PROFILO_SANITARIO_SINTETICO,  PssValidator.class,null),
 	
 	//Lab OK e KO
 	TEST452_17LAB(452, TipoDocEnum.REFERTO_LABORATORIO,  LABValidator.class,"validateUC17"),
@@ -90,6 +91,8 @@ public enum EsameEnum {
 	//PSS
 	TEST444PSS(444, TipoDocEnum.PROFILO_SANITARIO_SINTETICO,  PssValidator.class,"validateUC1New"),
 	TEST445PSS(445, TipoDocEnum.PROFILO_SANITARIO_SINTETICO,  PssValidator.class,"validateUC2New"),
+	TEST476PSS(476, TipoDocEnum.PROFILO_SANITARIO_SINTETICO,  PssValidator.class,"validateUC476"),
+	TEST477PSS(477, TipoDocEnum.PROFILO_SANITARIO_SINTETICO,  PssValidator.class,"validateUC477"),
 	 	
 	TEST191TRASF(191, TipoDocEnum.REFERTO_LABORATORIO,  TRASFValidator.class,"validateUC1New"),
 	TEST376TRASF(376, TipoDocEnum.REFERTO_LABORATORIO,  TRASFValidator.class,"validateUC2New"),
