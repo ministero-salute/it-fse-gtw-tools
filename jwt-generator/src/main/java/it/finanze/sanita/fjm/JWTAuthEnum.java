@@ -116,7 +116,13 @@ enum JWTAuthEnum {
 	/**
 	 * P12 path.
 	 */
-	P12_PATH("p12_path", false);
+	P12_PATH("p12_path", false),
+	
+
+	/**
+	 * Request body path.
+	 */
+	REQUEST_BODY_PATH("rb_path", false);
 
 	/**
 	 * Key.

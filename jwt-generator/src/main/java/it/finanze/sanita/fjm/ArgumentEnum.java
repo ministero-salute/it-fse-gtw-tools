@@ -53,7 +53,12 @@ enum ArgumentEnum {
 	/**
 	 * specify jwt application target.
 	 */
-	SYSTEM("-s", true, "specify jwt application target");
+	SYSTEM("-s", true, "specify jwt application target"),
+	
+	/**
+	 * specify jwt application target.
+	 */
+	RB_PATH("-rb_path", true, "specify request body to calculate digest");
 	
 	/**
 	 * Key argument.

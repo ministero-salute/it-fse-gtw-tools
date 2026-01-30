@@ -9,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.security.Key;
+import java.security.MessageDigest;
 import java.security.Security;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
@@ -16,11 +17,14 @@ import java.security.cert.X509Certificate;
 import java.security.interfaces.RSAPublicKey;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
@@ -55,6 +59,7 @@ public class Launcher {
 	static boolean flagVerbose = false;
 	static boolean flagValidation = false;
 	static SystemEnum system = SystemEnum.GATEWAY;
+	static String requestBody = null;
 
 	/**
 	 * Main method.
@@ -67,7 +72,6 @@ public class Launcher {
 		LOGGER.info("|   __||   __||_  |   __|  || | | ||_   _|  |     | ___ | |_  ___  ___ ");
 		LOGGER.info("|   __||__   ||  _|  |  |  || | | |  | |    | | | || .'|| '_|| -_||  _|");
 		LOGGER.info("|__|   |_____||___|  |_____||_____|  |_|    |_|_|_||__,||_,_||___||_|  \n");
-		
 
 		try {
 
@@ -82,7 +86,10 @@ public class Launcher {
 				case PROVISIONING:
 					buildTokensProvisioning();
 					break;
-				case UAR:
+				case ALIMENTAZIONE_UAR:
+					buildTokensUAR();
+					break;
+				case CONSULTAZIONE_UAR:
 					buildTokensUAR();
 					break;
 				default:
@@ -152,6 +159,8 @@ public class Launcher {
 			system = SystemEnum.getByKey(value);
 		} else if (ArgumentEnum.OUTPUT_FILE_PREFIX.equals(arg)) {
 			outputFileNamePrefix = value;
+		} else if (ArgumentEnum.RB_PATH.equals(arg)) {
+			requestBody = value;
 		}
 
 	}
@@ -179,7 +188,8 @@ public class Launcher {
 		Map<String, String> mapJD = getJsonData(new String(Utility.getFileFromFS(jsonData)));
 		byte[] privateKeyP12 = Utility.getFileFromFS(get(mapJD, JWTAuthEnum.P12_PATH));
 		byte[] pem = Utility.getFileFromFS(get(mapJD, JWTAuthEnum.PEM_PATH));
-		getTokensUar(mapJD, privateKeyP12, pem);
+		byte[] requestBodyPath = Utility.getFileFromFS(requestBody);
+		getTokensUar(mapJD, privateKeyP12, pem, new String(requestBodyPath,StandardCharsets.UTF_8));
 	}
 
 	private static void buildTokens(SystemEnum system) throws Exception {
@@ -351,7 +361,8 @@ public class Launcher {
 		return new TokenResponseDTO(jwt, claimsJwt);
 	}
 
-	private static TokenResponseDTO getTokensUar(Map<String, String> mapJD, byte[] privateKeyP12, byte[] pem) throws Exception {
+	private static TokenResponseDTO getTokensUar(Map<String, String> mapJD, byte[] privateKeyP12, byte[] pem, 
+			String body) throws Exception {
 
 		Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
 
@@ -363,7 +374,7 @@ public class Launcher {
 		Date exp = Utility.addHoursToJavaUtilDate(iat, nHour);
 
 		String jwt = generateAuthJWT(mapJD, privateKey, publicKey, iat, exp, iss); 
-		String claimsJwt = generateClaimsJWTConsultazioneUAR(mapJD, privateKey, publicKey, iat, exp, iss); 
+		String claimsJwt = generateClaimsJWTUAR(mapJD, privateKey, publicKey, iat, exp, iss,body); 
 
 		LOGGER.info("------------- Authorization Bearer Token ---------------\n" + jwt);
 		LOGGER.info("\n------------- Agid-JWT-Signature ---------------\n" + claimsJwt + "\n");
@@ -541,12 +552,14 @@ public class Launcher {
 		return Jwts.builder().setHeaderParams(headerParams).setClaims(claims)
 				.signWith(SignatureAlgorithm.RS256, privateKey).compact();
 	}
+ 
+	private static String generateClaimsJWTUAR(Map<String, String> mapJD, Key privateKey, String x5c, Date iat,
+			Date exp, String iss, String body) throws Exception {
 
-	private static String generateClaimsJWTConsultazioneUAR(Map<String, String> mapJD, Key privateKey, String x5c, Date iat, Date exp, String iss) throws Exception {
 		Map<String, Object> headerParams = new HashMap<>();
 		headerParams.put(JWTClaimsEnum.ALG.getKey(), SignatureAlgorithm.RS256);
 		headerParams.put(JWTClaimsEnum.TYP.getKey(), JWTClaimsEnum.JWT.getKey());
-		headerParams.put(JWTClaimsEnum.X5C.getKey(), Arrays.asList(x5c).toArray());
+		headerParams.put(JWTClaimsEnum.X5C.getKey(), Collections.singletonList(x5c));
 
 		Map<String, Object> claims = new HashMap<>();
 		for (JWTClaimsEnum k : JWTClaimsEnum.values()) {
@@ -555,13 +568,36 @@ public class Launcher {
 			}
 		}
 
-		claims.put(JWTClaimsEnum.IAT.getKey(), iat.getTime()/1000);
-		claims.put(JWTClaimsEnum.EXP.getKey(), exp.getTime()/1000);
+		claims.put(JWTClaimsEnum.IAT.getKey(), iat.getTime() / 1000);
+		claims.put(JWTClaimsEnum.EXP.getKey(), exp.getTime() / 1000);
 		claims.put(JWTAuthEnum.ISS.getKey(), "integrity:" + cleanIss(iss));
+
+		if(!Utility.nullOrEmpty(body)) {
+			String digest = computeDigest(body);
+			
+			Map<String, String> headers = new HashMap<>();
+			headers.put("digest", digest);
+			headers.put("content-type", "application/json");
+
+			List<Map<String, Object>> signedHeadersList = headers.entrySet().stream()
+			    .map(entry -> {
+			        Map<String, Object> obj = new HashMap<>();
+			        obj.put(entry.getKey(), entry.getValue());
+			        return obj;
+			    })
+			    .collect(Collectors.toList());
+
+			claims.put("signed_headers", signedHeadersList);
+		}
 
 		return Jwts.builder().setHeaderParams(headerParams).setClaims(claims).signWith(SignatureAlgorithm.RS256, privateKey).compact();
 	}
 
+	private static String computeDigest(String body) throws Exception {
+		MessageDigest md = MessageDigest.getInstance("SHA-256");
+		byte[] hash = md.digest(body.getBytes(StandardCharsets.UTF_8));
+		return "SHA-256="+Base64.getEncoder().encodeToString(hash);
+	}
 
 	/**
 	 * Clean ISS.

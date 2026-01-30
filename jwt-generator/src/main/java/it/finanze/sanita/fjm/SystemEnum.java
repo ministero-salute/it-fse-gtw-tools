@@ -6,12 +6,12 @@ package it.finanze.sanita.fjm;
 enum SystemEnum {
 
 	/**
-	 * Show help page (optional mode).
+	 * specify jwt application target.
 	 */
 	GATEWAY("gateway"),
 	
 	/**
-	 * Show help page (optional mode).
+	 * specify jwt application target.
 	 */
 	PROVISIONING("provisioning"),
 	
@@ -21,9 +21,14 @@ enum SystemEnum {
 	MONITORING("monitoring"),
 	
 	/**
+	 * specify jwt application target.
+	 */
+	ALIMENTAZIONE_UAR("alimentazione_uar"),
+	
+	/**
 	 * Show help page (optional mode).
 	 */
-	UAR("uar");
+	CONSULTAZIONE_UAR("consultazione_uar");
 	
 	/**
 	 * Key argument.
