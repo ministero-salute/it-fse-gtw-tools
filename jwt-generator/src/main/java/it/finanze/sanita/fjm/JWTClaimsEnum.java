@@ -151,7 +151,12 @@ enum JWTClaimsEnum {
 	/**
 	 * USE SUB AS AUTHOR.
 	 */
-	USE_SUB_AS_AUTHOR("use_subject_as_author", true);
+	USE_SUB_AS_AUTHOR("use_subject_as_author", true),
+	
+	/**
+	 * DELEGATION_SCOPE.
+	 */
+	DELEGATION_SCOPE("delegation_scope", true);
 
 	/**
 	 * Key.
