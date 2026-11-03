@@ -31,7 +31,7 @@
 
 # _it-fse-gtw-tools_
 
-Il microservizio in oggetto contiene i tools di supporto al corretto utilizzo del FSE2.0.
+Questo repository contiene utility Java da riga di comando di supporto al corretto utilizzo del FSE2.0, non microservizi.
 
 | TOOL | LINK | DESCRIZIONE |
 | :------------: | :------------: | ------------ |
@@ -84,6 +84,47 @@ Passare alla cartella principale dell'applicazione ed eseguire il comando:
 `mvn clean package`
 
 Se la compilazione ha esito positivo, i tools verranno generati. Guarda ogni file <em>README.md</em> per una guida su come usarli.
+
+### Test isolati e copertura
+
+La root `gtw-tools` ha packaging `pom`: aggrega i moduli e non contiene classi Java da misurare.
+I tre moduli Java sono utility CLI, tutti inclusi nel profilo `ISOLATION`:
+
+| Modulo | Ambito dei test isolati |
+| --- | --- |
+| `jwt-generator` | Generazione e verifica crittografica JWT, target Gateway/Monitoring/Provisioning/Terminology, CLI e utility |
+| `pdf-generator` | Inserimento/estrazione CDA, CLI, firme PAdES, certificati, OCSP e timestamp; incluse le classi signature distribuite nel modulo |
+| `gtw-certifier` | Tutti i casi di accreditamento configurati in `EsameEnum`, validazione XML, filesystem e workflow offline |
+
+Con JDK 17, dalla root:
+
+```sh
+mvn clean test
+mvn clean test -PISOLATION
+# Un singolo modulo:
+mvn -pl jwt-generator clean test -PISOLATION
+```
+
+La suite ordinaria seleziona `!ISOLATION`; il profilo seleziona solo il tag JUnit `ISOLATION`,
+fallisce se un modulo Java non esegue test e verifica in fase `test` almeno l'80% di copertura
+JaCoCo sia `LINE` sia `INSTRUCTION` per modulo (non una media del reactor).
+I report sono in `<modulo>/target/site/jacoco/index.html` e `jacoco.xml`.
+Non sono aggiunte esclusioni di copertura. In particolare, la preesistente esclusione JaCoCo
+PDF usa un percorso sorgente e non corrisponde ai nomi delle classi compilate: queste classi
+rimangono incluse nel denominatore. I test usano chiavi/certificati generati localmente,
+directory temporanee e risposte OCSP locali, senza servizi esterni.
+
+Risultati verificati con `mvn clean test -PISOLATION` su JDK 17:
+
+| Modulo | Test | LINE | INSTRUCTION |
+| --- | ---: | ---: | ---: |
+| `jwt-generator` | 4 | 95.92% | 97.66% |
+| `pdf-generator` | 18 | 91.73% | 92.48% |
+| `gtw-certifier` | 39 | 97.48% | 98.87% |
+
+La suite ordinaria preesistente esegue 5 test JWT; nel PDF i vecchi test JUnit 4
+non pubblici non vengono scoperti e il certifier non aveva test. I nuovi test
+JUnit Jupiter sono separati intenzionalmente dalla suite ordinaria tramite il tag.
 
 [//]: # (Questi sono collegamenti di riferimento utilizzati nel body di questa nota e vengono rimossi quando il processore di markdown fa il suo lavoro. Non è necessario formattare bene perché non dovrebbe essere visto. Grazie - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
 [jwt-generator]: <https://github.com/ministero-salute/it-fse-gtw-tools/tree/main/jwt-generator>

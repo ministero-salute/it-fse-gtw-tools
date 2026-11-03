@@ -10,6 +10,8 @@
   <description>Gateway Tools</description>
 
   <properties>
+    <sonar.projectName>it-fse-gtw-tools</sonar.projectName>
+    <test.groups>!ISOLATION</test.groups>
     <sonar.organization>ministero-salute</sonar.organization>
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
   </properties>
@@ -129,6 +131,19 @@
   <build>
     <sourceDirectory>src/main/java</sourceDirectory>
     <plugins>
+        <plugin>
+            <groupId>org.sonarsource.scanner.maven</groupId>
+            <artifactId>sonar-maven-plugin</artifactId>
+            <version>5.7.0.6970</version>
+        </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.2.5</version>
+        <configuration>
+          <groups>${test.groups}</groups>
+        </configuration>
+      </plugin>
     <!-- Coverage -->
 			<plugin>
 				<groupId>org.jacoco</groupId>
@@ -201,4 +216,54 @@
       </plugin>
     </plugins>
   </build>
+  <profiles>
+    <profile>
+      <id>ISOLATION</id>
+      <properties>
+        <test.groups>ISOLATION</test.groups>
+      </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <failIfNoTests>true</failIfNoTests>
+              <argLine>@{argLine} -Xmx768m</argLine>
+            </configuration>
+          </plugin>
+          <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>isolation-coverage-check</id>
+                <phase>test</phase>
+                <goals><goal>check</goal></goals>
+                <configuration>
+                  <rules>
+                    <rule>
+                      <element>BUNDLE</element>
+                      <limits>
+                        <limit>
+                          <counter>LINE</counter>
+                          <value>COVEREDRATIO</value>
+                          <minimum>0.80</minimum>
+                        </limit>
+                        <limit>
+                          <counter>INSTRUCTION</counter>
+                          <value>COVEREDRATIO</value>
+                          <minimum>0.80</minimum>
+                        </limit>
+                      </limits>
+                    </rule>
+                  </rules>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>
